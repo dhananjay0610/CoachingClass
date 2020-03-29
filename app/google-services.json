@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "540601549008",
+    "firebase_url": "https://shubhamgadekar-3cbd3.firebaseio.com",
+    "project_id": "shubhamgadekar-3cbd3",
+    "storage_bucket": "shubhamgadekar-3cbd3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:540601549008:android:2f75ff77610c7fabba1ed5",
+        "android_client_info": {
+          "package_name": "com.irinnovative.onepagesigninsignup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "540601549008-o2a4a6a45v1nfb6jsbpdfcnjohcan31k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcsLZQvkArXYucB_4m_SkFCpwV2xpKGeQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "540601549008-o2a4a6a45v1nfb6jsbpdfcnjohcan31k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
