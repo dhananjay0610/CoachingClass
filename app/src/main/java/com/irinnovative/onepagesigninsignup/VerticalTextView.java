@@ -51,4 +51,6 @@ public class VerticalTextView extends AppCompatTextView {
       getLayout().draw(canvas);
       canvas.restore();
   }
+
+//  Added comment on last line.
 }

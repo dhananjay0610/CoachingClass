@@ -174,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
  @Override
     public void onClick(View v) {
+//        onClick event.
         if(v.getId() == R.id.llSignin || v.getId() ==R.id.llSignup){
            // Toast.makeText(this, "clicked", Toast.LENGTH_SHORT).show();
             InputMethodManager methodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
