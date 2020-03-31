@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSignup= (Button) findViewById(R.id.btnSignup);
         btnSignin= (Button) findViewById(R.id.btnSignin);
 
+//        This is the first change of of project.
+
         llSignup = (LinearLayout) findViewById(R.id.llSignup);
         llSignin = (LinearLayout) findViewById(R.id.llSignin);
 

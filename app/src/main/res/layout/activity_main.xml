@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:background="@color/colorPrimaryTrans"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             app:layout_widthPercent="85%">
 
             <com.irinnovative.onepagesigninsignup.VerticalTextView

@@ -26,6 +26,7 @@ public class VerticalTextView extends AppCompatTextView {
    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec){
       super.onMeasure(heightMeasureSpec, widthMeasureSpec);
       setMeasuredDimension(getMeasuredHeight(), getMeasuredWidth());
+//      this is the  second change.
    }
 
    @Override
