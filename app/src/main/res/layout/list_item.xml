@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_marginTop="15dp"
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/cardview_default_elevation"
-        android:padding="10dp">
+        android:layout_margin="15dp"
+        android:padding="19dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="5dp">
 
             <TextView
                 android:id="@+id/textviewhead"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:text="Heading"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline">
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textSize="26dp"
+                android:textStyle="bold">
 
             </TextView>
 
@@ -28,18 +33,22 @@
                 android:id="@+id/textviewdiscription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:text="Description"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2">
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="18dp">
 
             </TextView>
 
             <TextView
-                android:layout_width="388dp"
-                android:layout_height="match_parent"
-                android:textAlignment="textEnd"
+                android:id="@+id/textviewdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:id="@+id/date"
-                android:text="2 April" />
+                android:gravity="center_vertical"
+                android:paddingRight="5dp"
+                android:text="2 April"
+                android:textAlignment="textEnd" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

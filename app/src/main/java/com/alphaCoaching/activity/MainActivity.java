@@ -17,12 +17,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-
-
-
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
-    private List<ListItem> listItems;
+    private ArrayList<ListItem> listItems=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,17 +29,26 @@ public class MainActivity extends AppCompatActivity {
         recyclerView=(RecyclerView)findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        listItems =new ArrayList<>();
-
-
-        for(int i=0;i<=10;i++)
-        {
-            ListItem listItem=new ListItem("Heading " + (i+1),"Description is the dummy text");
-            listItems.add(listItem);
-        }
         adapter=new MainFragment(listItems,this);
         recyclerView.setAdapter(adapter);
 
+
+  // listItems =new ArrayList<>();
+        for(int i=0;i<=10;i++)
+        {
+            ListItem listItem=new ListItem("Heading " + (i+1),"Description 1afsdjfhjakshkfhklashkjdfhkajshdfsdflasdfalkhsdjfkahjfhaskljdhfkalhsjdhfkalskjdhfkljahksdkfjshakjfhkjsahkfhkjsahkjfhl","2 april");
+            listItems.add(listItem);
+        }
+
+
+//                listItems.add(new ListItem("heading 1","disfdshaskdhfkasjhdfkjsah","2 april"));
+//        listItems.add(new ListItem("heading 1","disfdshaskdhfkasjhdfkjsah","2 april"));
+//        listItems.add(new ListItem("heading 1","disfdshaskdhfkasjhdfkjsah","2 april"));
+//        listItems.add(new ListItem("heading 1","disfdshaskdhfkasjhdfkjsah","2 april"));
+//        listItems.add(new ListItem("heading 1","disfdshaskdhfkasjhdfkjsah","2 april"));
+//        listItems.add(new ListItem("heading 1","disfdshaskdhfkasjhdfkjsah","2 april"));
+//        listItems.add(new ListItem("heading 1","disfdshaskdhfkasjhdfkjsah","2 april"));
+//        listItems.add(new ListItem("heading 1","disfdshaskdhfkasjhdfkjsah","2 april"));
+      // adapter.notifyDataSetChanged();
     }
 }
