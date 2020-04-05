@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "57048046197",
+    "firebase_url": "https://alphacoaching-403bb.firebaseio.com",
+    "project_id": "alphacoaching-403bb",
+    "storage_bucket": "alphacoaching-403bb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:57048046197:android:facd4fddf1de36e6d0763c",
+        "android_client_info": {
+          "package_name": "com.alphaCoaching"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "57048046197-abvh9oboj9ot81tuijgp35gmtkb9tjt2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwi7ek2ZmauLicHQZ-ZKBxHoT93JEXvxc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "57048046197-abvh9oboj9ot81tuijgp35gmtkb9tjt2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
