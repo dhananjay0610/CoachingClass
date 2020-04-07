@@ -22,7 +22,15 @@ public class SplashScreenActivity extends Activity {
         Log.d(TAG, "onCreate: ");
         Toast.makeText(getApplication(), "Into the splashscreen", Toast.LENGTH_SHORT).show();
 
-        openMainActivity();
+        openLoginActivity();
+//        openMainActivity();
+    }
+
+    private void openLoginActivity() {
+        Intent mainActivityIntent = new Intent(getApplicationContext(), LoginActivity.class);
+        mainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(mainActivityIntent);
+        finish();
     }
 
     /**
