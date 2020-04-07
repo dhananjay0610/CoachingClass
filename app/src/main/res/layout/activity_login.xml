@@ -8,24 +8,24 @@
     android:background="@drawable/back_bg"
     android:animateLayoutChanges="true">
 
-     <TextView
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_above="@+id/rellay"
-         android:layout_marginStart="50dp"
-         android:fontFamily="@font/akronim"
-         android:text="@string/alpha"
-         android:textAllCaps="true"
-         android:textColor="#013D45"
-         android:textSize="25sp"
-         android:textStyle="bold" />
+<!--     <TextView-->
+<!--         android:layout_width="wrap_content"-->
+<!--         android:layout_height="wrap_content"-->
+<!--         android:layout_above="@+id/rellay"-->
+<!--         android:layout_marginStart="50dp"-->
+<!--         android:fontFamily="@font/akronim"-->
+<!--         android:text="@string/alpha"-->
+<!--         android:textAllCaps="true"-->
+<!--         android:textColor="#013D45"-->
+<!--         android:textSize="25sp"-->
+<!--         android:textStyle="bold" />-->
 
      <RelativeLayout
          android:id="@+id/rellay"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginRight="30dp"
-              android:layout_marginLeft="30dp"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginRight="30dp"
+         android:layout_marginLeft="30dp"
          android:layout_centerInParent="true">
 
           <ImageView
@@ -38,7 +38,7 @@
               android:src="@drawable/alpha" />
 
           <RelativeLayout
-              android:id="@+id/rellayLay1"
+              android:id="@+id/loginScreen"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginStart="20dp"
@@ -55,7 +55,7 @@
                    android:text="@string/login"
                    android:textColor="@color/black"
                    android:textColorHighlight="#1abc9c"
-                   android:textSize="40sp"
+                   android:textSize="25sp"
                    android:textStyle="bold" />
 
                <LinearLayout
@@ -78,7 +78,7 @@
                              android:text="@string/uname"
                              android:textAllCaps="true"
                              android:textColor="@color/black"
-                             android:textSize="25sp"
+                             android:textSize="15sp"
                              android:textStyle="bold" />
 
                          <EditText
@@ -92,7 +92,7 @@
                              android:inputType="textEmailAddress"
                              android:textAlignment="center"
                              android:textColor="@color/black"
-                             android:textSize="20sp"
+                             android:textSize="15sp"
                              tools:ignore="AutoFill" />
                     </LinearLayout>
 
@@ -109,7 +109,7 @@
                              android:text="@string/password"
                              android:textAllCaps="true"
                              android:textColor="@color/black"
-                             android:textSize="25sp"
+                             android:textSize="15sp"
                              android:textStyle="bold" />
 
                          <EditText
@@ -123,11 +123,12 @@
                              android:inputType="textPassword"
                              android:textAlignment="center"
                              android:textColor="@color/black"
-                             android:textSize="20sp"
+                             android:textSize="15sp"
                              tools:ignore="AutoFill" />
                     </LinearLayout>
                </LinearLayout>
 
+<!--
                <com.spark.submitbutton.SubmitButton
                    android:id="@+id/Sign_In"
                    android:layout_width="match_parent"
@@ -143,11 +144,27 @@
                    app:sub_btn_line_color="#1abc9c"
                    app:sub_btn_ripple_color="#1abc9c"
                    app:sub_btn_tick_color="@color/white" />
+-->
+
+               <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+                   android:id="@+id/loginButton"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:text="Login"
+                   android:layout_below="@id/linlay"
+                   android:layout_marginTop="14dp"
+                   android:gravity="center"
+                   android:background="@drawable/circular_border_shape"
+                   android:textColor="#FFF"
+                   app:spinning_bar_width = "5dp"
+                   app:spinning_bar_color = "#FFF"
+                   app:spinning_bar_padding = "4dp"
+                   android:layout_centerHorizontal="true" />
           </RelativeLayout>
      </RelativeLayout>
 
      <RelativeLayout
-         android:id="@+id/rellayLay2"
+         android:id="@+id/forgotPass"
          android:layout_width="match_parent"
          android:layout_marginLeft="20dp"
          android:layout_marginRight="20dp"
@@ -155,7 +172,7 @@
          android:layout_alignParentBottom="true"
          android:layout_height="wrap_content">
 
-          <Button
+<!--          <Button
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:background="@color/transperent"
@@ -176,7 +193,7 @@
               android:textAllCaps="true"
               android:textColor="@color/black"
               android:textStyle="bold"
-              tools:ignore="AutoFill" />
+              tools:ignore="AutoFill" />-->
      </RelativeLayout>
 
 </RelativeLayout>
