@@ -25,20 +25,26 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alphaCoaching.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.spark.submitbutton.SubmitButton;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 
-public class LoginActivity extends AppCompatActivity {
-    RelativeLayout rellay1, rellay2;
-    SubmitButton logInBtn;
-    EditText emailR, password;
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+    RelativeLayout rellayLayout1, rellayLayout2;
+    EditText email, password;
+    FirebaseAuth fireAuth;
+
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            rellay1.setVisibility(View.VISIBLE);
-            rellay2.setVisibility(View.VISIBLE);
+            rellayLayout1.setVisibility(View.VISIBLE);
+            rellayLayout2.setVisibility(View.VISIBLE);
         }
     };
 
@@ -46,43 +52,51 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        rellay1 = (RelativeLayout) findViewById(R.id.rellay1);
-        rellay2 = (RelativeLayout) findViewById(R.id.rellay2);
-        emailR = (EditText) findViewById(R.id.username);
+        rellayLayout1 = (RelativeLayout) findViewById(R.id.rellayLay1);
+        rellayLayout2 = (RelativeLayout) findViewById(R.id.rellayLay2);
+        email = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.pass);
-        logInBtn=(SubmitButton) findViewById(R.id.logInBBtn);
+
         handler.postDelayed(runnable, 2000);
 
-        logInBtn.setOnClickListener(new View.OnClickListener() {
+        fireAuth = FirebaseAuth.getInstance();
+
+        fireAuth = FirebaseAuth.getInstance();
+        findViewById(R.id.Sign_In).setOnClickListener(this);
+    }
+
+    private void userLogin() {
+        final String sEmail = email.getText().toString().trim();
+        final String sPassword = password.getText().toString().trim();
+        if (sEmail.isEmpty()) {
+            email.setError("Email Required");
+            email.requestFocus();
+            return;
+        }
+        if (!Patterns.EMAIL_ADDRESS.matcher(sEmail).matches()) {
+            email.setError("Enter a Valid Email");
+            email.requestFocus();
+            return;
+        }
+        if (sPassword.isEmpty()) {
+            password.setError("Password Required");
+            password.requestFocus();
+            return;
+        }
+        if (sPassword.length() < 6) {
+            password.setError("password should be at least 6 character");
+            password.requestFocus();
+            return;
+        }
+
+
+        fireAuth.signInWithEmailAndPassword(sEmail, sPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
-            public void onClick(View v) {
-                final String sEmail=emailR.getText().toString().trim();
-                final String sPassword=password.getText().toString().trim();
-                if(sEmail.isEmpty()){
-                    emailR.setError("Email Required");
-                    emailR.requestFocus();
-                    return;
-                }
-                if (!Patterns.EMAIL_ADDRESS.matcher(sEmail).matches()) {
-                    emailR.setError("Enter a Valid Email");
-                    emailR.requestFocus();
-                    return;
-                }
-                if (!sEmail.equals("alpha@gmail.com")){
-                    emailR.setError("Enter Correct Email");
-                    emailR.requestFocus();
-                }
-                if (sPassword.isEmpty()){
-                    password.setError("Password Required");
-                    password.requestFocus();
-                    return;
-                }
-                if (!sPassword.equals("Alpha123")){
-                    password.setError("Enter Correct Email");
-                    password.requestFocus();
-                }
-                if (sEmail.equals("alpha@gmail.com")&& sPassword.equals("Alpha123")){
-                    Thread thread=new Thread(new Runnable() {
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Intent intent1 = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent1);
+                    Thread thread = new Thread(new Runnable() {
                         @Override
                         public void run() {
                             try {
@@ -94,24 +108,23 @@ public class LoginActivity extends AppCompatActivity {
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-
                         }
                     });
-                    thread.start();
-
-                }else {
-                    Toast.makeText(LoginActivity.this, "Enter The Valid Code", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
-
-               /* if (sPassword.length()<6){
-                    password.setError("password should be at least 6 character");
-                    password.requestFocus();
-                    return;
-                }*/
-
             }
         });
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.Sign_In:
+                userLogin();
+        }
+    }
 }
+
 
 

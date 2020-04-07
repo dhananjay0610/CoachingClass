@@ -38,7 +38,7 @@
               android:src="@drawable/alpha" />
 
           <RelativeLayout
-              android:id="@+id/rellay1"
+              android:id="@+id/rellayLay1"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginStart="20dp"
@@ -92,7 +92,7 @@
                              android:inputType="textEmailAddress"
                              android:textAlignment="center"
                              android:textColor="@color/black"
-                             android:textSize="25sp"
+                             android:textSize="20sp"
                              tools:ignore="AutoFill" />
                     </LinearLayout>
 
@@ -123,13 +123,13 @@
                              android:inputType="textPassword"
                              android:textAlignment="center"
                              android:textColor="@color/black"
-                             android:textSize="25sp"
+                             android:textSize="20sp"
                              tools:ignore="AutoFill" />
                     </LinearLayout>
                </LinearLayout>
 
                <com.spark.submitbutton.SubmitButton
-                   android:id="@+id/logInBBtn"
+                   android:id="@+id/Sign_In"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:layout_below="@id/linlay"
@@ -147,7 +147,7 @@
      </RelativeLayout>
 
      <RelativeLayout
-         android:id="@+id/rellay2"
+         android:id="@+id/rellayLay2"
          android:layout_width="match_parent"
          android:layout_marginLeft="20dp"
          android:layout_marginRight="20dp"
