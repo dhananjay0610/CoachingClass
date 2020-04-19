@@ -1,22 +1,20 @@
 package com.alphaCoaching.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.alphaCoaching.Adapter.FireStoreAdapter;
+import com.alphaCoaching.Model.recentLecturesModel;
+import com.alphaCoaching.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.alphaCoaching.R;
 import com.google.firebase.firestore.Query;
-import com.alphaCoaching.Model.recentLecturesModel;
 
 public class MainActivity extends AppCompatActivity implements FireStoreAdapter.OnListItemclick {
 
