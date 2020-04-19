@@ -1,54 +1,91 @@
 package com.alphaCoaching.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
+
+import com.alphaCoaching.Adapter.FireStoreAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.alphaCoaching.R;
-import com.alphaCoaching.fragment.ListItem;
-import com.alphaCoaching.fragment.MainFragment;
+import com.google.firebase.firestore.Query;
+import com.alphaCoaching.Model.recentLecturesModel;
 
+public class MainActivity extends AppCompatActivity implements FireStoreAdapter.OnListItemclick {
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MainActivity extends AppCompatActivity {
-
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
-    private ArrayList<ListItem> listItems=new ArrayList<>();
+    private FireStoreAdapter adapter;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        recyclerView=(RecyclerView)findViewById(R.id.recyclerview);
-        recyclerView.setHasFixedSize(true);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter=new MainFragment(listItems,this);
+
+        FirebaseFirestore mFireBaseDB = FirebaseFirestore.getInstance();
+
+        //for toolbar
+        Toolbar toolbar = findViewById(R.id.toolbars);
+        setSupportActionBar(toolbar);
+        //query
+        Query query = mFireBaseDB.collection("recentLectures")
+                .orderBy("lectureDate", Query.Direction.ASCENDING);
+        //recycler options
+        FirestoreRecyclerOptions<recentLecturesModel> options = new FirestoreRecyclerOptions.Builder<recentLecturesModel>()
+                .setQuery(query, recentLecturesModel.class)
+                .build();
+        adapter = new FireStoreAdapter(options, this);
+
+        //two methods are declared in the recentLectureModel
+
         recyclerView.setAdapter(adapter);
+    }
+
+    //animation method
+    public void runLayoutAnimation(RecyclerView recyclerView) {
+        Context context = recyclerView.getContext();
+        LayoutAnimationController layoutAnimationController =
+                AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_fall_down);
+        recyclerView.setLayoutAnimation(layoutAnimationController);
+        recyclerView.getAdapter();
+        adapter.notifyDataSetChanged();
+        recyclerView.scheduleLayoutAnimation();
+
+    }
+
+    @Override
+    public void onItemclick(recentLecturesModel snapshot, int position) {
+
+        // Log.d("Item Clicked","clicked an item:"+snapshot.getId());
+        Intent intent = new Intent(MainActivity.this, LectureActivity.class);
+
+        //to send data to another activity
+
+        //Log.d("Item Clicked","clicked an item:"+s.getId());
+        intent.putExtra("date", snapshot.getLectureDate());
+        intent.putExtra("chaptername", snapshot.getChapterName());
+        intent.putExtra("subject", snapshot.getSubject());
+        startActivity(intent);
+    }
 
 
-  // listItems =new ArrayList<>();
-        for(int i=0;i<=10;i++)
-        {
-            ListItem listItem=new ListItem("Heading " + (i+1),"Description 1afsdjfhjakshkfhklashkjdfhkajshdfsdflasdfalkhsdjfkahjfhaskljdhfkalhsjdhfkalskjdhfkljahksdkfjshakjfhkjsahkfhkjsahkjfhl","2 april");
-            listItems.add(listItem);
-        }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
 
-
-//                listItems.add(new ListItem("heading 1","disfdshaskdhfkasjhdfkjsah","2 april"));
-//        listItems.add(new ListItem("heading 1","disfdshaskdhfkasjhdfkjsah","2 april"));
-//        listItems.add(new ListItem("heading 1","disfdshaskdhfkasjhdfkjsah","2 april"));
-//        listItems.add(new ListItem("heading 1","disfdshaskdhfkasjhdfkjsah","2 april"));
-//        listItems.add(new ListItem("heading 1","disfdshaskdhfkasjhdfkjsah","2 april"));
-//        listItems.add(new ListItem("heading 1","disfdshaskdhfkasjhdfkjsah","2 april"));
-//        listItems.add(new ListItem("heading 1","disfdshaskdhfkasjhdfkjsah","2 april"));
-//        listItems.add(new ListItem("heading 1","disfdshaskdhfkasjhdfkjsah","2 april"));
-      // adapter.notifyDataSetChanged();
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 }
