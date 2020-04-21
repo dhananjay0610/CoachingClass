@@ -34,4 +34,7 @@ public class SplashScreenActivity extends Activity {
         startActivity(mainActivityIntent);
         finish();
     }
+
+    public static class CatGridAdapter {
+    }
 }
