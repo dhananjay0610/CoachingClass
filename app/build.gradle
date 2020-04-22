@@ -44,11 +44,14 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
 
     //dependancy for youtube viewer
-    implementation  'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
 
     //for tab layout
     implementation 'com.google.android.material:material:1.2.0-alpha03'
 
+
+    //for animation
+    //implementation 'jp.wasabeef:recyclerview-animators:3.x.x'
 
 
 //

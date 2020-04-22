@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/toolbarss"
+        android:id="@+id/toolbarOfLectureActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
@@ -108,8 +107,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textviewresource"
@@ -132,6 +131,7 @@
                 android:orientation="vertical" />
 
             <TextView
+                android:id="@+id/textViewpdfurl"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="4dp"
@@ -139,91 +139,9 @@
                 android:elevation="7dp"
                 android:paddingStart="9dp"
                 android:paddingEnd="9dp"
-                android:text="url of the pdf in line\n1)pdf 1\n2)pdf2\npdf3\npdf4\npdf5"
+                android:text="1)pdf 1"
                 android:textColor="#000000"
                 android:textSize="23dp" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
-
-
-    <!--<TextView-->
-    <!--android:id="@+id/textviewdescriptions"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_below="@id/linesaasd"-->
-    <!--android:layout_marginTop="9dp"-->
-    <!--android:layout_marginBottom="6dp"-->
-    <!--android:elevation="7dp"-->
-    <!--android:paddingStart="5dp"-->
-    <!--android:paddingEnd="5dp"-->
-    <!--android:text="This is the demo instruction I mean description of the chapter and of the subject regarding which the video is displayed on the screen."-->
-    <!--android:textColor="#000000"-->
-    <!--android:textSize="23dp" />-->
-
-
-    <!--<?xml version="1.0" encoding="utf-8"?>-->
-    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:orientation="vertical"-->
-    <!--android:layout_height="match_parent">-->
-
-    <!--<TextView-->
-    <!--    android:id="@+id/textviewchapter"-->
-    <!--    android:layout_width="match_parent"-->
-    <!--    android:layout_height="wrap_content"-->
-    <!--    android:layout_marginTop="15dp"-->
-    <!--    android:text="dsfajsdlfjk"-->
-    <!--    android:textAlignment="center"-->
-    <!--    android:textColor="@color/titletextcolor"-->
-    <!--    android:textSize="27dp"-->
-    <!--    android:textStyle="bold" />-->
-    <!--<LinearLayout-->
-    <!--    android:layout_width="match_parent"-->
-    <!--    android:layout_marginTop="5dp"-->
-    <!--    android:background="@color/common_google_signin_btn_text_dark_focused"-->
-    <!--    android:layout_marginRight="7dp"-->
-    <!--    android:layout_marginLeft="7dp"-->
-    <!--    android:layout_height="1dp"/>-->
-    <!--<TextView-->
-    <!--    android:id="@+id/textviewdesc"-->
-    <!--    android:layout_width="match_parent"-->
-    <!--    android:layout_height="wrap_content"-->
-    <!--    android:layout_marginTop="5dp"-->
-    <!--    android:paddingLeft="5dp"-->
-    <!--    android:text="Description:"-->
-    <!--    android:textSize="25dp"-->
-    <!--    android:textStyle="bold" />-->
-
-    <!--<TextView-->
-    <!--    android:id="@+id/textviewdescriptions"-->
-    <!--    android:layout_width="match_parent"-->
-    <!--    android:layout_height="wrap_content"-->
-    <!--    android:layout_marginTop="5dp"-->
-    <!--    android:paddingLeft="5dp"-->
-    <!--    android:text="dskfjasdfhaskjdhlfjlasdfklaskjflsdkh"-->
-    <!--    android:textColor="#000000"-->
-    <!--    android:textSize="23dp" />-->
-
-    <!--<TextView-->
-    <!--    android:id="@+id/textviewvideo"-->
-    <!--    android:layout_width="match_parent"-->
-    <!--    android:layout_height="wrap_content"-->
-    <!--    android:layout_marginTop="6dp"-->
-    <!--    android:paddingLeft="5dp"-->
-    <!--    android:text="Video:"-->
-    <!--    android:textSize="25dp"-->
-    <!--    android:textStyle="bold" />-->
-
-    <!--<com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView-->
-    <!--    android:id="@+id/youtube_player_view"-->
-    <!--    android:layout_width="match_parent"-->
-    <!--    android:layout_height="300dp"-->
-    <!--    android:layout_marginTop="5dp"-->
-    <!--    app:autoPlay="false"-->
-    <!--    app:showFullScreenButton="true"-->
-    <!--    app:videoId="wh-sRmTWGTw" />-->
-
-    <!--</LinearLayout>-->

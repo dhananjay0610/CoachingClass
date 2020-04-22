@@ -1,17 +1,17 @@
 package com.alphaCoaching.activity;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Button;
-import android.widget.TextView;
-
 import com.alphaCoaching.R;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -21,24 +21,34 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 
 public class LectureActivity extends AppCompatActivity {
     FirebaseFirestore mFireBaseDB;
-    TextView textViewdescriptions;
+    TextView textViewdescription;
     TextView textViewchapter;
+    TextView textViewpdfurl;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lecture);
-        Toolbar toolbar = findViewById(R.id.toolbarss);
+
+        Toolbar toolbar = findViewById(R.id.toolbarOfLectureActivity);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         mFireBaseDB = FirebaseFirestore.getInstance();
-        textViewdescriptions = findViewById(R.id.textviewdescription);
+
+        textViewdescription = findViewById(R.id.textviewdescription);
         textViewchapter = findViewById(R.id.textviewchapter);
+        textViewpdfurl = findViewById(R.id.textViewpdfurl);
+
         //getting data from mainActivity
         Intent intent = getIntent();
         String chaptername = intent.getStringExtra("chaptername");
         String subject = intent.getStringExtra("subject");
         textViewchapter.setText(chaptername);
         getSupportActionBar().setTitle("");
+
+        //for url
+        final String[] url = {""};
+        String urlname = "pdf 1";
 
         //fetching data from firestore
         mFireBaseDB.collection("recentLectures")
@@ -51,9 +61,14 @@ public class LectureActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot snapshot : task.getResult()) {
                                 Log.d("from firestore", snapshot.getId() + " :" + snapshot.getData());
-                                textViewdescriptions.setText(snapshot.getString("description"));
-                                //textViewchapter.setText(snapshot.getString("chapterName"));\
+                                textViewdescription.setText(snapshot.getString("description"));
 
+                                if (snapshot.getString("UrlName") == null) {
+                                    textViewpdfurl.setText(urlname);
+                                } else {
+                                    textViewpdfurl.setText(snapshot.getString("UrlName"));
+                                }
+                                url[0] += (snapshot.getString("url"));
                             }
                         } else {
                             Log.d("from firestrore", "error was:", task.getException());
@@ -67,7 +82,16 @@ public class LectureActivity extends AppCompatActivity {
         YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_view);
         getLifecycle().addObserver(youTubePlayerView);
 
-
+        //for pdf url
+        textViewpdfurl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String uri = url[0];
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(uri));
+                startActivity(i);
+            }
+        });
     }
 }
 

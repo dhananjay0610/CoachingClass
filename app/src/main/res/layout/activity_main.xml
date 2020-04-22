@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +8,6 @@
     tools:context=".activity.MainActivity">
 
     <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/toolbars"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,6 +23,5 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="2dp"
-        android:layout_marginEnd="-2dp"
-        android:layoutAnimation="@anim/layout_animation_fall_down" />
+        android:layout_marginEnd="-2dp"/>
 </LinearLayout>
