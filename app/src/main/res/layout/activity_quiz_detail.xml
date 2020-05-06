@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".activity.QuizDetailActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:id="@+id/toolbarofquizactivity"
+        android:background="@color/colorPrimaryDark"
+        android:layout_height="?attr/actionBarSize" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:verticalSpacing="10dp"
-        android:visibility="visible"
-        android:horizontalSpacing="10dp"
-        android:gravity="center"
+        android:layout_below="@id/toolbarofquizactivity"
         android:columnWidth="100dp"
-        android:numColumns="1"/>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        android:gravity="center"
+        android:horizontalSpacing="10dp"
+        android:numColumns="1"
+        android:verticalSpacing="10dp"
+        android:visibility="visible" />
+</RelativeLayout>

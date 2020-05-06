@@ -7,19 +7,19 @@
     tools:context=".activity.ScoreActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="204dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="1dp"
-        android:orientation="vertical"
         android:background="#00000000"
-        android:paddingBottom="32dp"
-        android:gravity="center"
         android:backgroundTint="@android:color/holo_green_light"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="32dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -27,12 +27,12 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_margin="20dp"
-            android:textSize="52sp"
+            android:gravity="center"
+            android:text="SCORE"
             android:textColor="@color/colorBlack"
-            android:textStyle="bold"
-            android:text="SCORE" />
+            android:textSize="58sp"
+            android:textStyle="bold" />
 
         <View
             android:id="@+id/divider"
@@ -43,12 +43,31 @@
         <TextView
             android:id="@+id/score"
             android:layout_width="match_parent"
-            android:gravity="center"
-            android:textColor="@color/colorBlack"
-            android:textStyle="bold"
-            android:layout_margin="20dp"
-            android:textSize="32sp"
             android:layout_height="wrap_content"
-            android:text="5/10" />
+            android:layout_margin="20dp"
+            android:gravity="center"
+            android:text="5/10"
+            android:textColor="@color/colorBlack"
+            android:textSize="32sp"
+            android:textStyle="bold" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button_done"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorBlack"
+        android:padding="12dp"
+        android:layout_margin="10dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginLeft="35dp"
+        android:background="@drawable/categorybackground"
+        android:text="DONE"
+        android:textSize="35dp"
+        android:elevation="@dimen/browser_actions_context_menu_max_width"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

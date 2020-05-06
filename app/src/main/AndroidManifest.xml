@@ -11,8 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.ScoreActivity"></activity>
-        <activity android:name=".activity.QuestionDetailActivity" />
-        <activity android:name=".activity.QuizDetailActivity" />
+        <activity
+            android:name=".activity.QuestionDetailActivity" />
+        <activity
+            android:name=".activity.QuizDetailActivity"
+            android:parentActivityName=".activity.MainActivity"
+            />
         <activity android:name=".activity.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
