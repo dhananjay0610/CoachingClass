@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout"
     android:fitsSystemWindows="true"
-    tools:context=".activity.MainActivity"
+    tools:context="com.alphaCoaching.activity.MainActivity"
     tools:openDrawer="start">
 
     <LinearLayout
@@ -52,6 +52,3 @@
         app:menu="@menu/drawer_menu"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
-    <!--android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"-->
