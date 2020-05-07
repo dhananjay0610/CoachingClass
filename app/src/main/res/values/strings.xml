@@ -10,4 +10,8 @@
     <string name="signup">SIGN UP</string>
     <string name="alphahub">Alpha Education Hub</string>
     <string name="forgtpass">FORGOT PASSWORD</string>
+    <string name="text">createyourownway@gmail.com</string>
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
+    <string name="menu_home">Home</string>
 </resources>

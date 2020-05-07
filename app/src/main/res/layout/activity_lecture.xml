@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbarOfLectureActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:elevation="5dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:titleTextColor="#000000" />
+
+    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+        android:id="@+id/youtube_player_view"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:autoPlay="false"
+        app:showFullScreenButton="true"
+        app:videoId="wh-sRmTWGTw" />
+
+    <TextView
+        android:id="@+id/textviewauthor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/youtube_player_view"
+        android:layout_marginTop="9dp"
+        android:text="Author"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="#000000"
+        android:textSize="18dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textviewchapter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textviewauthor"
+        android:layout_marginTop="5dp"
+        android:text="chapter"
+
+        android:textAlignment="center"
+        android:textColor="@color/titletextcolor"
+        android:textSize="32dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textviewsubjects"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textviewchapter"
+        android:layout_marginTop="5dp"
+        android:text="subject"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/colorAccent"
+        android:textSize="27dp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/linearlie1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/textviewsubjects"
+        android:layout_marginLeft="9dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="9dp"
+        android:background="#0C0C15"
+        android:orientation="vertical" />
+
+
+    <TextView
+        android:id="@+id/textviewdescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linearlie1"
+        android:layout_marginTop="9dp"
+        android:layout_marginBottom="6dp"
+        android:elevation="7dp"
+        android:paddingStart="9dp"
+        android:paddingEnd="9dp"
+        android:text="This is the demo instruction I mean description of the chapter and of the subject regarding which the video is displayed on the screen."
+        android:textColor="#000000"
+        android:textSize="23dp" />
+
+    <LinearLayout
+        android:id="@+id/linearline2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/textviewdescription"
+        android:layout_marginLeft="9dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="9dp"
+        android:background="#0C0C15"
+        android:orientation="vertical" />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linearline2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textviewresource"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Resources"
+                android:textAlignment="center"
+                android:textSize="27dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/linearline3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginRight="9dp"
+                android:background="#0C0C15"
+                android:orientation="vertical" />
+
+            <TextView
+                android:id="@+id/textViewpdfurl"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="6dp"
+                android:elevation="7dp"
+                android:paddingStart="9dp"
+                android:paddingEnd="9dp"
+                android:text="1)pdf 1"
+                android:textColor="#000000"
+                android:textSize="23dp" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
