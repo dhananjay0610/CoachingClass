@@ -5,7 +5,12 @@
     <color name="colorAccent">#03DAC5</color>
 
 
+    <color name="white">#FFFFFF</color>
+    <color name="transperent">#00000000</color>
+    <color name="gradientstart">#FFFFFF</color>
+    <color name="gradientend">#808080</color>
+    <color name="spinningbar">#808080</color>
+    <color name="contenttextcolor">#999da4</color>
     <color name="cardbg">#F6F6F6</color>
     <color name="titletextcolor">#25Bbd6</color>
-    <color name="contenttextcolor">#999da4</color>
 </resources>

@@ -1,4 +1,7 @@
 package com.alphaCoaching.fragment;
 
-public class LoginFragment {
+import androidx.fragment.app.Fragment;
+
+public class LoginFragment extends Fragment{
+    
 }

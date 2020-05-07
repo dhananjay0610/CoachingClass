@@ -238,4 +238,3 @@ public class LectureActivity extends AppCompatActivity {
 //    }
 //}
 
-//2020-04-15 07:40:02.191 25268-25268/com.alphaCoaching D/from firestore: 20200409160637 :{subject=Chemistry, chapterName=Biomolecules, description=This chapter focuses on the building blocks of living organisms, the biomolecules, lectureDate=Timestamp(seconds=1586428622, nanoseconds=704000000), url=https://firebasestorage.googleapis.com/v0/b/alphacoaching-403bb.appspot.com/o/uploads%2F1586428597010.pdf?alt=media&token=c56b8d45-8399-4817-abbd-cdf9773d72a5}

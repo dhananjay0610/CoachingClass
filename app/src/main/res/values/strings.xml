@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">AlphaCoaching</string>
+    <string name="logo">alphalogo</string>
+    <string name="login">LOGIN</string>
+    <string name="uname">USERNAME</string>
+    <string name="alpha">ALPHA THE LEARNING HUB</string>
+    <string name="hint"> </string>
+    <string name="loginbtn">LOGIN NOW</string>
+    <string name="password">PASSWORD</string>
+    <string name="signup">SIGN UP</string>
+    <string name="alphahub">Alpha Education Hub</string>
+    <string name="forgtpass">FORGOT PASSWORD</string>
+    <string name="text">createyourownway@gmail.com</string>
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
+    <string name="menu_home">Home</string>
 </resources>
