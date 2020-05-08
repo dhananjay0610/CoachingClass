@@ -6,71 +6,103 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
+import com.alphaCoaching.model.RecentLecturesModel;
 import com.alphaCoaching.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.alphaCoaching.adapter.FireStoreAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Query;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FireStoreAdapter.OnListItemclick {
     private DrawerLayout drawerLayout;
-    public static List<String> catList=new ArrayList<>();
-    public static List<String> catList2=new ArrayList<>();
-    private FirebaseFirestore firestore;
+    private FirebaseAuth fireAuth;
+    private FireStoreAdapter adapter;
+    private RecyclerView recyclerView;
     public static String documentId;
+//    private FirebaseFirestore mFireBaseDB;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar=findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        drawerLayout=(DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,
-                R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        FirebaseFirestore mFireBaseDB = FirebaseFirestore.getInstance();
+        fireAuth = FirebaseAuth.getInstance();
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
-        NavigationView navigationView=findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        firestore=FirebaseFirestore.getInstance();
+
+        Query query = mFireBaseDB.collection("recentLectures");
+//                .orderBy("lectureDate", Query.Direction.ASCENDING);
+
+        //recycler options
+        FirestoreRecyclerOptions<RecentLecturesModel> options = new FirestoreRecyclerOptions.Builder<RecentLecturesModel>()
+                .setQuery(query, RecentLecturesModel.class)
+                .build();
+        adapter = new FireStoreAdapter(options, this);
+
+        //two methods are declared in the recentLectureModel
+        recyclerView.setAdapter(adapter);
     }
+
+
+
+    @Override
+    public void onItemclick(RecentLecturesModel snapshot, int position) {
+        Intent intent = new Intent(MainActivity.this, LectureActivity.class);
+        //to send data to another activity
+        intent.putExtra("date", snapshot.getLectureDate());
+        intent.putExtra("chaptername", snapshot.getChapterName());
+        intent.putExtra("subject", snapshot.getSubject());
+        startActivity(intent);
+    }
+
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id= item.getItemId();
-        if (id==R.id.nav_quiz){
-            new Thread(){
-                public void run(){
-                    loadData();
-                }
-            }.start();
-
+        int id = item.getItemId();
+        if (id == R.id.nav_quiz) {
+            loadQuizData();
+        } else if (id == R.id.nav_home) {
+            onBackPressed();
+        } else if (id == R.id.nav_logout) {
+            fireAuth.signOut();
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    private void loadData(){
+    private void loadQuizData() {
+        Toast.makeText(this, "Into New Acivity", Toast.LENGTH_LONG).show();
         Intent i=new Intent(MainActivity.this,QuizDetailActivity.class);
         startActivity(i);
         finish();
+//        Intent i=new Intent(MainActivity.this,QuizDetailActivity.class);
+//        startActivity(i);
+//        finish();
        /* catList.clear();
         firestore.collection("quiz").
                 get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -80,7 +112,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Note note=documentSnapshot.toObject(Note.class);
                     note.setDocumentId(documentSnapshot.getId());
                     documentId=note.getDocumentId();
-
                     String quizNam=note.getQuizName();
                     String questionNum= String.valueOf(note.getQuestionNumber());
                     String quizTime= String.valueOf(note.getQuizTime());
@@ -89,18 +120,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });*/
-
     }
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }else {
+        } else {
             super.onBackPressed();
         }
     }
-
 
     @Override
     public void onResume() {
@@ -117,5 +146,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onPause();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
 }

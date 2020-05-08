@@ -99,7 +99,7 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
     }
     @Override
     public boolean onSupportNavigateUp(){
-
+        return super.onSupportNavigateUp();
     }
 
 

@@ -16,9 +16,12 @@
             android:id="@+id/nav_quiz"
             android:icon="@drawable/ic_quiz"
             android:title="Quiz" />
+
+        <item
+            android:id="@+id/nav_logout"
+            android:title="Log Out"/>
     </group>
     <!-- <item android:title="Communicate">
-
          <menu>
             <item
                  android:id="@+id/nav_send"
