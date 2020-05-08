@@ -15,7 +15,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.alphaCoaching.Model.RecentLecturesModel;
+import com.alphaCoaching.model.RecentLecturesModel;
 import com.alphaCoaching.R;
 import com.alphaCoaching.adapter.FireStoreAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseAuth fireAuth;
     private FireStoreAdapter adapter;
     private RecyclerView recyclerView;
+    public static String documentId;
 //    private FirebaseFirestore mFireBaseDB;
 
     @Override
@@ -57,18 +58,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FirestoreRecyclerOptions<RecentLecturesModel> options = new FirestoreRecyclerOptions.Builder<RecentLecturesModel>()
                 .setQuery(query, RecentLecturesModel.class)
                 .build();
-        Log.d("Shubham", "onCreate: size of recent lectures: " + options.getSnapshots().size());
         adapter = new FireStoreAdapter(options, this);
 
-        Log.d("shubham", "onCreate: coount: " + adapter.getItemCount());
         //two methods are declared in the recentLectureModel
         recyclerView.setAdapter(adapter);
     }
 
 
+
     @Override
     public void onItemclick(RecentLecturesModel snapshot, int position) {
-        Log.d("Shubham", "onItemclick: recent lecture is clicked");
         Intent intent = new Intent(MainActivity.this, LectureActivity.class);
         //to send data to another activity
         intent.putExtra("date", snapshot.getLectureDate());
@@ -82,13 +81,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.nav_quiz) {
-            Log.d("Shubham", "onNavigationItemSelected: Quiz");
             loadQuizData();
         } else if (id == R.id.nav_home) {
-            Log.d("Shubham", "onNavigationItemSelected: HomeMenu ");
             onBackPressed();
         } else if (id == R.id.nav_logout) {
-            Log.d("Shubham", "onNavigationItemSelected: Logout");
             fireAuth.signOut();
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -101,6 +97,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void loadQuizData() {
         Toast.makeText(this, "Into New Acivity", Toast.LENGTH_LONG).show();
+        Intent i=new Intent(MainActivity.this,QuizDetailActivity.class);
+        startActivity(i);
+        finish();
 //        Intent i=new Intent(MainActivity.this,QuizDetailActivity.class);
 //        startActivity(i);
 //        finish();

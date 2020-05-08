@@ -1,4 +1,4 @@
-package com.alphaCoaching.Model;
+package com.alphaCoaching.model;
 import java.util.Date;
 
 public class RecentLecturesModel {

@@ -15,10 +15,16 @@
         android:roundIcon="@drawable/alpha_launcher_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.ScoreActivity"></activity>
+        <activity
+            android:name=".activity.QuestionDetailActivity" />
+        <activity
+            android:name=".activity.QuizDetailActivity"
+            android:parentActivityName=".activity.MainActivity"
+            />
         <activity android:name=".activity.PdfViewActivity"
             android:parentActivityName=".activity.LectureActivity"/>
 
-<!--        <activity android:name=".activity.SplashScreenActivity">-->
         <activity
             android:name=".activity.SplashScreenActivity"
             android:theme="@style/SplashScreen">
