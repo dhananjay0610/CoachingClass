@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -65,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
     @Override
     public void onItemclick(RecentLecturesModel snapshot, int position) {
         Intent intent = new Intent(MainActivity.this, LectureActivity.class);
@@ -97,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void loadQuizData() {
         Toast.makeText(this, "Into New Acivity", Toast.LENGTH_LONG).show();
-        Intent i=new Intent(MainActivity.this,QuizDetailActivity.class);
+        Intent i = new Intent(MainActivity.this, QuizDetailActivity.class);
         startActivity(i);
         finish();
 //        Intent i=new Intent(MainActivity.this,QuizDetailActivity.class);

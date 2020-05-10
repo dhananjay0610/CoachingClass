@@ -6,9 +6,9 @@
     android:layout_marginTop="10dp"
     android:layout_marginEnd="10dp"
     android:layout_marginBottom="10dp"
-    android:background="@drawable/corner_item_lay"
-    android:backgroundTint="@color/transperent"
-    android:elevation="5dp"
+    android:background="@drawable/card_bg"
+    android:backgroundTint="@color/colorWhite"
+    android:elevation="9dp"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="10dp">
@@ -48,12 +48,4 @@
         android:textSize="18dp"
         android:textStyle="bold" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="9dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginRight="9dp"
-        android:background="@color/colorPrimaryDark"
-        android:orientation="vertical" />
 </LinearLayout>

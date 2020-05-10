@@ -23,7 +23,6 @@ public class ScoreActivity extends AppCompatActivity {
         String score_st=getIntent().getStringExtra("SCORE");
         score.setText(score_st);
 
-
         button=findViewById(R.id.button_done);
         button.setOnClickListener(new View.OnClickListener() {
             @Override

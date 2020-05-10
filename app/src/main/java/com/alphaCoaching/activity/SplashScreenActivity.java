@@ -24,7 +24,7 @@ public class SplashScreenActivity extends Activity {
         mFireBaseDB = FirebaseFirestore.getInstance();
         fireAuth = FirebaseAuth.getInstance();
         Log.d(TAG, "onCreate: ");
-        Toast.makeText(getApplication(), "Into the splashscreen", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getApplication(), "Into the splashscreen", Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
             @Override

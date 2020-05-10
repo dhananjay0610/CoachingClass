@@ -31,11 +31,13 @@ android {
         enabled = true
     }
 }
+
 repositories {
     maven {
         url 'https://dl.bintray.com/spark/maven'
     }
 }
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -77,3 +79,4 @@ dependencies {
     //for tab layout
     implementation 'com.google.android.material:material:1.2.0-alpha03'
 }
+

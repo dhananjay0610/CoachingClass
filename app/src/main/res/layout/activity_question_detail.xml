@@ -8,7 +8,7 @@
     tools:context=".activity.QuestionDetailActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbars"
+        android:id="@+id/toolbarofquestiondetailactivity"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="right"
@@ -195,7 +195,7 @@
                 android:layout_marginTop="25dp"
                 android:background="@drawable/categorybackground"
                 android:backgroundTint="@color/colorAccent"
-                android:padding="13dp"
+                android:padding="14dp"
                 android:text="Previous"
                 android:textColor="@color/colorWhite"
                 android:textSize="20sp" />
@@ -205,7 +205,7 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_margin="5dp"
+                android:layout_margin="15dp"
                 android:layout_marginTop="25dp"
                 android:padding="13dp"
                 android:background="@drawable/categorybackground"

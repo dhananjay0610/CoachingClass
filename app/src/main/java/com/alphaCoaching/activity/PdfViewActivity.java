@@ -36,7 +36,6 @@ public class PdfViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pdf_view);
 
-
         Toolbar toolbar = findViewById(R.id.toolbarofviewactivity);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -49,7 +48,6 @@ public class PdfViewActivity extends AppCompatActivity {
             String url = getIntent().getStringExtra("url");
             if (viewtype != null || !TextUtils.isEmpty(viewtype)) {
 
-//
 //                if (viewtype.equals("assets")) {
 //                    pdfView.fromAsset("Shivjayanti_Aptitiude_Test.pdf")
 //                            .password(null)
@@ -134,16 +132,12 @@ public class PdfViewActivity extends AppCompatActivity {
 //
 //                }
 //
-
                 //for internet
-
-
                 final LoadingDialog loadingDialog = new LoadingDialog(PdfViewActivity.this);
-
                 if (viewtype.equals("internet")) {
                     // progressBar.setVisibility(View.VISIBLE);
                     loadingDialog.startLoadingDialog();
-                    Log.d("Dhananjay", "dfshajhsdfkhfkjhfdskh" + url);
+                    Log.d("PdfViewActivity", "dfshajhsdfkhfkjhfdskh" + url);
                     FileLoader.with(this)
                             .load(url)
                             //.load("https://firebasestorage.googleapis.com/v0/b/alphacoaching-403bb.appspot.com/o/uploads%2F1586428597010.pdf?alt=media&token=c56b8d45-8399-4817-abbd-cdf9773d72a5")
@@ -156,7 +150,6 @@ public class PdfViewActivity extends AppCompatActivity {
                                     loadingDialog.dismiss();
 
                                     File pdfFile = response.getBody();
-
 
                                     pdfView.fromFile(pdfFile)
                                             .password(null)
@@ -196,25 +189,16 @@ public class PdfViewActivity extends AppCompatActivity {
                                             })
                                             .enableAnnotationRendering(true)
                                             .load();
-
                                 }
-
                                 @Override
                                 public void onError(FileLoadRequest request, Throwable t) {
                                     Toast.makeText(PdfViewActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                                     loadingDialog.dismiss();
-
                                     //progressBar.setVisibility(View.GONE);
                                 }
                             });
-
-
                 }
-
-                //
-
             }
         }
-
     }
 }

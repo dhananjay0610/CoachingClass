@@ -40,7 +40,7 @@ public class LectureActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lecture);
-
+        //toolbar
         Toolbar toolbar = findViewById(R.id.toolbarOfLectureActivity);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -72,7 +72,7 @@ public class LectureActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot snapshot : task.getResult()) {
-                                Log.d("from firestore", snapshot.getId() + " :" + snapshot.getData());
+                                Log.d("LectureActivity", snapshot.getId() + " :" + snapshot.getData());
                                 textViewdescription.setText(snapshot.getString("description"));
 
                                 if (snapshot.getString("UrlName") == null) {
@@ -83,20 +83,18 @@ public class LectureActivity extends AppCompatActivity {
                                 url[0] += (snapshot.getString("url"));
                             }
                         } else {
-                            Log.d("from firestrore", "error was:", task.getException());
+                            Log.d("LectureActivity", "error was:", task.getException());
                         }
                     }
                 });
-
 
         //Youtube viewer
 
         YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_view);
         getLifecycle().addObserver(youTubePlayerView);
 
-        //for the new work
-
         //request read and write externmal
+
         Dexter.withActivity(this)
                 .withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .withListener(new BaseMultiplePermissionsListener() {
@@ -121,6 +119,8 @@ public class LectureActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
 
         //till here
 
@@ -155,10 +155,6 @@ public class LectureActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
-
-
-
 }
 
 

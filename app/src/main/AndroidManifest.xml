@@ -16,14 +16,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.ScoreActivity"></activity>
-        <activity
-            android:name=".activity.QuestionDetailActivity" />
+        <activity android:name=".activity.QuestionDetailActivity"
+            android:parentActivityName=".activity.QuizDetailActivity"/>
         <activity
             android:name=".activity.QuizDetailActivity"
-            android:parentActivityName=".activity.MainActivity"
-            />
-        <activity android:name=".activity.PdfViewActivity"
-            android:parentActivityName=".activity.LectureActivity"/>
+
+
+            android:parentActivityName=".activity.MainActivity" />
+        <activity
+            android:name=".activity.PdfViewActivity"
+            android:parentActivityName=".activity.LectureActivity" />
 
         <activity
             android:name=".activity.SplashScreenActivity"
@@ -37,9 +39,12 @@
         <activity
             android:name=".activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity android:name=".activity.LoginActivity" />
-        <activity android:name=".activity.LectureActivity"
-            android:parentActivityName=".activity.MainActivity"/>
+
+        <activity
+            android:name=".activity.LectureActivity"
+            android:parentActivityName=".activity.MainActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
