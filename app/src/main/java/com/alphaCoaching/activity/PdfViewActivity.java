@@ -29,7 +29,6 @@ import java.io.File;
 
 public class PdfViewActivity extends AppCompatActivity {
     PDFView pdfView;
-    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +136,7 @@ public class PdfViewActivity extends AppCompatActivity {
                 if (viewtype.equals("internet")) {
                     // progressBar.setVisibility(View.VISIBLE);
                     loadingDialog.startLoadingDialog();
-                    Log.d("PdfViewActivity", "dfshajhsdfkhfkjhfdskh" + url);
+                    Log.d("PdfViewActivity", "Url  is : " + url);
                     FileLoader.with(this)
                             .load(url)
                             //.load("https://firebasestorage.googleapis.com/v0/b/alphacoaching-403bb.appspot.com/o/uploads%2F1586428597010.pdf?alt=media&token=c56b8d45-8399-4817-abbd-cdf9773d72a5")

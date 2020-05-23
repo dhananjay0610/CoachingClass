@@ -26,9 +26,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Document;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,6 +42,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.alphaCoaching.AlphaApplication.getAppContext;
 import static com.alphaCoaching.activity.MainActivity.documentId;
 
 public class QuestionDetailActivity extends AppCompatActivity implements View.OnClickListener {
@@ -48,10 +52,9 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
     private int questionNumber;
     private CountDownTimer countDownperquiz;
     private FirebaseFirestore firestore;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth fireAuth;
     private Dialog loadingDialog;
-    private Button next;
-    private Button previous;
     private int score;
     ArrayList<Long> arr = new ArrayList<>();
     HashMap<Integer, Long> mp = new HashMap<>();
@@ -77,7 +80,7 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
 
         Toolbar toolbar = findViewById(R.id.toolbarofquestiondetailactivity);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
 
         question = findViewById(R.id.question);
@@ -88,8 +91,8 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
         option2 = findViewById(R.id.option2);
         option3 = findViewById(R.id.option3);
         option4 = findViewById(R.id.option4);
-        next = findViewById(R.id.next);
-        previous = findViewById(R.id.previous);
+        Button next = findViewById(R.id.next);
+        Button previous = findViewById(R.id.previous);
 
         option1.setOnClickListener(this);
         option2.setOnClickListener(this);
@@ -135,7 +138,7 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
                     assert questions != null;
                     int i = 0;
                     for (QueryDocumentSnapshot doc : questions) {
-                        Log.d("QuestionActivity", doc.getId());
+                        Log.d("QuestionActivity", "document id" + doc.getId());
                         QuestionId[i] = doc.getId();
                         i++;
                         questionList.add(new Question(doc.getString("question"),
@@ -143,8 +146,13 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
                                 doc.getString("option2"),
                                 doc.getString("option3"),
                                 doc.getString("option4"),
-                                Integer.valueOf(doc.getString("correctOption"))
+                                Integer.parseInt(Objects.requireNonNull(doc.getString("correctOption")))
+                                , doc.getId()
                         ));
+                    }
+                    if (questionList.size() == 0) {
+                        Toast.makeText(getAppContext(), "Question list is empty in this quiz.", Toast.LENGTH_LONG).show();
+                        QuestionDetailActivity.this.finish();
                     }
                     setQuestion();
                 } else {
@@ -165,7 +173,6 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
         option4.setText(questionList.get(0).getOptionD());
         qCount.setText(String.valueOf(1) + "/" + String.valueOf(questionList.size()));
         startTimer();
-
         starttime = getCurrentTime();
         questionNumber = 0;
     }
@@ -192,7 +199,7 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
                 if (!examend) {
                     Intent intent = new Intent(QuestionDetailActivity.this, ScoreActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra("SCORE", String.valueOf(score) + "/" + String.valueOf(questionList.size()));
+                    intent.putExtra("SCORE", (score) + "/" + (questionList.size()));
                     startActivity(intent);
                     QuestionDetailActivity.this.finish();
                     examend = true;
@@ -203,7 +210,7 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
         countDownperquiz.start();
     }
 
-    //variable to iterate over array Timetaken ,attemptedanswer
+    //variable to iterate over array TimeTaken ,AttemptedAnswer
     int k = 0;
 
     @Override
@@ -223,7 +230,6 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
             k++;
         }
         if (v.getId() == R.id.previous) {
-
             starttime = getCurrentTime();
         }
         switch (v.getId()) {
@@ -261,7 +267,6 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
         }
         checkAnswer(selectedOption, v);
 
-
         String option = "";
         if (selectedOption == 1)
             option = (questionList.get(0).getOptionA());
@@ -271,20 +276,17 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
             option = (questionList.get(0).getOptionC());
         else if (selectedOption == 4)
             option = (questionList.get(0).getOptionD());
-
         attemptedanswer[k] = option;
-
-
     }
 
     private void checkAnswer(int selectedOption, View view) {
         if (selectedOption == questionList.get(questionNumber).getCorrectOption()) {
             //Right Answer
-            ((Button) view).setBackgroundTintList(ColorStateList.valueOf(Color.CYAN));
+            view.setBackgroundTintList(ColorStateList.valueOf(Color.CYAN));
             score++;
         } else {
             //Wrong Answer
-            ((Button) view).setBackgroundTintList(ColorStateList.valueOf(Color.CYAN));
+            (view).setBackgroundTintList(ColorStateList.valueOf(Color.CYAN));
            /* switch (questionList.get(questionNumber).getCorrectOption())
             {
                 case 1:
@@ -319,9 +321,9 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
             playAnim(option3, 0, 3);
             playAnim(option4, 0, 4);
 
-            qCount.setText(String.valueOf(questionNumber + 1) + "/" + String.valueOf(questionList.size()));
+            qCount.setText((questionNumber + 1) + "/" + (questionList.size()));
 
-            timer.setText("Time:- " + String.valueOf(" "));
+            timer.setText("Time:- " + (" "));
             option1.setEnabled(true);
             option2.setEnabled(true);
             option3.setEnabled(true);
@@ -342,80 +344,85 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
             playAnim(option3, 0, 3);
             playAnim(option4, 0, 4);
 
-            qCount.setText(String.valueOf(questionNumber + 1) + "/" + String.valueOf(questionList.size()));
+            qCount.setText((questionNumber + 1) + "/" + (questionList.size()));
 
-            timer.setText("Time:- " + String.valueOf(" "));
+            timer.setText("Time:- " + " ");
             //  startTimer();
             option1.setEnabled(true);
             option2.setEnabled(true);
             option3.setEnabled(true);
             option4.setEnabled(true);
 
-
         } else {
             examend = true;
             // Go to Score Activity
             Intent intent = new Intent(QuestionDetailActivity.this, ScoreActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("SCORE", String.valueOf(score) + "/" + String.valueOf(questionList.size()));
+            intent.putExtra("SCORE", (score) + "/" + (questionList.size()));
             startActivity(intent);
             QuestionDetailActivity.this.finish();
 
-            //adding data to the firestore quizTaken collection
-
+            //adding data to the FireStore quizTaken collection
             String docId = getIntent().getStringExtra("docID");
             fireAuth = FirebaseAuth.getInstance();
-            FirebaseUser curuser = fireAuth.getCurrentUser();
-            String user_Uuid = curuser.getUid();
-            Map<String, Object> data = new HashMap<>();
-            data.put("quizId", docId);
-            data.put("score", String.valueOf(score));
-            data.put("TotalScore", String.valueOf(questionList.size()));
-            data.put("userId", user_Uuid);
+            FirebaseUser currentUser = fireAuth.getCurrentUser();
+            assert currentUser != null;
+            String user_Uuid = currentUser.getUid();
+            //fetching username from the user collection
+            DocumentReference documentReference = db.collection("users").document(user_Uuid);
+            documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot documentSnapshot = task.getResult();
+                        assert documentSnapshot != null;
+                        if (documentSnapshot.exists()) {
+                            String FirstName = (String) documentSnapshot.get("firstName");
+                            String LastName = (String) documentSnapshot.get("lastName");
+                            String UserName = FirstName + LastName;
+                            Map<String, Object> data = new HashMap<>();
+                            data.put("quizId", docId);
+                            data.put("score", String.valueOf(score));
+                            data.put("TotalScore", String.valueOf(questionList.size()));
+                            data.put("userId", user_Uuid);
+                            data.put("userName", UserName);
+                            firestore.collection("quizTaken")
+                                    .add(data)
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+                                            Log.d("QuestionActivity", "DocumentSnapshot written with ID: " + documentReference.getId());
 
-            firestore.collection("quizTaken")
-                    .add(data)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            Log.d("QuestionActivity", "DocumentSnapshot written with ID: " + documentReference.getId());
-
-
-                            //adding data to the quizTakenQuestions collection
-
-
-                            for (int questionnumber = 0; questionnumber < questionList.size(); questionnumber++) {
-                                Map<String, Object> data1 = new HashMap<>();
-                                data1.put("attemptedAnswer", attemptedanswer[questionnumber]);
-                                data1.put("questionId", QuestionId[questionnumber]);
-                                data1.put("quizTakenId", documentReference.getId());
-                                data1.put("timeTaken", mp.get(questionnumber));
-
-                                firestore.collection("quizTakenQuestions")
-                                        .add(data1)
-                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                            @Override
-                                            public void onSuccess(DocumentReference documentReference) {
-                                                Log.d("QuestionActivity", "DocumentSnapshot written with ID: " + documentReference.getId());
+                                            //adding data to the quizTakenQuestions collection
+                                            for (int questionnumber = 0; questionnumber < questionList.size(); questionnumber++) {
+                                                Map<String, Object> data1 = new HashMap<>();
+                                                data1.put("attemptedAnswer", attemptedanswer[questionnumber]);
+                                                data1.put("questionId", QuestionId[questionnumber]);
+                                                data1.put("quizTakenId", documentReference.getId());
+                                                data1.put("timeTaken", mp.get(questionnumber));
+                                                firestore.collection("quizTakenQuestions")
+                                                        .add(data1)
+                                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                            @Override
+                                                            public void onSuccess(DocumentReference documentReference) {
+                                                                Log.d("QuestionActivity", "DocumentSnapshot written with ID: " + documentReference.getId());
+                                                            }
+                                                        })
+                                                        .addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Log.w("QuestionActivity", "Error adding document", e);
+                                                            }
+                                                        });
                                             }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w("QuestionActivity", "Error adding document", e);
-                                            }
-                                        });
-                            }
-                            //done
+                                        }
+                                    })
+                                    .addOnFailureListener(e -> Log.w("QuestionActivity", "Error adding document", e));
+                        }
+                    }
+                }
+            });
 
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w("QuestionActivity", "Error adding document", e);
-                        }
-                    });
         }
     }
 
@@ -449,9 +456,7 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
                                     break;
                             }
                             if (viewNum != 0)
-                                ((Button) view).setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#696880")));
-
-
+                                view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#696880")));
                             playAnim(view, 1, viewNum);
                         }
 

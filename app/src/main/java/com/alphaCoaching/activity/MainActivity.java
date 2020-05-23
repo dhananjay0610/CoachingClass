@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         recyclerView.setAdapter(adapter);
     }
 
-
     @Override
     public void onItemclick(RecentLecturesModel snapshot, int position) {
         Intent intent = new Intent(MainActivity.this, LectureActivity.class);
@@ -94,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void loadQuizData() {
-        Toast.makeText(this, "Into New Acivity", Toast.LENGTH_LONG).show();
+        // Toast.makeText(this, "Into New Acivity", Toast.LENGTH_LONG).show();
         Intent i = new Intent(MainActivity.this, QuizDetailActivity.class);
         startActivity(i);
         finish();

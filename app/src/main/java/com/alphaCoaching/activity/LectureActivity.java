@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+
 import com.alphaCoaching.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -119,17 +120,7 @@ public class LectureActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
         //till here
-
-
-
-
-
-
-
 
 
         //for pdf url
@@ -156,6 +147,8 @@ public class LectureActivity extends AppCompatActivity {
         }
     }
 }
+
+
 
 
 //public class LectureActivity extends AppCompatActivity {

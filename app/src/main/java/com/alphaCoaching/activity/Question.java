@@ -2,16 +2,18 @@ package com.alphaCoaching.activity;
 
 public class Question {
     String question;
-    String optionA,optionB,optionC,optionD;
+    String optionA, optionB, optionC, optionD;
     int correctOption;
+    String QuestionId;
 
-    public Question(String question, String optionA, String optionB, String optionC, String optionD, int correctOption) {
+    public Question(String question, String optionA, String optionB, String optionC, String optionD, int correctOption, String questionId) {
         this.question = question;
         this.optionA = optionA;
         this.optionB = optionB;
         this.optionC = optionC;
         this.optionD = optionD;
         this.correctOption = correctOption;
+        this.QuestionId = questionId;
     }
 
     public String getQuestion() {
@@ -20,6 +22,14 @@ public class Question {
 
     public void setQuestion(String question) {
         this.question = question;
+    }
+
+    public String getQuestionId() {
+        return QuestionId;
+    }
+
+    public void setQuestionId(String question) {
+        this.QuestionId = question;
     }
 
     public String getOptionA() {
