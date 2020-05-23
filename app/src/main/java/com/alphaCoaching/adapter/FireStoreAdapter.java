@@ -4,8 +4,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,7 +26,7 @@ public class FireStoreAdapter extends FirestoreRecyclerAdapter<RecentLecturesMod
     public FireStoreAdapter(@NonNull FirestoreRecyclerOptions<RecentLecturesModel> options, OnListItemclick onListItemclick) {
         super(options);
         this.onListItemclick = onListItemclick;
-        Log.d("Shubham", "FireStoreAdapter: firestoreAdapter is called");
+       // Log.d("FireStoreAdapter", "FireStoreAdapter: firestoreAdapter is called");
     }
 
     @Override

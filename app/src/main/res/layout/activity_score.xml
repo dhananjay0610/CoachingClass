@@ -37,7 +37,7 @@
         <View
             android:id="@+id/divider"
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:background="?android:attr/listDivider" />
 
         <TextView
@@ -54,18 +54,17 @@
 
     <Button
         android:id="@+id/button_done"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="336dp"
+        android:layout_height="74dp"
+        android:layout_margin="10dp"
+        android:layout_marginLeft="75dp"
+        android:layout_marginRight="75dp"
+        android:background="@drawable/categorybackground"
         android:backgroundTint="@color/colorBlack"
         android:padding="12dp"
-        android:layout_margin="10dp"
-        android:layout_marginRight="35dp"
-        android:layout_marginLeft="35dp"
-        android:background="@drawable/categorybackground"
         android:text="DONE"
-        android:textSize="35dp"
-        android:elevation="@dimen/browser_actions_context_menu_max_width"
         android:textColor="@color/colorWhite"
+        android:textSize="35dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

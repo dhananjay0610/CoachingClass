@@ -2,12 +2,14 @@ package com.alphaCoaching;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class AlphaApplication extends Application {
 
+    private static Context context;
     private ActivityLifecycleCallbacks mActivityLifecycleCallbacks = new ActivityLifecycleCallbacks() {
         @Override
         public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
@@ -45,10 +47,15 @@ public class AlphaApplication extends Application {
         }
     };
 
+    public static Context getAppContext() {
+        return AlphaApplication.context;
+    }
+
 
     @Override
     public void onCreate() {
         super.onCreate();
+        AlphaApplication.context = getApplicationContext();
         registerActivityLifecycleCallbacks(mActivityLifecycleCallbacks);
     }
 }

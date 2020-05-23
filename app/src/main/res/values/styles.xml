@@ -20,10 +20,5 @@
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
-<!--    <style name="Theme.AppCompat.Light.DarkActionBar">-->
-<!--        <item name="windowActionBar">false</item>-->
-<!--        <item name="windowNoTitle">true</item>-->
-<!--        <item name="android:statusBarColor">#55D394</item>-->
-<!--    </style>-->
 
 </resources>
