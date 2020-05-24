@@ -10,8 +10,8 @@ class LoadingDialog {
     private Activity activity;
     private AlertDialog dialog;
 
-    public LoadingDialog(Activity activitys) {
-        activity=activitys;
+    LoadingDialog(Activity activity) {
+        activity=activity;
     }
 
     void startLoadingDialog(){

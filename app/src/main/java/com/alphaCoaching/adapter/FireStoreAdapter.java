@@ -1,6 +1,5 @@
 package com.alphaCoaching.adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +60,7 @@ public class FireStoreAdapter extends FirestoreRecyclerAdapter<RecentLecturesMod
         OnListItemclick onListItemclick;
 
 
-        public ProductsViewHolder(@NonNull View itemView, OnListItemclick onListItemclick) {
+        ProductsViewHolder(@NonNull View itemView, OnListItemclick onListItemclick) {
             super(itemView);
 
             textViewchaptername = itemView.findViewById(R.id.textviewchaptername);

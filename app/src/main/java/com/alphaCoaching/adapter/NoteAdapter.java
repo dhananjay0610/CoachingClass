@@ -15,23 +15,21 @@ import com.alphaCoaching.R;
 import com.alphaCoaching.Utils.UserSharedPreferenceManager;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.Objects;
 
 import static com.alphaCoaching.AlphaApplication.getAppContext;
 
 public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.NoteHolder> {
     private OnItemClickListener listener;
     private MyAdapterListener onClickListener;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private FirebaseAuth fireAuth;
+    // FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public NoteAdapter(@NonNull FirestoreRecyclerOptions<Note> options) {
         super(options);
@@ -42,7 +40,6 @@ public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.Note
         holder.textQuizName.setText("Quiz Name= " + model.getQuizName());
         holder.textQuesNumber.setText("Question No.= " + (model.getQuestionNumber()));
         holder.textQuizTime.setText("Quiz Time=" + (model.getQuizTime()));
-//        holder.detail.setSystemUiVisibility(View.GONE);
         DocumentSnapshot snapshot = getSnapshots().getSnapshot(holder.getAdapterPosition());
         holder.documentId = snapshot.getId();
 
@@ -51,24 +48,22 @@ public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.Note
             holder.detail.setVisibility(View.VISIBLE);
         } else {
             String id = snapshot.getId();
-            fireAuth = FirebaseAuth.getInstance();
+            FirebaseAuth fireAuth = FirebaseAuth.getInstance();
             FirebaseUser currentUser = fireAuth.getCurrentUser();
+            assert currentUser != null;
             String user_Uuid = currentUser.getUid();
             FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
             CollectionReference yourCollRef = rootRef.collection("quizTaken");
             Query query = yourCollRef.whereEqualTo("quizId", id)
                     .whereEqualTo("userId", user_Uuid);
-            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        if (task.getResult().size() == 0) {
-                            UserSharedPreferenceManager.storeQuizTakenStatus(getAppContext(), false, id);
-                            holder.detail.setVisibility(View.GONE);
-                        } else {
-                            UserSharedPreferenceManager.storeQuizTakenStatus(getAppContext(), true, id);
-                            holder.detail.setVisibility(View.VISIBLE);
-                        }
+            query.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    if (Objects.requireNonNull(task.getResult()).size() == 0) {
+                        UserSharedPreferenceManager.storeQuizTakenStatus(getAppContext(), false, id);
+                        holder.detail.setVisibility(View.GONE);
+                    } else {
+                        UserSharedPreferenceManager.storeQuizTakenStatus(getAppContext(), true, id);
+                        holder.detail.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -102,9 +97,7 @@ public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.Note
             textQuizTime = itemView.findViewById(R.id.quiz_time);
             detail = itemView.findViewById(R.id.detail);
 
-            detail.setOnClickListener(view -> {
-                onClickListener.buttonOnClick(view, getAdapterPosition(), getSnapshots().getSnapshot(getAdapterPosition()));
-            });
+            detail.setOnClickListener(view -> onClickListener.buttonOnClick(view, getAdapterPosition(), getSnapshots().getSnapshot(getAdapterPosition())));
             itemView.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION && listener != null) {

@@ -5,35 +5,31 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+
 import androidx.annotation.Nullable;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import static android.content.ContentValues.TAG;
 
 public class SplashScreenActivity extends Activity {
-    private FirebaseFirestore mFireBaseDB;
     private FirebaseAuth fireAuth;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Access a Cloud Firestore instance from your Activity
-        mFireBaseDB = FirebaseFirestore.getInstance();
+        //FirebaseFirestore mFireBaseDB = FirebaseFirestore.getInstance();
         fireAuth = FirebaseAuth.getInstance();
         Log.d(TAG, "onCreate: ");
-       // Toast.makeText(getApplication(), "Into the splashscreen", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getApplication(), "Into the splashscreen", Toast.LENGTH_SHORT).show();
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (fireAuth.getCurrentUser() != null) {
-                    openMainActivity();
+        new Handler().postDelayed(() -> {
+            if (fireAuth.getCurrentUser() != null) {
+                openMainActivity();
 //                    openLoginActivity();
-                } else {
-                    openLoginActivity();
-                }
+            } else {
+                openLoginActivity();
             }
         }, 3000);
 
@@ -58,6 +54,6 @@ public class SplashScreenActivity extends Activity {
         finish();
     }
 
-    public static class CatGridAdapter {
-    }
+//    public static class CatGridAdapter {
+//    }
 }

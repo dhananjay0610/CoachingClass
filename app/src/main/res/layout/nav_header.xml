@@ -20,6 +20,6 @@
         android:text="@string/text"
         android:textColor="#000000"
         android:fontFamily="sans-serif-light"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 </LinearLayout>

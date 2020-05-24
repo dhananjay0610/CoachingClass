@@ -3,8 +3,8 @@
     package="com.alphaCoaching">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-<!--    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+    <!--    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+    <!--    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -22,9 +22,7 @@
         <activity
             android:name=".activity.QuestionDetailActivity"
             android:parentActivityName=".activity.QuizDetailActivity" />
-        <activity
-            android:name=".activity.QuizDetailActivity"
-            android:parentActivityName=".activity.MainActivity" />
+
         <activity
             android:name=".activity.PdfViewActivity"
             android:parentActivityName=".activity.LectureActivity" />
@@ -42,9 +40,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.LoginActivity" />
         <activity
+            android:name=".activity.QuizDetailActivity"
+            android:parentActivityName=".activity.MainActivity"/>
+        <activity
             android:name=".activity.LectureActivity"
             android:parentActivityName=".activity.MainActivity" />
-
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

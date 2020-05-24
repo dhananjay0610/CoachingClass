@@ -24,7 +24,7 @@
         app:videoId="wh-sRmTWGTw" />
 
     <TextView
-        android:id="@+id/textviewauthor"
+        android:id="@+id/textviewAuthor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/youtube_player_view"
@@ -40,7 +40,7 @@
         android:id="@+id/textviewchapter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textviewauthor"
+        android:layout_below="@id/textviewAuthor"
         android:layout_marginTop="5dp"
         android:text="chapter"
 

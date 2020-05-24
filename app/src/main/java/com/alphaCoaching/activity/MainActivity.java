@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.alphaCoaching.model.RecentLecturesModel;
 import com.alphaCoaching.R;
@@ -27,9 +26,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private FirebaseAuth fireAuth;
     private FireStoreAdapter adapter;
-    private RecyclerView recyclerView;
-    public static String documentId;
-//    private FirebaseFirestore mFireBaseDB;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,11 +33,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        RecyclerView recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         FirebaseFirestore mFireBaseDB = FirebaseFirestore.getInstance();
         fireAuth = FirebaseAuth.getInstance();
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -50,8 +46,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        Query query = mFireBaseDB.collection("recentLectures");
-//                .orderBy("lectureDate", Query.Direction.ASCENDING);
+        Query query = mFireBaseDB.collection("recentLectures")
+                .orderBy("lectureDate", Query.Direction.ASCENDING);
 
         //recycler options
         FirestoreRecyclerOptions<RecentLecturesModel> options = new FirestoreRecyclerOptions.Builder<RecentLecturesModel>()
@@ -84,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_logout) {
             fireAuth.signOut();
             Intent intent = new Intent(this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+          //  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
         }
@@ -96,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Toast.makeText(this, "Into New Acivity", Toast.LENGTH_LONG).show();
         Intent i = new Intent(MainActivity.this, QuizDetailActivity.class);
         startActivity(i);
-        finish();
+       // finish();
 //        Intent i=new Intent(MainActivity.this,QuizDetailActivity.class);
 //        startActivity(i);
 //        finish();

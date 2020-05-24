@@ -9,14 +9,12 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alphaCoaching.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Objects;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 
@@ -33,35 +31,21 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        mLoginLayout = (RelativeLayout) findViewById(R.id.loginScreen);
-        mForgotPass = (RelativeLayout) findViewById(R.id.forgotPass);
-        email = (EditText) findViewById(R.id.username);
-        password = (EditText) findViewById(R.id.pass);
-        mLoginBtn = (CircularProgressButton) findViewById(R.id.loginButton);
+        mLoginLayout = findViewById(R.id.loginScreen);
+        mForgotPass = findViewById(R.id.forgotPass);
+        email = findViewById(R.id.username);
+        password = findViewById(R.id.pass);
+        mLoginBtn = findViewById(R.id.loginButton);
 
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mLoginLayout.setVisibility(View.VISIBLE);
-                mForgotPass.setVisibility(View.VISIBLE);
-            }
+        handler.postDelayed(() -> {
+            mLoginLayout.setVisibility(View.VISIBLE);
+            mForgotPass.setVisibility(View.VISIBLE);
         }, 3000);
 
         fireAuth = FirebaseAuth.getInstance();
 
-        mLoginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userLogin();
-            }
-        });
-//        findViewById(R.id.Sign_In).setOnClickListener(this);
-        /*findViewById(R.id.Sign_In).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userLogin();
-            }
-        });*/
+        mLoginBtn.setOnClickListener(v -> userLogin());
+
     }
 
     /**
@@ -97,31 +81,25 @@ public class LoginActivity extends AppCompatActivity {
         }
 
 
-        fireAuth.signInWithEmailAndPassword(sEmail, sPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    Intent intent1 = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent1);
-                    Thread thread = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                Thread.sleep(3700);
-                                Intent intent1 = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(intent1);
-                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                                finish();
-                                mLoginBtn.dispose();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-                } else {
-                    mLoginBtn.startMorphRevertAnimation();
-                    Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                }
+        fireAuth.signInWithEmailAndPassword(sEmail, sPassword).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Intent intent1 = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent1);
+                Thread thread = new Thread(() -> {
+                    try {
+                        Thread.sleep(3700);
+                        Intent intent11 = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent11);
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        finish();
+                        mLoginBtn.dispose();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                });
+            } else {
+                mLoginBtn.startMorphRevertAnimation();
+                Toast.makeText(getApplicationContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
