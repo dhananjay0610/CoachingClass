@@ -48,14 +48,14 @@
         android:textSize="18dp"
         android:textStyle="bold" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1.5dp"
-        android:layout_marginLeft="9dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginRight="9dp"
-        android:background="@color/colorPrimaryDark"
-        android:orientation="vertical" />
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1.5dp"-->
+<!--        android:layout_marginLeft="9dp"-->
+<!--        android:layout_marginTop="6dp"-->
+<!--        android:layout_marginRight="9dp"-->
+<!--        android:background="@color/colorPrimaryDark"-->
+<!--        android:orientation="vertical" />-->
 
     <Button
         android:layout_width="wrap_content"

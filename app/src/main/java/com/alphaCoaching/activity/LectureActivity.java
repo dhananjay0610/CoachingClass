@@ -5,21 +5,16 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 
 import com.alphaCoaching.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
 import com.karumi.dexter.Dexter;
@@ -29,6 +24,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.BaseMultiplePermissionsListener;
 
 import java.util.List;
+import java.util.Objects;
 
 
 public class LectureActivity extends AppCompatActivity {
@@ -44,7 +40,7 @@ public class LectureActivity extends AppCompatActivity {
         //toolbar
         Toolbar toolbar = findViewById(R.id.toolbarOfLectureActivity);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         mFireBaseDB = FirebaseFirestore.getInstance();
 
@@ -68,24 +64,21 @@ public class LectureActivity extends AppCompatActivity {
                 .whereEqualTo("chapterName", chaptername)
                 .whereEqualTo("subject", subject)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot snapshot : task.getResult()) {
-                                Log.d("LectureActivity", snapshot.getId() + " :" + snapshot.getData());
-                                textViewdescription.setText(snapshot.getString("description"));
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot snapshot : Objects.requireNonNull(task.getResult())) {
+                            Log.d("LectureActivity", snapshot.getId() + " :" + snapshot.getData());
+                            textViewdescription.setText(snapshot.getString("description"));
 
-                                if (snapshot.getString("UrlName") == null) {
-                                    textViewpdfurl.setText(urlname);
-                                } else {
-                                    textViewpdfurl.setText(snapshot.getString("UrlName"));
-                                }
-                                url[0] += (snapshot.getString("url"));
+                            if (snapshot.getString("UrlName") == null) {
+                                textViewpdfurl.setText(urlname);
+                            } else {
+                                textViewpdfurl.setText(snapshot.getString("UrlName"));
                             }
-                        } else {
-                            Log.d("LectureActivity", "error was:", task.getException());
+                            url[0] += (snapshot.getString("url"));
                         }
+                    } else {
+                        Log.d("LectureActivity", "error was:", task.getException());
                     }
                 });
 
@@ -94,7 +87,7 @@ public class LectureActivity extends AppCompatActivity {
         YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_view);
         getLifecycle().addObserver(youTubePlayerView);
 
-        //request read and write externmal
+        //request read and write external
 
         Dexter.withActivity(this)
                 .withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -111,28 +104,12 @@ public class LectureActivity extends AppCompatActivity {
                 })
                 .check();
 
-        textViewpdfurl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LectureActivity.this, PdfViewActivity.class);
-                intent.putExtra("Viewtype", "internet");
-                intent.putExtra("url", ""+url[0]);
-                startActivity(intent);
-            }
+        textViewpdfurl.setOnClickListener(view -> {
+            Intent intent1 = new Intent(LectureActivity.this, PdfViewActivity.class);
+            intent1.putExtra("Viewtype", "internet");
+            intent1.putExtra("url", "" + url[0]);
+            startActivity(intent1);
         });
-        //till here
-
-
-        //for pdf url
-//        textViewpdfurl.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String uri = url[0];
-//                Intent i = new Intent(Intent.ACTION_VIEW);
-//                i.setData(Uri.parse(uri));
-//                startActivity(i);
-//            }
-//        });
     }
 
     @Override
@@ -142,88 +119,9 @@ public class LectureActivity extends AppCompatActivity {
             Uri selectedpdf = data.getData();
             Intent intent = new Intent(LectureActivity.this, PdfViewActivity.class);
             intent.putExtra("Viewtype", "storage");
+            assert selectedpdf != null;
             intent.putExtra("FileUri", selectedpdf.toString());
             startActivity(intent);
         }
     }
 }
-
-
-
-
-//public class LectureActivity extends AppCompatActivity {
-//    FirebaseFirestore mFireBaseDB;
-//    TextView textViewdescription;
-//    TextView textViewchapter;
-//    TextView textViewpdfurl;
-//
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_lecture);
-//
-//        Toolbar toolbar = findViewById(R.id.toolbarOfLectureActivity);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//
-//        mFireBaseDB = FirebaseFirestore.getInstance();
-//
-//        textViewdescription = findViewById(R.id.textviewdescription);
-//        textViewchapter = findViewById(R.id.textviewchapter);
-//        textViewpdfurl = findViewById(R.id.textViewpdfurl);
-//
-//        //getting data from mainActivity
-//        Intent intent = getIntent();
-//        String chaptername = intent.getStringExtra("chaptername");
-//        String subject = intent.getStringExtra("subject");
-//        textViewchapter.setText(chaptername);
-//        getSupportActionBar().setTitle("");
-//
-//        //for url
-//        final String[] url = {""};
-//        String urlname = "pdf 1";
-//
-//        //fetching data from firestore
-//        mFireBaseDB.collection("recentLectures")
-//                .whereEqualTo("chapterName", chaptername)
-//                .whereEqualTo("subject", subject)
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot snapshot : task.getResult()) {
-//                                Log.d("from firestore", snapshot.getId() + " :" + snapshot.getData());
-//                                textViewdescription.setText(snapshot.getString("description"));
-//
-//                                if (snapshot.getString("UrlName") == null) {
-//                                    textViewpdfurl.setText(urlname);
-//                                } else {
-//                                    textViewpdfurl.setText(snapshot.getString("UrlName"));
-//                                }
-//                                url[0] += (snapshot.getString("url"));
-//                            }
-//                        } else {
-//                            Log.d("from firestrore", "error was:", task.getException());
-//                        }
-//                    }
-//                });
-//
-//
-//        //Youtube viewer
-//
-//        YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_view);
-//        getLifecycle().addObserver(youTubePlayerView);
-//
-//        //for pdf url
-//        textViewpdfurl.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String uri = url[0];
-//                Intent i = new Intent(Intent.ACTION_VIEW);
-//                i.setData(Uri.parse(uri));
-//                startActivity(i);
-//            }
-//        });
-//    }
-//}
-

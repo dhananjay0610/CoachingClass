@@ -1,12 +1,9 @@
 package com.alphaCoaching.adapter;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -15,24 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alphaCoaching.Model.QuestionModel;
 import com.alphaCoaching.R;
-import com.alphaCoaching.activity.QuestionReview;
-import com.alphaCoaching.activity.QuizDetailActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class QuestionAdapter extends FirestoreRecyclerAdapter<QuestionModel, QuestionAdapter.viewHolder> {
     private OnItemClickListener listener;
     private MyAdapterListener onClickListener;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    //FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public QuestionAdapter(@NonNull FirestoreRecyclerOptions<QuestionModel> options/*,MyAdapterListener listener*/) {
         super(options);
-//        this.onClickListener=listener;
     }
 
     @Override
@@ -43,21 +33,6 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<QuestionModel, Que
         holder.detail.setSystemUiVisibility(View.GONE);
         DocumentSnapshot snapshot = getSnapshots().getSnapshot(holder.getAdapterPosition());
         holder.documentId = snapshot.getId();
-//                //String questionid = model.getQuestionid();
-//        DocumentReference db;
-//        DocumentReference documentReference = db.collection("questions").document(questionid);
-//                documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            DocumentSnapshot documentSnapshot = task.getResult();
-//                            if (documentSnapshot.exists()) {
-//                                Log.d("QuestionReview", "Document values : " + documentSnapshot.getData());
-//
-//                            }
-//                        }
-
-//
     }
 
     @NonNull
@@ -86,21 +61,15 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<QuestionModel, Que
             textQuesNumber = itemView.findViewById(R.id.ques_num);
             textQuizTime = itemView.findViewById(R.id.quiz_time);
             detail = itemView.findViewById(R.id.detail);
-            detail.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //Intent intent=new Intent(QuizDetailActivity.this, QuestionReview.class);
-                    onClickListener.buttonOnClick(view, getAdapterPosition(), getSnapshots().getSnapshot(getAdapterPosition()));
-                }
+            detail.setOnClickListener(view -> {
+                //Intent intent=new Intent(QuizDetailActivity.this, QuestionReview.class);
+                onClickListener.buttonOnClick(view, getAdapterPosition(), getSnapshots().getSnapshot(getAdapterPosition()));
             });
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION && listener != null) {
-                        listener.onItemClick(getSnapshots().getSnapshot(position), position);
-                    }
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION && listener != null) {
+                    listener.onItemClick(getSnapshots().getSnapshot(position), position);
                 }
             });
         }

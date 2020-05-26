@@ -1,10 +1,10 @@
 package com.alphaCoaching.activity;
 
 public class Question {
-    String question;
-    String optionA, optionB, optionC, optionD;
-    int correctOption;
-    String QuestionId;
+    private String question;
+    private String optionA, optionB, optionC, optionD;
+    private int correctOption;
+    private String QuestionId;
 
     public Question(String question, String optionA, String optionB, String optionC, String optionD, int correctOption, String questionId) {
         this.question = question;
@@ -16,7 +16,7 @@ public class Question {
         this.QuestionId = questionId;
     }
 
-    public String getQuestion() {
+    String getQuestion() {
         return question;
     }
 
@@ -24,7 +24,7 @@ public class Question {
         this.question = question;
     }
 
-    public String getQuestionId() {
+    String getQuestionId() {
         return QuestionId;
     }
 
@@ -32,7 +32,7 @@ public class Question {
         this.QuestionId = question;
     }
 
-    public String getOptionA() {
+    String getOptionA() {
         return optionA;
     }
 
@@ -40,7 +40,7 @@ public class Question {
         this.optionA = optionA;
     }
 
-    public String getOptionB() {
+    String getOptionB() {
         return optionB;
     }
 
@@ -48,7 +48,7 @@ public class Question {
         this.optionB = optionB;
     }
 
-    public String getOptionC() {
+    String getOptionC() {
         return optionC;
     }
 
@@ -56,7 +56,7 @@ public class Question {
         this.optionC = optionC;
     }
 
-    public String getOptionD() {
+    String getOptionD() {
         return optionD;
     }
 
@@ -64,7 +64,7 @@ public class Question {
         this.optionD = optionD;
     }
 
-    public int getCorrectOption() {
+    int getCorrectOption() {
         return correctOption;
     }
 
