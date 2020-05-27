@@ -98,13 +98,14 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
                     Log.d("QuestionActivity", "document id" + doc.getId());
                     QuestionId[i] = doc.getId();
                     i++;
-                    questionList.add(new Question(doc.getString("question"),
+                    questionList.add(new Question(doc.getId(),
+                            doc.getString("question"),
                             doc.getString("option1"),
                             doc.getString("option2"),
                             doc.getString("option3"),
                             doc.getString("option4"),
-                            Integer.parseInt(Objects.requireNonNull(doc.getString("correctOption")))
-                            , doc.getId()));
+                            doc.getLong("correctOption"),
+                            doc.getId()));
                 }
                 setQuestion();
             } else {
@@ -150,7 +151,7 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
         //To fetch from the quizTaken collection
 
 
-        int n = questionList.get(questionNumber).getCorrectOption();
+        int n = (int) questionList.get(questionNumber).getCorrectOption();
         String ans = "";
 //        int[] arr = new int[n];
 //        for (int i = 0; i < n; i++)
@@ -280,7 +281,7 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
             imageView.setImageResource(R.drawable.ic_autorenew_black_24dp);
             averagetime.setText("Loading...");
             timetaken.setText("Loading...");
-            int i = questionList.get(questionNumber).getCorrectOption();
+            int i = (int) questionList.get(questionNumber).getCorrectOption();
             switch (i) {
                 case 1:
                     option1.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
@@ -356,7 +357,7 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
                                 view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#696880")));
 
 
-                                int n = questionList.get(questionNumber).getCorrectOption();
+                                int n = (int) questionList.get(questionNumber).getCorrectOption();
                                 String ans = "";
 //                                int[] arr = new int[n];
 //                                for (int i = 0; i < n; i++)

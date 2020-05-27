@@ -3,13 +3,25 @@ package com.alphaCoaching.Utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.alphaCoaching.Constant.Constant;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class UserSharedPreferenceManager {
     private static final String QUIZ_TAKEN_STATUS = "quizTakenStatus";
     public static final String USER_DETAIL = "UserDetail";
+
+    public static interface userInfoFields {
+        public static final String USER_UUID =  "userUuid";
+        public static final String USER_FIRST_NAME =  "UserFirstName";
+        public static final String USER_LAST_NAME =  "UserLastName";
+        public static final String USER_STANDARD =  "UserStandard";
+        public static final String USER_DOB =  "dateOfBirth";
+        public static final String USER_EMAIL =  "UserEmail";
+    }
 
     public static void storeQuizTakenStatus(Context context, boolean status, String quizId) {
         if (context != null && quizId != null) {
@@ -30,29 +42,47 @@ public class UserSharedPreferenceManager {
     }
 
     private static SharedPreferences getSharedPreferences(Context context, String sharedPreferenceName) {
-        return context.getSharedPreferences(sharedPreferenceName, Context.MODE_PRIVATE);
+        return context.getSharedPreferences(sharedPreferenceName, MODE_PRIVATE);
     }
 
-    public static void storeUserDetail(Context context, String userFirstName, String userLastName, String standard, String dateOfBirth, String email) {
+    public static void storeUserDetail(Context context,String id, String userFirstName, String userLastName, String standard, String dateOfBirth, String email) {
         if (context != null) {
             SharedPreferences sharedPreferences = getSharedPreferences(context, USER_DETAIL);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("UserFirstName", userFirstName);
-            editor.putString("UserLastName", userLastName);
-            editor.putString("UserStandard", standard);
-            editor.putString("UserDateOfBirth", dateOfBirth);
-            editor.putString("UserEmail", email);
+            editor.putString(userInfoFields.USER_UUID, id);
+            editor.putString(userInfoFields.USER_FIRST_NAME, userFirstName);
+            editor.putString(userInfoFields.USER_LAST_NAME, userLastName);
+            editor.putString(userInfoFields.USER_STANDARD, standard);
+            editor.putString(userInfoFields.USER_DOB, dateOfBirth);
+            editor.putString(userInfoFields.USER_EMAIL, email);
             editor.apply();
         }
     }
 
-    public static String getUserStandard(Context context) {
-        FirebaseAuth fireAuth;
-        fireAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = fireAuth.getCurrentUser();
-        assert currentUser != null;
-        String user_Uuid = currentUser.getUid();
+    public static void storeUserField(Context context, String key, String value) {
+        if (context != null) {
+            SharedPreferences sharedPreferences = getSharedPreferences(context, USER_DETAIL);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(key, value);
+            editor.apply();
+        }
+    }
+
+    public static void removeUserData(Context context) {
+        SharedPreferences sharedPreferences = getSharedPreferences( context, USER_DETAIL);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+//        editor.remove(userInfoFields.USER_UUID);
+//        editor.remove(userInfoFields.USER_FIRST_NAME);
+//        editor.remove(userInfoFields.USER_LAST_NAME);
+//        editor.remove(userInfoFields.USER_STANDARD);
+//        editor.remove(userInfoFields.USER_DOB);
+//        editor.remove(userInfoFields.USER_EMAIL);
+        editor.apply();
+    }
+
+    public static String getUserInfo(Context context, String key) {
         SharedPreferences sharedPreferences = getSharedPreferences(context, USER_DETAIL);
-        return sharedPreferences.getString(user_Uuid, null);
+        return sharedPreferences.getString(key, null);
     }
 }
