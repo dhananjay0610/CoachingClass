@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.alphaCoaching.R;
 
 public class ScoreActivity extends AppCompatActivity {
-    private TextView score;
     Button button;
 
     @Override
@@ -18,7 +17,7 @@ public class ScoreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
 
-        score=findViewById(R.id.score);
+        TextView score = findViewById(R.id.score);
         String score_st=getIntent().getStringExtra("SCORE");
         score.setText(score_st);
 

@@ -1,5 +1,11 @@
 package com.alphaCoaching.activity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,16 +15,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
-
-import com.alphaCoaching.Utils.UserSharedPreferenceManager;
-import com.alphaCoaching.model.RecentLecturesModel;
 import com.alphaCoaching.R;
 import com.alphaCoaching.adapter.FireStoreAdapter;
+import com.alphaCoaching.model.RecentLecturesModel;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,7 +27,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-import static com.alphaCoaching.AlphaApplication.getAppContext;
 import static com.alphaCoaching.Utils.UserSharedPreferenceManager.USER_DETAIL;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FireStoreAdapter.OnListItemclick {
@@ -66,8 +64,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 DocumentSnapshot documentSnapshot = task1.getResult();
                 assert documentSnapshot != null;
                 if (documentSnapshot.exists()) {
-                    String standard=(String) documentSnapshot.get("standard");
-                   Log.d("MainActivity",standard+" ====== is the standard of the current user======");
+                    String standard = (String) documentSnapshot.get("standard");
+                    Log.d("MainActivity", standard + " is the standard of the current user");
                 }
             }
         });
@@ -92,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = new Intent(MainActivity.this, LectureActivity.class);
         //to send data to another activity
         intent.putExtra("date", snapshot.getLectureDate());
-        intent.putExtra("chaptername", snapshot.getChapterName());
+        intent.putExtra("chapterName", snapshot.getChapterName());
         intent.putExtra("subject", snapshot.getSubject());
         startActivity(intent);
     }
@@ -105,19 +103,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             loadQuizData();
         } else if (id == R.id.nav_home) {
             onBackPressed();
+        } else if (id == R.id.nav_userProfile) {
+            loadUserData();
         } else if (id == R.id.nav_logout) {
             fireAuth.signOut();
-            SharedPreferences sharedPreferences = getSharedPreferences( USER_DETAIL,MODE_PRIVATE);
+            SharedPreferences sharedPreferences = getSharedPreferences(USER_DETAIL, MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.remove("UserFirstName");
-            editor.remove("UserLastName");
+            editor.remove("sharedPreferences.getString(\"UserFirstName\",\"User DOB\")");
             editor.remove("UserStandard");
             editor.remove("UserDateOfBirth");
             editor.remove("UserEmail");
             editor.apply();
 
             Intent intent = new Intent(this, LoginActivity.class);
-          //  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
         }
@@ -125,11 +125,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    private void loadUserData() {
+        Intent i = new Intent(MainActivity.this, UserProfileActivity.class);
+        startActivity(i);
+    }
+
     private void loadQuizData() {
-        // Toast.makeText(this, "Into New Acivity", Toast.LENGTH_LONG).show();
         Intent i = new Intent(MainActivity.this, QuizDetailActivity.class);
         startActivity(i);
-       // finish();
+        // finish();
 //        Intent i=new Intent(MainActivity.this,QuizDetailActivity.class);
 //        startActivity(i);
 //        finish();
@@ -188,133 +192,3 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adapter.stopListening();
     }
 }
-
-//public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FireStoreAdapter.OnListItemclick {
-//    private DrawerLayout drawerLayout;
-//    private FirebaseAuth fireAuth;
-//    private FireStoreAdapter adapter;
-//
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        RecyclerView recyclerView = findViewById(R.id.recyclerview);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        FirebaseFirestore mFireBaseDB = FirebaseFirestore.getInstance();
-//        fireAuth = FirebaseAuth.getInstance();
-//        drawerLayout = findViewById(R.id.drawer_layout);
-//        NavigationView navigationView = findViewById(R.id.nav_view);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
-//                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawerLayout.addDrawerListener(toggle);
-//        toggle.syncState();
-//        navigationView.setNavigationItemSelectedListener(this);
-//
-//
-//        Query query = mFireBaseDB.collection("recentLectures")
-//                .orderBy("lectureDate", Query.Direction.ASCENDING);
-//
-//        //recycler options
-//        FirestoreRecyclerOptions<RecentLecturesModel> options = new FirestoreRecyclerOptions.Builder<RecentLecturesModel>()
-//                .setQuery(query, RecentLecturesModel.class)
-//                .build();
-//        adapter = new FireStoreAdapter(options, this);
-//
-//        //two methods are declared in the recentLectureModel
-//        recyclerView.setAdapter(adapter);
-//    }
-//
-//    @Override
-//    public void onItemclick(RecentLecturesModel snapshot, int position) {
-//        Intent intent = new Intent(MainActivity.this, LectureActivity.class);
-//        //to send data to another activity
-//        intent.putExtra("date", snapshot.getLectureDate());
-//        intent.putExtra("chaptername", snapshot.getChapterName());
-//        intent.putExtra("subject", snapshot.getSubject());
-//        startActivity(intent);
-//    }
-//
-//
-//    @Override
-//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//        int id = item.getItemId();
-//        if (id == R.id.nav_quiz) {
-//            loadQuizData();
-//        } else if (id == R.id.nav_home) {
-//            onBackPressed();
-//        } else if (id == R.id.nav_logout) {
-//            fireAuth.signOut();
-//            Intent intent = new Intent(this, LoginActivity.class);
-//          //  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//            startActivity(intent);
-//            finish();
-//        }
-//        drawerLayout.closeDrawer(GravityCompat.START);
-//        return true;
-//    }
-//
-//    private void loadQuizData() {
-//        // Toast.makeText(this, "Into New Acivity", Toast.LENGTH_LONG).show();
-//        Intent i = new Intent(MainActivity.this, QuizDetailActivity.class);
-//        startActivity(i);
-//       // finish();
-////        Intent i=new Intent(MainActivity.this,QuizDetailActivity.class);
-////        startActivity(i);
-////        finish();
-//       /* catList.clear();
-//        firestore.collection("quiz").
-//                get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//            @Override
-//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//                for (QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots) {
-//                    Note note=documentSnapshot.toObject(Note.class);
-//                    note.setDocumentId(documentSnapshot.getId());
-//                    documentId=note.getDocumentId();
-//                    String quizNam=note.getQuizName();
-//                    String questionNum= String.valueOf(note.getQuestionNumber());
-//                    String quizTime= String.valueOf(note.getQuizTime());
-//                    catList.add("quizName=  "+quizNam+"\n questionNumber=  "+questionNum+"\n quizTime=  "+quizTime);
-//                    catList2.add(documentId);
-//                }
-//            }
-//        });*/
-//    }
-//
-//    @Override
-//    public void onBackPressed() {
-//        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-//            drawerLayout.closeDrawer(GravityCompat.START);
-//        } else {
-//            super.onBackPressed();
-//        }
-//    }
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//    }
-//
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//    }
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//    }
-//
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        adapter.startListening();
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        adapter.stopListening();
-//    }
-//}

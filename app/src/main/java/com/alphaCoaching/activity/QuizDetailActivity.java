@@ -27,7 +27,7 @@ public class QuizDetailActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private NoteAdapter adapter;
     FirebaseAuth fireAuth;
-    String finalQuiztakenid;
+    String finalQuizTakenId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class QuizDetailActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbarOfQuizActivity);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Quizes");
+        getSupportActionBar().setTitle("Quiz");
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         Query query = db.collection("quiz");
@@ -71,16 +71,15 @@ public class QuizDetailActivity extends AppCompatActivity {
                     assert totalscore != null;
                     if (score.isEmpty() || totalscore.isEmpty()) {
                         //  Note note = documentSnapshot.toObject(Note.class);
-                        long timequiz = (long) documentSnapshot.get("quizTime");
-                        // String path = documentSnapshot.getReference().getPath();
+                        long timeQuiz = (long) documentSnapshot.get("quizTime");
                         Intent i = new Intent(QuizDetailActivity.this, QuestionDetailActivity.class);
                         i.putExtra("docID", id);
-                        i.putExtra("quizTime", timequiz);
+                        i.putExtra("quizTime", timeQuiz);
                         startActivity(i);
                     } else {
-                        Toast.makeText(QuizDetailActivity.this, "Already appeared for this test..........", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(QuizDetailActivity.this, "Already appeared for this test", Toast.LENGTH_SHORT).show();
 
-                        finalQuiztakenid = quiztakenid;
+                        finalQuizTakenId = quiztakenid;
                     }
                 }
             });
@@ -111,13 +110,12 @@ public class QuizDetailActivity extends AppCompatActivity {
                     if (score.isEmpty() || totalscore.isEmpty()) {
                         Toast.makeText(QuizDetailActivity.this, "Not Appeared for this test", Toast.LENGTH_SHORT).show();
                     } else {
-                        finalQuiztakenid = quiztakenid;
+                        finalQuizTakenId = quiztakenid;
                         Intent i = new Intent(QuizDetailActivity.this, QuestionReview.class);
                         i.putExtra("QuizId", documentSnapshot.getId());
-                        i.putExtra("quickened", finalQuiztakenid);
+                        i.putExtra("quickened", finalQuizTakenId);
                         startActivity(i);
-                        Log.d("QuizDetailActivity", "quiztaken id and quizid is : " + finalQuiztakenid + "  " + documentSnapshot.getId());
-                        // Toast.makeText(QuizDetailActivity.this, "Quiz Id : " + documentSnapshot.getId(), Toast.LENGTH_LONG).show();
+                        Log.d("QuizDetailActivity", "quiz Taken id and quizId is : " + finalQuizTakenId + "  " + documentSnapshot.getId());
                     }
                 }
             });

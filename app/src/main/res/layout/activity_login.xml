@@ -8,18 +8,6 @@
     android:background="@drawable/back_bg"
     android:animateLayoutChanges="true">
 
-    <!--     <TextView-->
-    <!--         android:layout_width="wrap_content"-->
-    <!--         android:layout_height="wrap_content"-->
-    <!--         android:layout_above="@+id/rellay"-->
-    <!--         android:layout_marginStart="50dp"-->
-    <!--         android:fontFamily="@font/akronim"-->
-    <!--         android:text="@string/alpha"-->
-    <!--         android:textAllCaps="true"-->
-    <!--         android:textColor="#013D45"-->
-    <!--         android:textSize="25sp"-->
-    <!--         android:textStyle="bold" />-->
-
     <RelativeLayout
         android:id="@+id/rellay"
         android:layout_width="wrap_content"
