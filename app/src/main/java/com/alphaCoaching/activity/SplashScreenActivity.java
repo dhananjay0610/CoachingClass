@@ -18,8 +18,6 @@ public class SplashScreenActivity extends Activity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Access a Cloud Firestore instance from your Activity
-        //FirebaseFirestore mFireBaseDB = FirebaseFirestore.getInstance();
         fireAuth = FirebaseAuth.getInstance();
         Log.d(TAG, "onCreate: ");
         // Toast.makeText(getApplication(), "Into the splashscreen", Toast.LENGTH_SHORT).show();

@@ -78,4 +78,6 @@ dependencies {
 
     //for tab layout
     implementation 'com.google.android.material:material:1.2.0-alpha03'
+    //for cirlce image view
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }

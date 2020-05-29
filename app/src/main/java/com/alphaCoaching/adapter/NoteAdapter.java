@@ -29,7 +29,6 @@ import static com.alphaCoaching.AlphaApplication.getAppContext;
 public class NoteAdapter extends FirestoreRecyclerAdapter<Note, NoteAdapter.NoteHolder> {
     private OnItemClickListener listener;
     private MyAdapterListener onClickListener;
-    // FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public NoteAdapter(@NonNull FirestoreRecyclerOptions<Note> options) {
         super(options);

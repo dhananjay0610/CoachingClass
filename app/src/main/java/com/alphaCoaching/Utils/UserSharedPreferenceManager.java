@@ -45,7 +45,12 @@ public class UserSharedPreferenceManager {
             editor.apply();
         }
     }
-
+    public static void removeUserData(Context context) {
+        SharedPreferences sharedPreferences = getSharedPreferences( context, USER_DETAIL);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+    }
     public static String getUserStandard(Context context) {
         FirebaseAuth fireAuth;
         fireAuth = FirebaseAuth.getInstance();

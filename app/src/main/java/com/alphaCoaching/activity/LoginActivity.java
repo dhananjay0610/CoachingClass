@@ -65,25 +65,25 @@ public class LoginActivity extends AppCompatActivity {
         final String sEmail = email.getText().toString().trim();
         final String sPassword = password.getText().toString().trim();
         if (sEmail.isEmpty()) {
-            email.setError("Email Required bro!!");
+            email.setError("Email Required");
             email.requestFocus();
             mLoginBtn.startMorphRevertAnimation();
             return;
         }
         if (!Patterns.EMAIL_ADDRESS.matcher(sEmail).matches()) {
-            email.setError("Enter a Valid Email buddy!!");
+            email.setError("Enter a Valid Email ");
             email.requestFocus();
             mLoginBtn.startMorphRevertAnimation();
             return;
         }
         if (sPassword.isEmpty()) {
-            password.setError("Don't you know !! \nPassword is Required ");
+            password.setError("Password is Required ");
             password.requestFocus();
             mLoginBtn.startMorphRevertAnimation();
             return;
         }
         if (sPassword.length() < 6) {
-            password.setError("Sorry but  \npassword should be at least 6 character");
+            password.setError("password should be at least 6 character");
             password.requestFocus();
             mLoginBtn.startMorphRevertAnimation();
             return;
@@ -137,91 +137,3 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 }
-//public class LoginActivity extends AppCompatActivity {
-//    RelativeLayout mLoginLayout;
-//    RelativeLayout mForgotPass;
-//    EditText email;
-//    EditText password;
-//    FirebaseAuth fireAuth;
-//    Handler handler = new Handler();
-//    FirebaseFirestore mFireBaseDB;
-//    CircularProgressButton mLoginBtn;
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_login);
-//        mLoginLayout = findViewById(R.id.loginScreen);
-//        mForgotPass = findViewById(R.id.forgotPass);
-//        email = findViewById(R.id.username);
-//        password = findViewById(R.id.pass);
-//        mLoginBtn = findViewById(R.id.loginButton);
-//
-//        handler.postDelayed(() -> {
-//            mLoginLayout.setVisibility(View.VISIBLE);
-//            mForgotPass.setVisibility(View.VISIBLE);
-//        }, 3000);
-//
-//        fireAuth = FirebaseAuth.getInstance();
-//        mLoginBtn.setOnClickListener(v -> userLogin());
-//
-//    }
-//
-//    /**
-//     * Function used to authenticate the user input.
-//     */
-//    private void userLogin() {
-//        mLoginBtn.startMorphAnimation();
-//        final String sEmail = email.getText().toString().trim();
-//        final String sPassword = password.getText().toString().trim();
-//        if (sEmail.isEmpty()) {
-//            email.setError("Email Required bro!!");
-//            email.requestFocus();
-//            mLoginBtn.startMorphRevertAnimation();
-//            return;
-//        }
-//        if (!Patterns.EMAIL_ADDRESS.matcher(sEmail).matches()) {
-//            email.setError("Enter a Valid Email buddy!!");
-//            email.requestFocus();
-//            mLoginBtn.startMorphRevertAnimation();
-//            return;
-//        }
-//        if (sPassword.isEmpty()) {
-//            password.setError("Don't you know !! \nPassword is Required ");
-//            password.requestFocus();
-//            mLoginBtn.startMorphRevertAnimation();
-//            return;
-//        }
-//        if (sPassword.length() < 6) {
-//            password.setError("Sorry but  \npassword should be at least 6 character");
-//            password.requestFocus();
-//            mLoginBtn.startMorphRevertAnimation();
-//            return;
-//        }
-//        fireAuth.signInWithEmailAndPassword(sEmail, sPassword).addOnCompleteListener(task -> {
-//            if (task.isSuccessful()) {
-//
-//
-//                mFireBaseDB = FirebaseFirestore.getInstance();
-//
-//                Intent intent1 = new Intent(LoginActivity.this, MainActivity.class);
-//                startActivity(intent1);
-//                Thread thread = new Thread(() -> {
-//                    try {
-//                        Thread.sleep(3700);
-//                        Intent intent11 = new Intent(LoginActivity.this, MainActivity.class);
-//                        startActivity(intent11);
-//                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-//                        finish();
-//                        mLoginBtn.dispose();
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                });
-//            } else {
-//                mLoginBtn.startMorphRevertAnimation();
-//                Toast.makeText(getApplicationContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
-//}
