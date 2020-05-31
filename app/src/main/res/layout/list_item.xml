@@ -37,6 +37,7 @@
                 android:layout_gravity="end"
                 android:layout_marginTop="5dp"
                 android:gravity="end"
+                android:paddingStart="5dp"
                 android:paddingEnd="5dp"
                 android:text="2 April"
                 android:textAlignment="textEnd"

@@ -13,13 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.alphaCoaching.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -33,20 +30,16 @@ import java.util.List;
 import java.util.Objects;
 
 public class QuestionReview extends AppCompatActivity implements View.OnClickListener {
-    private TextView question, qCount, timetaken, averagetime, TotalScore;
+    private TextView question, qCount, TimeTaken, AverageTime, TotalScore;
     private Button option1, option2, option3, option4;
     private List<Question> questionList;
     private int questionNumber;
-    private FirebaseFirestore firestore;
+    private FirebaseFirestore FireStore;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    // FirebaseAuth fireAuth;
     private String score;
-//    ArrayList<Long> arr = new ArrayList<>();
-//    HashMap<Integer, Long> mp = new HashMap<>();
-
-    //Array needed to store data in order to add them in the database
     String[] QuestionId = new String[45];
     ImageView imageView;
+    String Loading = "Loading...";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,16 +60,14 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
         option4 = findViewById(R.id.option4Review);
         Button next = findViewById(R.id.nextReview);
         Button previous = findViewById(R.id.previousReview);
-        timetaken = findViewById(R.id.TimeTakenReview);
-        averagetime = findViewById(R.id.AverageTimeReview);
+        TimeTaken = findViewById(R.id.TimeTakenReview);
+        AverageTime = findViewById(R.id.AverageTimeReview);
         imageView = findViewById(R.id.imageViewForTick);
         TotalScore = findViewById(R.id.TotalScore);
         next.setOnClickListener(this);
         previous.setOnClickListener(this);
-        firestore = FirebaseFirestore.getInstance();
+        FireStore = FirebaseFirestore.getInstance();
         getQuestionsList();
-        // String docId = getIntent().getStringExtra("docID");
-        // String quizTakenId = getIntent().getStringExtra("quickened");
 
     }
 
@@ -88,7 +79,7 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
     private void getQuestionsList() {
         String docId = getIntent().getStringExtra("QuizId");
         questionList = new ArrayList<>();
-        firestore.collection("questions").whereEqualTo("quizID", docId)
+        FireStore.collection("questions").whereEqualTo("quizID", docId)
                 .get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 QuerySnapshot questions = task.getResult();
@@ -117,20 +108,17 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
         final String[] MaxScore = {null};
         assert quizTakenId != null;
         DocumentReference documentReference = db.collection("quizTaken").document(quizTakenId);
-        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot documentSnapshot = task.getResult();
-                    assert documentSnapshot != null;
-                    if (documentSnapshot.exists()) {
-                        score = (String) documentSnapshot.get("score");
-                        MaxScore[0] = (String) documentSnapshot.get("TotalScore");
-                        Log.d("QuestionReview", "the score is " + score + "   " + documentSnapshot.get("score"));
-                    }
-                    Log.d("QuestionReview", "Max Score is : " + MaxScore[0]);
-                    TotalScore.setText("Score : " + (score) + "/" + MaxScore[0]);
+        documentReference.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot documentSnapshot = task.getResult();
+                assert documentSnapshot != null;
+                if (documentSnapshot.exists()) {
+                    score = (String) documentSnapshot.get("score");
+                    MaxScore[0] = (String) documentSnapshot.get("TotalScore");
+                    Log.d("QuestionReview", "the score is " + score + "   " + documentSnapshot.get("score"));
                 }
+                Log.d("QuestionReview", "Max Score is : " + MaxScore[0]);
+                TotalScore.setText("Score : " + (score) + "/" + MaxScore[0]);
             }
         });
 
@@ -184,21 +172,18 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
                 DocumentSnapshot documentSnapshot = task.getResult();
                 assert documentSnapshot != null;
                 if (documentSnapshot.exists()) {
-                    averagetime.setText("Average : " + documentSnapshot.get("time"));
+                    AverageTime.setText("Average : " + documentSnapshot.get("time"));
                     // score = (String) documentSnapshot.get("score");
                     Log.d("QuestionReview", "Average Time is :  " + documentSnapshot.get("time"));
                 }
             }
         });
-
-        //
-
-        String questionid = questionList.get(questionNumber).getQuestionId();
+      //  String questionId = questionList.get(questionNumber).getQuestionId();
         String quizTakenId = getIntent().getStringExtra("quickened");
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
         CollectionReference yourCollRef = rootRef.collection("quizTakenQuestions");
         Query query = yourCollRef.whereEqualTo("quizTakenId", quizTakenId)
-                .whereEqualTo("questionId", questionid);
+                .whereEqualTo("questionId", questionList.get(questionNumber).getQuestionId());
         final Object[] AttemptedAnswer = {null};
         final Object[] timeTaken = {""};
         String finalAns = ans;
@@ -211,13 +196,14 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
                     Log.d("QuestionReview", timeTaken[0] + "  Attempted ans is : " + AttemptedAnswer[0] + "document snapshot get " + documentSnapshot.get("attemptedAnswer"));
 
                 }
-                timetaken.setText("Time : " + timeTaken[0]);
-                Log.d("QuestionReview", timeTaken[0] + "  ------   " + AttemptedAnswer[0] + "  ------   ");
+
+                TimeTaken.setText("Time : " + timeTaken[0]);
+                Log.d("QuestionReview", timeTaken[0] + " "+ AttemptedAnswer[0] );
                 if (AttemptedAnswer[0] == null) {
                     Toast.makeText(QuestionReview.this, "Not attempted any answer", Toast.LENGTH_SHORT).show();
                     imageView.setImageResource(R.drawable.ic_close_black_24dp);
                 } else {
-                    Log.d("QuestionReview", "------" + finalAns + "  " + AttemptedAnswer[0]);
+                    Log.d("QuestionReview",  finalAns + "  " + AttemptedAnswer[0]);
 
                     if (AttemptedAnswer[0].equals(finalAns)) {
                         imageView.setImageResource(R.drawable.ic_done_black_24dp);
@@ -250,15 +236,16 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
             playAnim(option3, 0, 3);
             playAnim(option4, 0, 4);
 
-            qCount.setText((questionNumber + 1) + "/" + (questionList.size()));
+            String count = (questionNumber + 1) + "/" + (questionList.size());
+            qCount.setText(count);
 
             option1.setEnabled(true);
             option2.setEnabled(true);
             option3.setEnabled(true);
             option4.setEnabled(true);
             imageView.setImageResource(R.drawable.ic_autorenew_black_24dp);
-            averagetime.setText("Loading...");
-            timetaken.setText("Loading...");
+            AverageTime.setText(Loading);
+            TimeTaken.setText(Loading);
         }
     }
 
@@ -272,15 +259,16 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
             playAnim(option3, 0, 3);
             playAnim(option4, 0, 4);
 
-            qCount.setText((questionNumber + 1) + "/" + (questionList.size()));
+            String count = (questionNumber + 1) + "/" + (questionList.size());
+            qCount.setText(count);
 
             option1.setEnabled(true);
             option2.setEnabled(true);
             option3.setEnabled(true);
             option4.setEnabled(true);
             imageView.setImageResource(R.drawable.ic_autorenew_black_24dp);
-            averagetime.setText("Loading...");
-            timetaken.setText("Loading...");
+            AverageTime.setText(Loading);
+            TimeTaken.setText(Loading);
             int i = (int) questionList.get(questionNumber).getCorrectOption();
             switch (i) {
                 case 1:
@@ -297,10 +285,6 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
                     break;
             }
         } else {
-            //boolean examend = true;
-            // Go to Score Activity
-
-            // String questionid = questionList.get(0).getQuestionId();
             String quizTakenId = getIntent().getStringExtra("quickened");
             assert quizTakenId != null;
             DocumentReference documentReference = db.collection("quizTaken").document(quizTakenId);
@@ -359,10 +343,6 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
 
                                 int n = (int) questionList.get(questionNumber).getCorrectOption();
                                 String ans = "";
-//                                int[] arr = new int[n];
-//                                for (int i = 0; i < n; i++)
-//                                    arr[i] = 0;
-//                                arr[n - 1] = 1;
                                 switch (n) {
                                     case 1:
                                         ans = (questionList.get(questionNumber).getOptionA());
@@ -390,18 +370,19 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
                                         DocumentSnapshot documentSnapshot = task.getResult();
                                         assert documentSnapshot != null;
                                         if (documentSnapshot.exists()) {
-                                            averagetime.setText("Average : " + documentSnapshot.get("time"));
+                                            String average = "Average : " + documentSnapshot.get("time");
+                                            AverageTime.setText(average);
                                             // score = (String) documentSnapshot.get("score");
-                                            Log.d("QuestionReview", "averagetime is :  " + documentSnapshot.get("time"));
+                                            Log.d("QuestionReview", "averageTime is :  " + documentSnapshot.get("time"));
                                         }
                                     }
                                 });
-                                String questionid = questionList.get(questionNumber).getQuestionId();
+                                String questionId = questionList.get(questionNumber).getQuestionId();
                                 String quizTakenId = getIntent().getStringExtra("quickened");
                                 FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
                                 CollectionReference yourCollRef = rootRef.collection("quizTakenQuestions");
                                 Query query = yourCollRef.whereEqualTo("quizTakenId", quizTakenId)
-                                        .whereEqualTo("questionId", questionid);
+                                        .whereEqualTo("questionId", questionId);
                                 final Object[] AttemptedAnswer = {null};
                                 final Object[] timeTaken = {""};
                                 String finalAns = ans;
@@ -414,14 +395,12 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
                                             Log.d("QuestionReview", timeTaken[0] + "  Attempted ans is : " + AttemptedAnswer[0] + "document snapshot get " + documentSnapshot.get("attemptedAnswer"));
 
                                         }
-                                        timetaken.setText("Time : " + timeTaken[0]);
-                                        // Log.d("QuestionReview", timeTaken[0] + "  ------   " + AttemptedAnswer[0] + "  ------   ");
+                                        String time = "Time : " + timeTaken[0];
+                                        TimeTaken.setText(time);
                                         if (AttemptedAnswer[0] == null) {
                                             Toast.makeText(QuestionReview.this, "Not attempted any answer", Toast.LENGTH_SHORT).show();
                                             imageView.setImageResource(R.drawable.ic_close_black_24dp);
                                         } else {
-                                            //  Log.d("QuestionReview", "------" + finalAns + "  " + AttemptedAnswer[0]);
-
                                             if (AttemptedAnswer[0].equals(finalAns)) {
                                                 imageView.setImageResource(R.drawable.ic_done_black_24dp);
                                             } else {

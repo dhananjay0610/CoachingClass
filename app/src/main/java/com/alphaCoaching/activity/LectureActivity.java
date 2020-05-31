@@ -29,9 +29,9 @@ import java.util.Objects;
 
 public class LectureActivity extends AppCompatActivity {
     FirebaseFirestore mFireBaseDB;
-    TextView textViewdescription;
-    TextView textViewchapter;
-    TextView textViewpdfurl;
+    TextView textViewDescription;
+    TextView textViewChapter;
+    TextView textViewPdfUrl;
     private static final int PICK_PDF_CODE = 1000;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -44,36 +44,36 @@ public class LectureActivity extends AppCompatActivity {
 
         mFireBaseDB = FirebaseFirestore.getInstance();
 
-        textViewdescription = findViewById(R.id.textviewdescription);
-        textViewchapter = findViewById(R.id.textviewchapter);
-        textViewpdfurl = findViewById(R.id.textViewpdfurl);
+        textViewDescription = findViewById(R.id.textviewdescription);
+        textViewChapter = findViewById(R.id.textviewchapter);
+        textViewPdfUrl = findViewById(R.id.textViewpdfurl);
 
         //getting data from mainActivity
         Intent intent = getIntent();
-        String chaptername = intent.getStringExtra("chaptername");
+        String chapterName = intent.getStringExtra("chapterName");
         String subject = intent.getStringExtra("subject");
-        textViewchapter.setText(chaptername);
+        textViewChapter.setText(chapterName);
         getSupportActionBar().setTitle("");
 
         //for url
         final String[] url = {""};
-        String urlname = "pdf 1";
+        String urlName = "pdf 1";
 
-        //fetching data from firestore
+        //fetching data from FireStore
         mFireBaseDB.collection("recentLectures")
-                .whereEqualTo("chapterName", chaptername)
+                .whereEqualTo("chapterName", chapterName)
                 .whereEqualTo("subject", subject)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot snapshot : Objects.requireNonNull(task.getResult())) {
                             Log.d("LectureActivity", snapshot.getId() + " :" + snapshot.getData());
-                            textViewdescription.setText(snapshot.getString("description"));
+                            textViewDescription.setText(snapshot.getString("description"));
 
                             if (snapshot.getString("UrlName") == null) {
-                                textViewpdfurl.setText(urlname);
+                                textViewPdfUrl.setText(urlName);
                             } else {
-                                textViewpdfurl.setText(snapshot.getString("UrlName"));
+                                textViewPdfUrl.setText(snapshot.getString("UrlName"));
                             }
                             url[0] += (snapshot.getString("url"));
                         }
@@ -104,7 +104,7 @@ public class LectureActivity extends AppCompatActivity {
                 })
                 .check();
 
-        textViewpdfurl.setOnClickListener(view -> {
+        textViewPdfUrl.setOnClickListener(view -> {
             Intent intent1 = new Intent(LectureActivity.this, PdfViewActivity.class);
             intent1.putExtra("Viewtype", "internet");
             intent1.putExtra("url", "" + url[0]);
@@ -116,11 +116,11 @@ public class LectureActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_PDF_CODE && resultCode == RESULT_OK && data != null) {
-            Uri selectedpdf = data.getData();
+            Uri selectedPdf = data.getData();
             Intent intent = new Intent(LectureActivity.this, PdfViewActivity.class);
             intent.putExtra("Viewtype", "storage");
-            assert selectedpdf != null;
-            intent.putExtra("FileUri", selectedpdf.toString());
+            assert selectedPdf != null;
+            intent.putExtra("FileUri", selectedPdf.toString());
             startActivity(intent);
         }
     }

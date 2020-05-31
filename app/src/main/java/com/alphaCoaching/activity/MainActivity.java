@@ -30,7 +30,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-
 import static com.alphaCoaching.Utils.UserSharedPreferenceManager.USER_DETAIL;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FireStoreAdapter.OnListItemclick {
@@ -109,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = new Intent(MainActivity.this, LectureActivity.class);
         //to send data to another activity
         intent.putExtra("date", snapshot.getLectureDate());
-        intent.putExtra("chaptername", snapshot.getChapterName());
+        intent.putExtra("chapterName", snapshot.getChapterName());
         intent.putExtra("subject", snapshot.getSubject());
         startActivity(intent);
     }
@@ -122,6 +121,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             loadQuizData();
         } else if (id == R.id.nav_home) {
             onBackPressed();
+        } else if (id == R.id.nav_userProfile) {
+            loadUserData();
         } else if (id == R.id.nav_logout) {
             fireAuth.signOut();
             UserSharedPreferenceManager.removeUserData(getApplicationContext());
@@ -132,6 +133,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void loadUserData() {
+        Intent i = new Intent(MainActivity.this, UserProfileActivity.class);
+        startActivity(i);
     }
 
     private void loadQuizData() {

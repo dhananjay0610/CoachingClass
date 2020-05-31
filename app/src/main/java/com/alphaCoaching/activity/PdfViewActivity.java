@@ -168,7 +168,7 @@ public class PdfViewActivity extends AppCompatActivity {
                             });
                 }
             } else {
-                TextUtils.isEmpty(ViewType);
+                TextUtils.isEmpty(null);
             }
         }
     }

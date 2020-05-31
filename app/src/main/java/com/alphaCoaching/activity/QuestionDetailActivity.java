@@ -25,7 +25,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -74,11 +73,9 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
         quizId = bundle.getString("docID");
         quizTime = Long.parseLong(bundle.get("quizTime").toString());
 
-
         question = findViewById(R.id.question);
         qCount = findViewById(R.id.quesNum);
         timer = findViewById(R.id.countDown);
-
         option1 = findViewById(R.id.option1);
         option2 = findViewById(R.id.option2);
         option3 = findViewById(R.id.option3);
@@ -106,8 +103,6 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
     //method to get current time
     public long getCurrentTime() {
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat formate = new SimpleDateFormat("HH:mm:ss");
-        //String date = formate.format(calendar.getTime());
         return calendar.getTimeInMillis() / 1000;
     }
 
@@ -286,9 +281,7 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
 
         questionStartTime = getCurrentTime();
         if (questionNumber < questionList.size() - 1) {
-
             questionNumber++;
-
             playAnim(question, 0, 0);
             playAnim(option1, 0, 1);
             playAnim(option2, 0, 2);
@@ -303,8 +296,6 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
             option2.setEnabled(true);
             option3.setEnabled(true);
             option4.setEnabled(true);
-
-
         } else {
             isExamEnd = true;
 
