@@ -1,12 +1,14 @@
 package com.alphaCoaching.activity;
 
 public class Question {
+    private String id;
     private String question;
     private String optionA, optionB, optionC, optionD;
-    private int correctOption;
+    private long correctOption;
     private String QuestionId;
 
-    public Question(String question, String optionA, String optionB, String optionC, String optionD, int correctOption, String questionId) {
+    public Question(String id, String question, String optionA, String optionB, String optionC, String optionD, long correctOption, String questionId) {
+        this.id = id;
         this.question = question;
         this.optionA = optionA;
         this.optionB = optionB;
@@ -16,7 +18,15 @@ public class Question {
         this.QuestionId = questionId;
     }
 
-    String getQuestion() {
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getQuestion() {
         return question;
     }
 
@@ -24,7 +34,7 @@ public class Question {
         this.question = question;
     }
 
-    String getQuestionId() {
+    public String getQuestionId() {
         return QuestionId;
     }
 
@@ -32,7 +42,7 @@ public class Question {
         this.QuestionId = question;
     }
 
-    String getOptionA() {
+    public String getOptionA() {
         return optionA;
     }
 
@@ -40,7 +50,7 @@ public class Question {
         this.optionA = optionA;
     }
 
-    String getOptionB() {
+    public String getOptionB() {
         return optionB;
     }
 
@@ -48,7 +58,7 @@ public class Question {
         this.optionB = optionB;
     }
 
-    String getOptionC() {
+    public String getOptionC() {
         return optionC;
     }
 
@@ -56,7 +66,7 @@ public class Question {
         this.optionC = optionC;
     }
 
-    String getOptionD() {
+    public String getOptionD() {
         return optionD;
     }
 
@@ -64,7 +74,7 @@ public class Question {
         this.optionD = optionD;
     }
 
-    int getCorrectOption() {
+    public long getCorrectOption() {
         return correctOption;
     }
 

@@ -10,17 +10,17 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.alphaCoaching.Constant.Constant;
 import com.alphaCoaching.R;
+import com.alphaCoaching.Utils.UserSharedPreferenceManager;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -40,33 +40,38 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
     private Button option1, option2, option3, option4;
     private List<Question> questionList;
     private int questionNumber;
-    private FirebaseFirestore firebaseFirestore;
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    FirebaseAuth fireAuth;
-    private int score;
-    ArrayList<Long> arr = new ArrayList<>();
-    HashMap<Integer, Long> mp = new HashMap<>();
+    private FirebaseFirestore firestore;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseAuth fireAuth;
+    private int quizScore;
+    private String quizId;
+    private Long quizTime;
+    private Button next, previous;
+    private Toolbar toolbar;
+    private ProgressBar mProgressBar;
+    private ArrayList<Long> arr = new ArrayList<>();
+    private HashMap<Integer, Long> timeTalken = new HashMap<>();
 
     //Array needed to store data in order to add them in the database
-    String[] QuestionId = new String[45];
-    String[] attemptedAnswer = new String[45];
-    long[] TimeTaken = new long[45];
-    //    int i = 0;
-    Boolean examEnd = false;
-    long startTime;
-    long endTime;
+    private ArrayList<String> attemptedAnswers = new ArrayList<>();
+    private Boolean isExamEnd = false;
+    private long questionStartTime;
+    private long questionEndTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_detail);
-        score = 0;
+        quizScore = 0;
         for (int i = 0; i < 100; i++)
             arr.add((long) 0);
 
-        Toolbar toolbar = findViewById(R.id.ToolbarOfQuestionDetailActivity);
+        toolbar = findViewById(R.id.ToolbarOfQuestionDetailActivity);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        Bundle bundle = getIntent().getExtras();
+        quizId = bundle.getString("docID");
+        quizTime = Long.parseLong(bundle.get("quizTime").toString());
 
         question = findViewById(R.id.question);
         qCount = findViewById(R.id.quesNum);
@@ -75,15 +80,18 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
         option2 = findViewById(R.id.option2);
         option3 = findViewById(R.id.option3);
         option4 = findViewById(R.id.option4);
-        Button next = findViewById(R.id.next);
-        Button previous = findViewById(R.id.previous);
+        next = findViewById(R.id.next);
+        previous = findViewById(R.id.previous);
+        mProgressBar = findViewById(R.id.progressbar);
+
         option1.setOnClickListener(this);
         option2.setOnClickListener(this);
         option3.setOnClickListener(this);
         option4.setOnClickListener(this);
         next.setOnClickListener(this);
         previous.setOnClickListener(this);
-        firebaseFirestore = FirebaseFirestore.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+
         getQuestionsList();
     }
 
@@ -95,30 +103,28 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
     //method to get current time
     public long getCurrentTime() {
         Calendar calendar = Calendar.getInstance();
-        //    SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
         return calendar.getTimeInMillis() / 1000;
     }
 
     private void getQuestionsList() {
-        String docId = getIntent().getStringExtra("docID");
+//        String docId = getIntent().getStringExtra("docID");
+        mProgressBar.setVisibility(View.VISIBLE);
         questionList = new ArrayList<>();
-        firebaseFirestore.collection("questions").whereEqualTo("quizID", docId)
+        firestore.collection(Constant.QUESTION_COLLECTION)
+                .whereEqualTo(Constant.QuestionCollectionFields.QUIZ_ID, quizId)
                 .get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 QuerySnapshot questions = task.getResult();
                 assert questions != null;
-                int i = 0;
                 for (QueryDocumentSnapshot doc : questions) {
-                    Log.d("QuestionActivity", "document id" + doc.getId());
-                    QuestionId[i] = doc.getId();
-                    i++;
-                    questionList.add(new Question(doc.getString("question"),
-                            doc.getString("option1"),
-                            doc.getString("option2"),
-                            doc.getString("option3"),
-                            doc.getString("option4"),
-                            Integer.parseInt(Objects.requireNonNull(doc.getString("correctOption")))
-                            , doc.getId()
+                    questionList.add(new Question(doc.getId(),
+                            doc.getString(Constant.QuestionCollectionFields.QUESTION),
+                            doc.getString(Constant.QuestionCollectionFields.OPTION_1),
+                            doc.getString(Constant.QuestionCollectionFields.OPTION_2),
+                            doc.getString(Constant.QuestionCollectionFields.OPTION_3),
+                            doc.getString(Constant.QuestionCollectionFields.OPTION_4),
+                            doc.getLong(Constant.QuestionCollectionFields.CORRECT_OPTION),
+                            doc.getId()
                     ));
                 }
                 if (questionList.size() == 0) {
@@ -134,121 +140,123 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
     }
 
     private void setQuestion() {
-        long quizTime = getIntent().getLongExtra("quizTime", 2000);
-        timer.setText("Time: " + (quizTime));
-        question.setText(questionList.get(0).getQuestion());
-        option1.setText(questionList.get(0).getOptionA());
-        option2.setText(questionList.get(0).getOptionB());
-        option3.setText(questionList.get(0).getOptionC());
-        option4.setText(questionList.get(0).getOptionD());
-        qCount.setText((1) + "/" + (questionList.size()));
-        startTimer();
-        startTime = getCurrentTime();
-        questionNumber = 0;
+        if (questionList.isEmpty()) {
+            mProgressBar.setVisibility(View.GONE);
+            Toast.makeText(getAppContext(), "Question list is empty in this quiz.", Toast.LENGTH_LONG).show();
+            QuestionDetailActivity.this.finish();
+        } else {
+            timer.setText("Time: " + (quizTime));
+            question.setText(questionList.get(0).getQuestion());
+            option1.setText(questionList.get(0).getOptionA());
+            option2.setText(questionList.get(0).getOptionB());
+            option3.setText(questionList.get(0).getOptionC());
+            option4.setText(questionList.get(0).getOptionD());
+            qCount.setText((1) + "/" + (questionList.size()));
+            startTimer();
+            questionStartTime = getCurrentTime();
+            questionNumber = 0;
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
     }
 
     private void startTimer() {
         // int ans = 0;
-        long quizTime = getIntent().getLongExtra("quizTime", 2000);
-        final long[] mTimeLeftInMillis = {quizTime * 60000};
-        CountDownTimer countDownPerQuiz = new CountDownTimer(mTimeLeftInMillis[0], 1000) {
+//        long quizTime = getIntent().getLongExtra("quizTime", 2000);
+        final long[] mTimeleftinmillis = {quizTime * 60000};
+        CountDownTimer countDownperquiz = new CountDownTimer(mTimeleftinmillis[0], 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                mTimeLeftInMillis[0] = millisUntilFinished;
-                int minutes = (int) (mTimeLeftInMillis[0] / 1000) / 60;
-                int seconds = (int) (mTimeLeftInMillis[0] / 1000) % 60;
+                mTimeleftinmillis[0] = millisUntilFinished;
+                int minutes = (int) (mTimeleftinmillis[0] / 1000) / 60;
+                int seconds = (int) (mTimeleftinmillis[0] / 1000) % 60;
                 String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
-                timer.setText("Time :- " + timeLeftFormatted);
+                timer.setText("Time : " + timeLeftFormatted);
             }
 
             @Override
             public void onFinish() {
                 //to check if exam has end
-                if (!examEnd) {
+                if (!isExamEnd) {
                     Intent intent = new Intent(QuestionDetailActivity.this, ScoreActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra("SCORE", (score) + "/" + (questionList.size()));
+                    intent.putExtra("SCORE", (quizScore) + "/" + (questionList.size()));
                     startActivity(intent);
                     QuestionDetailActivity.this.finish();
-                    examEnd = true;
+                    isExamEnd = true;
+                    // changeQuestion();
                 }
             }
         };
-        countDownPerQuiz.start();
+        countDownperquiz.start();
     }
 
     //variable to iterate over array TimeTaken ,AttemptedAnswer
-    int k = 0;
     int selectedOption = 0;
 
     @Override
     public void onClick(View v) {
         if (v.getId() == (R.id.next)) {
-            endTime = getCurrentTime();
-            arr.add(arr.get(questionNumber) + endTime - startTime);
-            if (mp.containsKey(questionNumber))
-                mp.put(questionNumber, mp.get(questionNumber) + endTime - startTime);
+            questionEndTime = getCurrentTime();
+            arr.add(arr.get(questionNumber) + questionEndTime - questionStartTime);
+            if (timeTalken.containsKey(questionNumber))
+                timeTalken.put(questionNumber, timeTalken.get(questionNumber) + questionEndTime - questionStartTime);
             else
-                mp.put(questionNumber, endTime - startTime);
-            Toast.makeText(this, "Time Taken: " + mp.get(questionNumber), Toast.LENGTH_SHORT).show();
-            TimeTaken[k] = mp.get(questionNumber);
-            checkAnswer(selectedOption);
-            String option = "";
-            if (selectedOption == 1)
-                option = (questionList.get(0).getOptionA());
-            else if (selectedOption == 2)
-                option = (questionList.get(0).getOptionB());
-            else if (selectedOption == 3)
-                option = (questionList.get(0).getOptionC());
-            else if (selectedOption == 4)
-                option = (questionList.get(0).getOptionD());
-            attemptedAnswer[k] = option;
-            k++;
-        }
-        if (v.getId() == R.id.previous) {
-            startTime = getCurrentTime();
-        }
-        if (v.getId() == R.id.option1) {
+                timeTalken.put(questionNumber, questionEndTime
+                        - questionStartTime);
+//            Toast.makeText(this, "Time Taken: " + timeTalken.get(questionNumber), Toast.LENGTH_SHORT).show();
+
+            if (attemptedAnswers.size() == questionNumber) {
+                if (selectedOption == 1)
+                    attemptedAnswers.add(questionNumber, questionList.get(questionNumber).getOptionA());
+                else if (selectedOption == 2)
+                    attemptedAnswers.add(questionNumber, questionList.get(questionNumber).getOptionB());
+                else if (selectedOption == 3)
+                    attemptedAnswers.add(questionNumber, questionList.get(questionNumber).getOptionC());
+                else if (selectedOption == 4)
+                    attemptedAnswers.add(questionNumber, questionList.get(questionNumber).getOptionD());
+            } else {
+                if (selectedOption == 1)
+                    attemptedAnswers.set(questionNumber, questionList.get(questionNumber).getOptionA());
+                else if (selectedOption == 2)
+                    attemptedAnswers.set(questionNumber, questionList.get(questionNumber).getOptionB());
+                else if (selectedOption == 3)
+                    attemptedAnswers.set(questionNumber, questionList.get(questionNumber).getOptionC());
+                else if (selectedOption == 4)
+                    attemptedAnswers.set(questionNumber, questionList.get(questionNumber).getOptionD());
+            }
+
+
+            nextQuestion();
+        } else if (v.getId() == R.id.option1) {
             selectedOption = 1;
             option1.setBackgroundTintList(ColorStateList.valueOf(Color.CYAN));
             option2.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
             option3.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
             option4.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
-        }
-        if (v.getId() == R.id.option2) {
+        } else if (v.getId() == R.id.option2) {
             selectedOption = 2;
             option2.setBackgroundTintList(ColorStateList.valueOf(Color.CYAN));
             option1.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
             option3.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
             option4.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
-        }
-        if (v.getId() == R.id.option3) {
+        } else if (v.getId() == R.id.option3) {
             selectedOption = 3;
             option3.setBackgroundTintList(ColorStateList.valueOf(Color.CYAN));
             option1.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
             option2.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
             option4.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
-        }
-        if (v.getId() == R.id.option4) {
+        } else if (v.getId() == R.id.option4) {
             selectedOption = 4;
             option4.setBackgroundTintList(ColorStateList.valueOf(Color.CYAN));
             option1.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
             option3.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
             option2.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
-
         } else if (v.getId() == R.id.previous) {
+            questionStartTime = getCurrentTime();
             previousQuestion();
-        } else if (v.getId() == R.id.next) {
-            changeQuestion();
         }
     }
 
-    private void checkAnswer(int selectedOption) {
-        if (selectedOption == questionList.get(questionNumber).getCorrectOption()) {
-            // view.setBackgroundTintList(ColorStateList.valueOf(Color.CYAN));
-            score++;
-        }
-    }
 
     private void previousQuestion() {
         if (questionNumber != 0) {
@@ -261,7 +269,7 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
 
             qCount.setText((questionNumber + 1) + "/" + (questionList.size()));
 
-            timer.setText("Time:- " + (" "));
+            timer.setText("Time: " + (" "));
             option1.setEnabled(true);
             option2.setEnabled(true);
             option3.setEnabled(true);
@@ -269,9 +277,9 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
         }
     }
 
-    private void changeQuestion() {
+    private void nextQuestion() {
 
-        startTime = getCurrentTime();
+        questionStartTime = getCurrentTime();
         if (questionNumber < questionList.size() - 1) {
             questionNumber++;
             playAnim(question, 0, 0);
@@ -281,68 +289,77 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
             playAnim(option4, 0, 4);
 
             qCount.setText((questionNumber + 1) + "/" + (questionList.size()));
-            String time = "Time:- " + " ";
 
-            timer.setText(time);
+            timer.setText("Time: " + " ");
+            //  startTimer();
             option1.setEnabled(true);
             option2.setEnabled(true);
             option3.setEnabled(true);
             option4.setEnabled(true);
         } else {
-            examEnd = true;
+            isExamEnd = true;
+
+            calculateScore();
+
+            //adding data to the FireStore quizTaken collection
+
+            String FirstName = UserSharedPreferenceManager.getUserInfo(getAppContext(), UserSharedPreferenceManager.userInfoFields.USER_FIRST_NAME);
+            String LastName = UserSharedPreferenceManager.getUserInfo(getAppContext(), UserSharedPreferenceManager.userInfoFields.USER_LAST_NAME);
+            String UserName = FirstName + " " + LastName;
+            Map<String, Object> data = new HashMap<>();
+            data.put(Constant.QuizTakenCollectionFields.QUIZ_ID, quizId);
+            data.put(Constant.QuizTakenCollectionFields.SCORE, String.valueOf(quizScore));
+            data.put(Constant.QuizTakenCollectionFields.TOTAL_SCORE, String.valueOf(questionList.size()));
+            data.put(Constant.QuizTakenCollectionFields.USER_ID, UserSharedPreferenceManager.getUserInfo(getAppContext(), UserSharedPreferenceManager.userInfoFields.USER_UUID));
+            data.put(Constant.QuizTakenCollectionFields.USER_NAME, UserName);
+            firestore.collection(Constant.QUIZ_TAKEN_COLLECTION)
+                    .add(data)
+                    .addOnSuccessListener(documentReference1 -> {
+                        Log.d("QuestionActivity", "DocumentSnapshot written with ID: " + documentReference1.getId());
+
+                        //adding data to the quizTakenQuestions collection
+                        for (int questionnumber = 0; questionnumber < questionList.size(); questionnumber++) {
+                            Map<String, Object> data1 = new HashMap<>();
+                            data1.put(Constant.QuizTakenQuestionsFields.ATTEMPTED_ANS, attemptedAnswers.get(questionnumber));
+                            data1.put(Constant.QuizTakenQuestionsFields.QUESTION_ID, questionList.get(questionnumber).getId());
+                            data1.put(Constant.QuizTakenQuestionsFields.QUIZ_TAKEN_ID, documentReference1.getId());
+                            data1.put(Constant.QuizTakenQuestionsFields.TIME_TAKEN, timeTalken.get(questionnumber));
+                            firestore.collection(Constant.QUIZ_TAKEN_QUESTION_COLLECTION)
+                                    .add(data1)
+                                    .addOnSuccessListener(documentReference11 -> Log.d("QuestionActivity", "DocumentSnapshot written with ID: " + documentReference11.getId()))
+                                    .addOnFailureListener(e -> Log.w("QuestionActivity", "Error adding document", e));
+                        }
+                    })
+                    .addOnFailureListener(e -> Log.w("QuestionActivity", "Error adding document", e));
+
+
             // Go to Score Activity
             Intent intent = new Intent(QuestionDetailActivity.this, ScoreActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("SCORE", (score) + "/" + (questionList.size()));
+            intent.putExtra("SCORE", (quizScore) + "/" + (questionList.size()));
             startActivity(intent);
             QuestionDetailActivity.this.finish();
+        }
+    }
 
-            //adding data to the FireStore quizTaken collection
-            String docId = getIntent().getStringExtra("docID");
-            fireAuth = FirebaseAuth.getInstance();
-            FirebaseUser currentUser = fireAuth.getCurrentUser();
-            assert currentUser != null;
-            String user_Uuid = currentUser.getUid();
+    private void calculateScore() {
+        for (int i=0; i< questionList.size(); i++) {
+            long correctAns = questionList.get(i).getCorrectOption();
+            String correctAnswer = "";
 
-            //fetching username from the user collection
-            DocumentReference documentReference = db.collection("users").document(user_Uuid);
-            documentReference.get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot documentSnapshot = task.getResult();
-                    assert documentSnapshot != null;
-                    if (documentSnapshot.exists()) {
-                        String FirstName = (String) documentSnapshot.get("firstName");
-                        String LastName = (String) documentSnapshot.get("lastName");
-                        String UserName = FirstName + LastName;
-                        Map<String, Object> data = new HashMap<>();
-                        data.put("quizId", docId);
-                        data.put("score", String.valueOf(score));
-                        data.put("TotalScore", String.valueOf(questionList.size()));
-                        data.put("userId", user_Uuid);
-                        data.put("userName", UserName);
-                        firebaseFirestore.collection("quizTaken")
-                                .add(data)
-                                .addOnSuccessListener(documentReference1 -> {
-                                    Log.d("QuestionActivity", "DocumentSnapshot written with ID: " + documentReference1.getId());
+            if (correctAns == 1) {
+                correctAnswer = questionList.get(i).getOptionA();
+            } else if (correctAns == 2) {
+                correctAnswer = questionList.get(i).getOptionB();
+            } else if (correctAns == 3) {
+                correctAnswer = questionList.get(i).getOptionC();
+            } else if (correctAns == 4) {
+                correctAnswer = questionList.get(i).getOptionD();
+            }
 
-                                    //adding data to the quizTakenQuestions collection
-                                    for (int questionnumber = 0; questionnumber < questionList.size(); questionnumber++) {
-                                        Map<String, Object> data1 = new HashMap<>();
-                                        data1.put("attemptedAnswer", attemptedAnswer[questionnumber]);
-                                        data1.put("questionId", QuestionId[questionnumber]);
-                                        data1.put("quizTakenId", documentReference1.getId());
-                                        data1.put("timeTaken", mp.get(questionnumber));
-                                        firebaseFirestore.collection("quizTakenQuestions")
-                                                .add(data1)
-                                                .addOnSuccessListener(documentReference11 -> Log.d("QuestionActivity", "DocumentSnapshot written with ID: " + documentReference11.getId()))
-                                                .addOnFailureListener(e -> Log.w("QuestionActivity", "Error adding document", e));
-                                    }
-                                })
-                                .addOnFailureListener(e -> Log.w("QuestionActivity", "Error adding document", e));
-                    }
-                }
-            });
-
+            if (correctAnswer.equals(attemptedAnswers.get(i))) {
+                quizScore++;
+            }
         }
     }
 
