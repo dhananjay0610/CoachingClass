@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="3dp"
+    app:cardCornerRadius="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/imagePdf"
+            android:layout_width="75dp"
+            android:layout_centerVertical="true"
+            android:layout_height="75dp"
+            android:src="@drawable/ic_pdf">
+
+        </ImageView>
+
+        <LinearLayout
+            android:layout_width="1.4dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="4.5dp"
+            android:layout_toEndOf="@id/imagePdf"
+            android:background="@color/black" />
+
+        <TextView
+            android:id="@+id/pdfName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="12dp"
+            android:textColor="#000"
+            android:layout_toEndOf="@+id/imagePdf"
+            android:text="Name of PDF"
+            android:textSize="23sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/pdfSubject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pdfName"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="2dp"
+            android:layout_toEndOf="@+id/imagePdf"
+            android:text="Name of Subject"
+            android:textSize="19sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pdfSubject"
+            android:layout_toEndOf="@+id/imagePdf"
+            android:gravity="end"
+            android:text="PDF"
+            android:textColor="#000"
+            android:textSize="17sp" />
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

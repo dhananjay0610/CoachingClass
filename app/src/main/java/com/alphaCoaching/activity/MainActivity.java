@@ -20,7 +20,6 @@ import com.alphaCoaching.R;
 import com.alphaCoaching.Utils.UserSharedPreferenceManager;
 import com.alphaCoaching.adapter.FireStoreAdapter;
 import com.alphaCoaching.Model.RecentLecturesModel;
-import com.firebase.ui.auth.User;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private FirebaseFirestore mFireBaseDB;
-    private NavigationView navigationView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mFireBaseDB = FirebaseFirestore.getInstance();
         fireAuth = FirebaseAuth.getInstance();
         drawerLayout = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
@@ -121,7 +119,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             loadQuizData();
         } else if (id == R.id.nav_home) {
             onBackPressed();
-        } else if (id == R.id.nav_userProfile) {
+        }
+        else if(id== R.id.nav_Pdf){
+            loadPdfList();
+        }
+        else if (id == R.id.nav_userProfile) {
             loadUserData();
         } else if (id == R.id.nav_logout) {
             fireAuth.signOut();
@@ -133,6 +135,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void loadPdfList() {
+        Intent i = new Intent(MainActivity.this, PdfListActivity.class);
+        startActivity(i);
     }
 
     private void loadUserData() {
@@ -172,12 +179,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onStart() {
         super.onStart();
-//        adapter.startListening();
+       adapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-//        adapter.stopListening();
+        adapter.stopListening();
     }
 }

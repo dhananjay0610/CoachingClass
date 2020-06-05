@@ -25,7 +25,6 @@ public class FireStoreAdapter extends FirestoreRecyclerAdapter<RecentLecturesMod
     public FireStoreAdapter(@NonNull FirestoreRecyclerOptions<RecentLecturesModel> options, OnListItemclick onListItemclick) {
         super(options);
         this.onListItemclick = onListItemclick;
-       // Log.d("FireStoreAdapter", "FireStoreAdapter: firestoreAdapter is called");
     }
 
     @Override

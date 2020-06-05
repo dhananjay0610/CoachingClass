@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".activity.PdfViewActivity">
 
@@ -10,14 +11,12 @@
         android:id="@+id/toolbarOfViewActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
+        android:background="#fff"
         android:elevation="5dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark" />
+        app:popupTheme="@style/ThemeOverlay.AppCompat.ActionBar"/>
 
     <com.github.barteksc.pdfviewer.PDFView
         android:id="@+id/PdfViewer"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-
 </LinearLayout>

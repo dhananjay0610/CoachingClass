@@ -3,6 +3,7 @@
     package="com.alphaCoaching">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGEe"/>
     <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
     <!-- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -15,6 +16,8 @@
         android:roundIcon="@drawable/alpha_launcher_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.PdfListActivity"
+            android:parentActivityName=".activity.MainActivity"/>
         <activity
             android:name=".activity.UserProfileActivity"
             android:parentActivityName=".activity.MainActivity" />
@@ -27,7 +30,7 @@
             android:parentActivityName=".activity.QuizDetailActivity" />
         <activity
             android:name=".activity.PdfViewActivity"
-            android:parentActivityName=".activity.LectureActivity" />
+            android:parentActivityName=".activity.MainActivity" />
         <activity
             android:name=".activity.SplashScreenActivity"
             android:theme="@style/SplashScreen">

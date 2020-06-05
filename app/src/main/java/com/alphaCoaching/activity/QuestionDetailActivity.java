@@ -6,6 +6,8 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.transition.Slide;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -21,6 +23,9 @@ import com.alphaCoaching.Constant.Constant;
 import com.alphaCoaching.R;
 import com.alphaCoaching.Utils.UserSharedPreferenceManager;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -93,6 +98,14 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
         firestore = FirebaseFirestore.getInstance();
 
         getQuestionsList();
+        setupWindowAnimation();
+
+    }
+
+       private void setupWindowAnimation(){
+           Slide slide= (Slide) TransitionInflater.from(this).inflateTransition(R.transition.activity_slide);
+           getWindow().setExitTransition(slide);
+
     }
 
     @Override
