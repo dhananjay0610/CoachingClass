@@ -86,7 +86,10 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
             loadQuizData();
         } else if (id == R.id.nav_home) {
             loadHomeActivity();
-        } else if (id == R.id.nav_userProfile) {
+        }   else if(id== R.id.nav_Pdf){
+            loadPdfList();
+        }
+        else if (id == R.id.nav_userProfile) {
             onBackPressed();
         } else if (id == R.id.nav_logout) {
             fireAuth.signOut();
@@ -99,7 +102,10 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
-
+    private void loadPdfList() {
+        Intent i = new Intent(UserProfileActivity.this, PdfListActivity.class);
+        startActivity(i);
+    }
     private void loadHomeActivity() {
         Intent i = new Intent(UserProfileActivity.this, MainActivity.class);
         startActivity(i);

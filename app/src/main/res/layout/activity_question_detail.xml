@@ -26,7 +26,7 @@
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:background="@color/fui_transparent"
-            android:gravity="right"
+            android:gravity="end"
             android:text="Time: 00:00"
             android:textColor="@color/colorBlack"
             android:textSize="21dp"
@@ -87,76 +87,6 @@
         android:paddingTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/quesLay">
-
-<!--        <RadioGroup-->
-<!--            android:id="@+id/radioGroup"-->
-<!--            android:layout_width="match_parent"-->
-
-<!--            android:layout_height="wrap_content"-->
-<!--            android:padding="2dp">-->
-
-<!--            <RadioButton-->
-<!--                android:id="@+id/option1"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_margin="5dp"-->
-<!--                android:layout_marginLeft="25dp"-->
-<!--                android:layout_marginTop="5dp"-->
-<!--                android:layout_marginRight="25dp"-->
-<!--                android:background="@drawable/roundedborders"-->
-<!--                android:backgroundTint="#989898"-->
-<!--                android:text="Option1"-->
-<!--                android:textAlignment="center"-->
-<!--                android:textAllCaps="false"-->
-<!--                android:textSize="23sp" />-->
-
-<!--            <RadioButton-->
-<!--                android:id="@+id/option2"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_margin="5dp"-->
-<!--                android:layout_marginLeft="25dp"-->
-<!--                android:layout_marginTop="5dp"-->
-<!--                android:layout_marginRight="25dp"-->
-<!--                android:background="@drawable/roundedborders"-->
-<!--                android:backgroundTint="#989898"-->
-<!--                android:text="Option2"-->
-<!--                android:textAlignment="center"-->
-<!--                android:textAllCaps="false"-->
-<!--                android:textSize="23sp" />-->
-
-<!--            <RadioButton-->
-<!--                android:id="@+id/option3"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_margin="5dp"-->
-<!--                android:layout_marginLeft="25dp"-->
-<!--                android:layout_marginTop="5dp"-->
-<!--                android:layout_marginRight="25dp"-->
-<!--                android:layout_marginBottom="24dp"-->
-<!--                android:background="@drawable/roundedborders"-->
-<!--                android:backgroundTint="#989898"-->
-<!--                android:text="Option3"-->
-<!--                android:textAlignment="center"-->
-<!--                android:textAllCaps="false"-->
-<!--                android:textSize="23sp" />-->
-
-<!--            <RadioButton-->
-<!--                android:id="@+id/option4"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_margin="5dp"-->
-<!--                android:layout_marginLeft="25dp"-->
-<!--                android:layout_marginTop="5dp"-->
-<!--                android:layout_marginRight="25dp"-->
-<!--                android:layout_marginBottom="24dp"-->
-<!--                android:background="@drawable/roundedborders"-->
-<!--                android:backgroundTint="#989898"-->
-<!--                android:text="Option4"-->
-<!--                android:textAlignment="center"-->
-<!--                android:textAllCaps="false"-->
-<!--                android:textSize="23sp" />-->
-<!--        </RadioGroup>-->
 
                 <Button
                     android:id="@+id/option1"

@@ -18,7 +18,6 @@ import com.alphaCoaching.R;
 import com.alphaCoaching.adapter.NoteAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -28,8 +27,6 @@ import java.util.ArrayList;
 public class QuizDetailActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private NoteAdapter adapter;
-    private FirebaseAuth fireAuth;
-    private String finalQuiztakenid;
     private RecyclerView recyclerView;
     private ArrayList<Note> quizList;
     private ArrayList<QuizTaken> quizTakenList;
@@ -104,8 +101,6 @@ public class QuizDetailActivity extends AppCompatActivity {
                             recyclerView.setAdapter(adapter);
                             recyclerView.setHasFixedSize(true);
                             setupAdapter();
-                        } else {
-
                         }
                     }
                 });

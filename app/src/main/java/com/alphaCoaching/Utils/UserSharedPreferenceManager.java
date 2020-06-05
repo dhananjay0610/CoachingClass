@@ -20,7 +20,7 @@ public class UserSharedPreferenceManager {
         public static final String USER_LAST_NAME =  "UserLastName";
         public static final String USER_STANDARD =  "UserStandard";
         public static final String USER_DOB =  "dateOfBirth";
-        public static final String USER_EMAIL =  "UserEmail";
+        String USER_EMAIL =  "UserEmail";
     }
 
     public static void storeQuizTakenStatus(Context context, boolean status, String quizId) {
@@ -72,12 +72,6 @@ public class UserSharedPreferenceManager {
         SharedPreferences sharedPreferences = getSharedPreferences( context, USER_DETAIL);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
-//        editor.remove(userInfoFields.USER_UUID);
-//        editor.remove(userInfoFields.USER_FIRST_NAME);
-//        editor.remove(userInfoFields.USER_LAST_NAME);
-//        editor.remove(userInfoFields.USER_STANDARD);
-//        editor.remove(userInfoFields.USER_DOB);
-//        editor.remove(userInfoFields.USER_EMAIL);
         editor.apply();
     }
 

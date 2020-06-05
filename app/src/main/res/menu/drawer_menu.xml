@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:showIn="navigation_view">
     <item android:title="">
         <menu>
@@ -10,28 +11,39 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
+            android:enabled="true"
             android:icon="@drawable/ic_home"
             android:title="Home" />
         <item
             android:id="@+id/nav_quiz"
             android:icon="@drawable/ic_quiz"
             android:title="Quiz" />
-    <item
+        <item
+            android:id="@+id/nav_Pdf"
+            android:icon="@drawable/ic_pdf"
+            android:title="PDF" />
+        <item
             android:id="@+id/nav_userProfile"
             android:icon="@drawable/ic_user"
             android:title="User Profile" />
 
-        <item
-            android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_logout"
-            android:title="Log Out"/>
     </group>
-<!--     <item android:title="Communicate">-->
-<!--         <menu>-->
-<!--            <item-->
-<!--                 android:id="@+id/nav_send"-->
-<!--                 android:icon="@drawable/ic_send"-->
-<!--                 android:title="Send" />-->
-<!--         </menu>-->
-<!--    </item>-->
+
+    <item android:title=" ">
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_logout"
+                android:title="Log Out" />
+        </menu>
+    </item>
+
+    <!--     <item android:title="Communicate">-->
+    <!--         <menu>-->
+    <!--            <item-->
+    <!--                 android:id="@+id/nav_send"-->
+    <!--                 android:icon="@drawable/ic_send"-->
+    <!--                 android:title="Send" />-->
+    <!--         </menu>-->
+    <!--    </item>-->
 </menu>
