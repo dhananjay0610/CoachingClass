@@ -1,6 +1,7 @@
 package com.alphaCoaching.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,13 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.alphaCoaching.Model.PDFModel;
 import com.alphaCoaching.Model.SpinnerModel;
 import com.alphaCoaching.R;
+import com.alphaCoaching.activity.PdfListActivity;
+import com.alphaCoaching.activity.PdfViewActivity;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,11 +64,12 @@ public class SpinnerAdapter extends ArrayAdapter<SpinnerModel> {
         holder.mCheckBox.setChecked(listState.get(position).isSelected());
         isFromView = false;
 
-        if ((position == 0)) {
-            holder.mCheckBox.setVisibility(View.INVISIBLE);
-        } else {
-            holder.mCheckBox.setVisibility(View.VISIBLE);
-        }
+//        if ((position == 0)) {
+//            holder.mCheckBox.setVisibility(View.INVISIBLE);
+//        } else {
+//            holder.mCheckBox.setVisibility(View.VISIBLE);
+//        }
+        holder.mCheckBox.setVisibility(View.VISIBLE);
         holder.mCheckBox.setTag(position);
         holder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -74,6 +80,24 @@ public class SpinnerAdapter extends ArrayAdapter<SpinnerModel> {
                 if (!isFromView) {
                     listState.get(position).setSelected(isChecked);
                 }
+
+                PdfListActivity pdfListActivity = new PdfListActivity();
+                ArrayList<PDFModel> options = pdfListActivity.getOptions();
+                ArrayList<PDFModel> optionsTemp = new ArrayList<>();
+                boolean isAnyOneSelected = false;
+                for (int i = 0; i < listState.size(); i++) {
+                    for (int j = 0; j < options.size(); j++) {
+                        if (listState.get(i).isSelected() && listState.get(i).getId().equals(options.get(j).getSubject())) {
+                            optionsTemp.add(options.get(j));
+                            isAnyOneSelected = true;
+                        }
+                    }
+                }
+                if (!isAnyOneSelected) {
+                    pdfListActivity.updateAdapter(options);
+                } else
+                    pdfListActivity.updateAdapter(optionsTemp);
+                return;
             }
         });
         return convertView;
@@ -83,6 +107,5 @@ public class SpinnerAdapter extends ArrayAdapter<SpinnerModel> {
         private TextView mTextView;
         private CheckBox mCheckBox;
     }
-    
 }
 

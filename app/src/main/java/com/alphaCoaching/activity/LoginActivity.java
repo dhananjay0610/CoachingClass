@@ -20,7 +20,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
@@ -108,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                             String dateOfBirth = (String) documentSnapshot.get(Constant.UserCollectionFields.DOB);
                             String userEmail = (String) documentSnapshot.get(Constant.UserCollectionFields.EMAIL);
                             UserSharedPreferenceManager.storeUserDetail(getAppContext(), user_Uuid, userFirstName, userLastName, userStandard, dateOfBirth, userEmail);
+                            storeSubjects();
                         }
                     }
                 });
@@ -125,5 +129,18 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void storeSubjects() {
+        mFireBaseDB.collection(Constant.SUBJECT_COLLECTION)
+                .whereEqualTo(Constant.UserCollectionFields.STANDARD, UserSharedPreferenceManager.getUserInfo(getAppContext(), UserSharedPreferenceManager.userInfoFields.USER_STANDARD))
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot snapshot : Objects.requireNonNull(task.getResult())) {
+                            UserSharedPreferenceManager.storeUserSubjects(getApplicationContext(), snapshot.getId(), snapshot.get("name").toString());
+                        }
+                    }
+                });
     }
 }
