@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .build();
         adapter = new FireStoreAdapter(options, this);
 
+        adapter.startListening();
         //two methods are declared in the recentLectureModel
         recyclerView.setAdapter(adapter);
     }
@@ -169,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onDestroy() {
         super.onDestroy();
+        adapter.stopListening();
     }
 
     @Override
@@ -179,12 +181,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onStart() {
         super.onStart();
-       adapter.startListening();
+//       adapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        adapter.stopListening();
+//        adapter.stopListening();
     }
 }

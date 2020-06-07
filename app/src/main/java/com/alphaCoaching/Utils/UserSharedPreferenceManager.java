@@ -13,6 +13,7 @@ import static android.content.Context.MODE_PRIVATE;
 public class UserSharedPreferenceManager {
     private static final String QUIZ_TAKEN_STATUS = "quizTakenStatus";
     public static final String USER_DETAIL = "UserDetail";
+    public static final String USER_SUBJECTS = "UserSubjects";
 
     public static interface userInfoFields {
         public static final String USER_UUID =  "userUuid";
@@ -77,6 +78,20 @@ public class UserSharedPreferenceManager {
 
     public static String getUserInfo(Context context, String key) {
         SharedPreferences sharedPreferences = getSharedPreferences(context, USER_DETAIL);
+        return sharedPreferences.getString(key, null);
+    }
+
+    public static void storeUserSubjects(Context context, String key, String value) {
+        if (context != null) {
+            SharedPreferences sharedPreferences = getSharedPreferences(context, USER_SUBJECTS);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(key, value);
+            editor.apply();
+        }
+    }
+
+    public static String getUserSubject(Context context, String key) {
+        SharedPreferences sharedPreferences = getSharedPreferences(context, USER_SUBJECTS);
         return sharedPreferences.getString(key, null);
     }
 }

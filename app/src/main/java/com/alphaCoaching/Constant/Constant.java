@@ -8,6 +8,17 @@ public class Constant {
     public static final String QUIZ_TAKEN_COLLECTION = "quizTaken";
     public static final String QUESTION_COLLECTION = "questions";
     public static final String QUIZ_TAKEN_QUESTION_COLLECTION = "quizTakenQuestions";
+    public static final String SUBJECT_COLLECTION = "subjects";
+    public static final String PDF_COLLECTION = "PDF";
+
+    public static interface QuizCollectionFields {
+        public static final String QUESTION_NUMBER = "questionNumber";
+        public static final String QUIZ_DATE = "quizDate";
+        public static final String QUIZ_NAME = "quizName";
+        public static final String QUIZ_TIME = "quizTime";
+        public static final String STANDARD = "standard";
+        public static final String SUBJECT = "subject";
+    }
 
     public static interface QuizTakenQuestionsFields {
         public static final String ATTEMPTED_ANS = "attemptedAnswer";
