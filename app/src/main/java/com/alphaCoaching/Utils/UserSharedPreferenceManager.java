@@ -21,7 +21,7 @@ public class UserSharedPreferenceManager {
         public static final String USER_LAST_NAME =  "UserLastName";
         public static final String USER_STANDARD =  "UserStandard";
         public static final String USER_DOB =  "dateOfBirth";
-        String USER_EMAIL =  "UserEmail";
+        public static final String USER_EMAIL =  "UserEmail";
     }
 
     public static void storeQuizTakenStatus(Context context, boolean status, String quizId) {

@@ -1,193 +1,554 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".activity.QuestionDetailActivity">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/ToolbarOfQuestionDetailActivity"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_gravity="right"
-        android:background="#EAB4ECF2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.ActionBar">
-
-        <TextView
-            android:id="@+id/countDown"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:background="@color/fui_transparent"
-            android:gravity="end"
-            android:text="Time: 00:00"
-            android:textColor="@color/colorBlack"
-            android:textSize="21dp"
-            android:textStyle="bold" />
-    </androidx.appcompat.widget.Toolbar>
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/quesLay"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/gradient"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbars">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/quesNum"
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:background="@drawable/categorybackground"
-            android:backgroundTint="#fff"
-            android:elevation="1dp"
-            android:padding="16dp"
-            android:text="1/10"
-            android:textAlignment="center"
-            android:textColor="@color/colorBlack"
-            android:textSize="21dp"
-            android:translationX="137dp"
-            android:translationY="30dp" />
-
-        <TextView
-            android:id="@+id/question"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/ToolbarOfQuestionDetailActivity"
             android:layout_width="match_parent"
-            android:layout_height="170dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/categorybackground"
-            android:backgroundTint="#fff"
-            android:gravity="center"
-            android:padding="15dp"
-            android:text="Question"
-            android:textColor="@android:color/black"
-            android:textSize="21sp" />
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="right"
+            android:background="#EAB4ECF2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+            <TextView
+                android:id="@+id/questionNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@color/fui_transparent"
+                android:gravity="start"
+                android:text="Question No.: 00/00"
+                android:textColor="@color/colorBlack"
+                android:textSize="21dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/countDown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@color/fui_transparent"
+                android:gravity="end"
+                android:text="Time: 00:00"
+                android:textColor="@color/colorBlack"
+                android:textSize="21dp"
+                android:textStyle="bold" />
+        </androidx.appcompat.widget.Toolbar>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <ScrollView
+        android:id="@+id/my_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingTop="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/quesLay">
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="50dp"
+        android:scrollbars="vertical">
 
-                <Button
-                    android:id="@+id/option1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="25dp"
-                    android:background="@drawable/roundedborders"
-                    android:backgroundTint="#989898"
-                    android:text="Option1"
-                    android:textAllCaps="false"
-                    android:textSize="18sp" />
-                <Button
-                    android:id="@+id/option2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="25dp"
-                    android:background="@drawable/roundedborders"
-                    android:backgroundTint="#989898"
-                    android:text="Option2"
-                    android:textAllCaps="false"
-                    android:textSize="18sp" />
-
-                <Button
-                    android:id="@+id/option3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="25dp"
-                    android:layout_marginBottom="24dp"
-                    android:background="@drawable/roundedborders"
-                    android:backgroundTint="#989898"
-                    android:text="Option3"
-                    android:textAllCaps="false"
-                    android:textSize="18sp" />
-
-                <Button
-                    android:id="@+id/option4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="25dp"
-                    android:layout_marginBottom="24dp"
-                    android:background="@drawable/roundedborders"
-                    android:backgroundTint="#989898"
-                    android:text="Option4"
-                    android:textAllCaps="false"
-                    android:textSize="18sp" />
-
-
-        <TableRow
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="30dp"
-            android:gravity="center">
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/quesLay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/toolbars">
+
+                    <TextView
+                        android:id="@+id/question"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/rectangularviiew"
+                        android:gravity="start"
+                        android:padding="15dp"
+                        android:text="Question"
+                        android:textColor="@android:color/black"
+                        android:textSize="21sp" />
+
+                    <ImageView
+                        android:id="@+id/questionImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/alpha_logo"
+                        android:visibility="gone">
+
+                    </ImageView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="start"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/quesLay">
+
+                    <Button
+                        android:id="@+id/option1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10sp"
+                        android:background="@drawable/rectangularviiew"
+                        android:gravity="start"
+                        android:padding="10dp"
+                        android:text="Option1"
+                        android:textAllCaps="false"
+                        android:textSize="18sp" />
+
+                    <Button
+                        android:id="@+id/option2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10sp"
+                        android:background="@drawable/rectangularviiew"
+                        android:gravity="start"
+                        android:padding="10dp"
+                        android:text="Option1"
+                        android:textAllCaps="false"
+                        android:textSize="18sp" />
+
+                    <Button
+                        android:id="@+id/option3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10sp"
+                        android:background="@drawable/rectangularviiew"
+                        android:gravity="start"
+                        android:padding="10dp"
+                        android:text="Option1 asdkheofbewufg\n sadgasudhqowdhlamxncbvhdbfhdoeuhweugryeffk\n dsbdjsdhejvsdkcj "
+                        android:textAllCaps="false"
+                        android:textSize="18sp" />
+
+                    <Button
+                        android:id="@+id/option4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10sp"
+                        android:background="@drawable/rectangularviiew"
+                        android:gravity="start"
+                        android:padding="10dp"
+                        android:text="Option4 \n jhabdgtueyhwiflani \n bcjmdsonasohsdbsiqie\n jsaidsb\n soaibosihd\n asoihdqwoidhqoihd"
+                        android:textAllCaps="false"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/welcomeToStudy"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_alignParentTop="true"-->
+            <!--                android:layout_centerHorizontal="true"-->
+            <!--                android:text="Welcome to xxxxxxxxxxxxxxx!"-->
+            <!--                android:textAppearance="?android:attr/textAppearanceLarge"-->
+            <!--                android:textColor="#54575A"-->
+            <!--                android:textSize="28sp" />-->
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/pleaseEnter"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_below="@+id/welcomeToStudy"-->
+            <!--                android:layout_centerHorizontal="true"-->
+            <!--                android:layout_marginTop="5dp"-->
+            <!--                android:text="Please enter your details xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx."-->
+            <!--                android:textSize="20sp" />-->
+
+            <!--            <EditText-->
+            <!--                android:id="@+id/emailSignUp"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_below="@+id/pleaseEnter"-->
+            <!--                android:layout_centerHorizontal="true"-->
+            <!--                android:layout_marginTop="5dp"-->
+            <!--                android:ems="10"-->
+            <!--                android:hint="Email"-->
+            <!--                android:inputType="textEmailAddress"-->
+            <!--                android:singleLine="true"-->
+            <!--                android:textSize="24sp" />-->
+
+            <!--            <EditText-->
+            <!--                android:id="@+id/passwordSignUp"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_below="@+id/emailSignUp"-->
+            <!--                android:layout_marginTop="5dp"-->
+            <!--                android:ems="10"-->
+            <!--                android:hint="Password"-->
+            <!--                android:text="dkvbsdovblesfkuvbd-->
+            <!--ksdbvskbdvbbkdsbc\njsdbcywdsvcisydvciysdbcysdbcysdjzbxjhbs\n euiwdka \n \n\n\n\n\n\n\n\n\n\n\n\\n\n jasbcdjfcvhjagsvhdbchdvc\n\n\n\n\n\n\n\n\n\nvadsg"-->
+            <!--                android:textSize="24sp"></EditText>-->
+        </RelativeLayout>
+    </ScrollView>
 
 
-            <Button
-                android:id="@+id/previous"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_margin="15dp"
-                android:layout_marginTop="25dp"
-                android:background="@drawable/categorybackground"
-                android:backgroundTint="@color/colorBlack"
-                android:padding="14dp"
-                android:text="Previous"
-                android:textColor="@color/colorWhite"
-                android:textSize="20sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:gravity="bottom">
 
-            <Button
-                android:id="@+id/next"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_margin="15dp"
-                android:layout_marginTop="25dp"
-                android:background="@drawable/categorybackground"
-                android:backgroundTint="@color/colorBlack"
-                android:padding="13dp"
-                android:text="Next"
-                android:textColor="@color/colorWhite"
-                android:textSize="20sp" />
-        </TableRow>
+        <Button
+            android:id="@+id/previous"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/categorybackground"
+            android:backgroundTint="@color/colorBlack"
+            android:text="Previous"
+            android:textColor="@color/colorWhite"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/next"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/categorybackground"
+            android:backgroundTint="@color/colorBlack"
+            android:text="Next"
+            android:textColor="@color/colorWhite"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/LinearLayout01"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_alignParentBottom="true"-->
+    <!--        android:layout_marginTop="5dp"-->
+    <!--        android:orientation="horizontal">-->
+
+    <!--        <Button-->
+    <!--            android:id="@+id/signUpBtn"-->
+    <!--            android:layout_width="fill_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:background="@color/black"-->
+    <!--            android:text="Sign Up"-->
+    <!--            android:textColor="#FFFFFF"-->
+    <!--            android:textSize="20sp"></Button>-->
+
+    <!--        <Button-->
+    <!--            android:id="@+id/registerWithFb"-->
+    <!--            android:layout_width="fill_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginTop="8dp"-->
+    <!--            android:background="@color/black"-->
+    <!--            android:text="Sign up with Facebook"-->
+    <!--            android:textColor="#FFFFFF"-->
+    <!--            android:textSize="20sp"></Button>-->
+    <!--    </LinearLayout>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
 
         <ProgressBar
             android:id="@+id/progressbar"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            android:layout_gravity="center_vertical"
+            android:visibility="visible" />
     </LinearLayout>
 
+</RelativeLayout><!--
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ScrollView01"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:orientation="vertical"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context=".activity.QuestionDetailActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/ToolbarOfQuestionDetailActivity"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="right"
+                android:background="#EAB4ECF2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+                <TextView
+                    android:id="@+id/questionNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/fui_transparent"
+                    android:gravity="start"
+                    android:text="Question No.: 00/00"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="21dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/countDown"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@color/fui_transparent"
+                    android:gravity="end"
+                    android:text="Time: 00:00"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="21dp"
+                    android:textStyle="bold" />
+            </androidx.appcompat.widget.Toolbar>
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/quesLay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/toolbars">
+
+                    <TextView
+                        android:id="@+id/question"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/rectangularviiew"
+                        android:gravity="start"
+                        android:padding="15dp"
+                        android:text="Question"
+                        android:textColor="@android:color/black"
+                        android:textSize="21sp" />
+
+                    <ImageView
+                        android:id="@+id/questionImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/alpha_logo"
+                        android:visibility="visible">
+
+                    </ImageView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="start"
+                    android:orientation="vertical"
+                    android:paddingTop="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/quesLay">
+
+                    <Button
+                        android:id="@+id/option1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10sp"
+                        android:background="@drawable/rectangularviiew"
+                        android:backgroundTint="#989898"
+                        android:gravity="start"
+                        android:padding="10dp"
+                        android:text="Option1"
+                        android:textAllCaps="false"
+                        android:textSize="18sp" />
+
+                    <Button
+                        android:id="@+id/option2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10sp"
+                        android:background="@drawable/rectangularviiew"
+                        android:backgroundTint="#989898"
+                        android:gravity="start"
+                        android:padding="10dp"
+                        android:text="Option1"
+                        android:textAllCaps="false"
+                        android:textSize="18sp" />
+
+                    <Button
+                        android:id="@+id/option3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10sp"
+                        android:background="@drawable/rectangularviiew"
+                        android:backgroundTint="#989898"
+                        android:gravity="start"
+                        android:padding="10dp"
+                        android:text="Option1 asdkheofbewufg\n sadgasudhqowdhlamxncbvhdbfhdoeuhweugryeffk\n dsbdjsdhejvsdkcj "
+                        android:textAllCaps="false"
+                        android:textSize="18sp" />
+
+                    <Button
+                        android:id="@+id/option4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10sp"
+                        android:background="@drawable/rectangularviiew"
+                        android:backgroundTint="#989898"
+                        android:gravity="start"
+                        android:padding="10dp"
+                        android:text="Option4 \n jhabdgtueyhwiflani \n bcjmdsonasohsdbsiqie\n jsaidsb\n soaibosihd\n asoihdqwoidhqoihd"
+                        android:textAllCaps="false"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+
+                &lt;!&ndash;<TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:gravity="center">
+
+
+                        <Button
+                            android:id="@+id/previous"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/categorybackground"
+                            android:backgroundTint="@color/colorBlack"
+                            android:layout_gravity="center"
+                            android:text="Previous"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="10sp" />
+
+                        <Button
+                            android:id="@+id/next"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="10dp"
+                            android:background="@drawable/categorybackground"
+                            android:backgroundTint="@color/colorBlack"
+                            android:text="Next"
+                            android:layout_marginBottom="10dp"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="10sp" />
+                    </TableRow>&ndash;&gt;
+
+                <ProgressBar
+                    android:id="@+id/progressbar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="bottom">
+
+            <Button
+                android:id="@+id/previous"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/categorybackground"
+                android:backgroundTint="@color/colorBlack"
+                android:text="Previous"
+                android:textColor="@color/colorWhite"
+                android:textSize="10sp" />
+
+            <Button
+                android:id="@+id/next"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/categorybackground"
+                android:backgroundTint="@color/colorBlack"
+                android:text="Next"
+                android:textColor="@color/colorWhite"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 </LinearLayout>
+-->

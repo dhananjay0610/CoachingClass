@@ -1,5 +1,6 @@
 package com.alphaCoaching.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.alphaCoaching.Constant.Constant;
 import com.alphaCoaching.R;
 import com.alphaCoaching.Utils.UserSharedPreferenceManager;
 import com.google.android.material.navigation.NavigationView;
@@ -30,37 +32,31 @@ import static com.alphaCoaching.Utils.UserSharedPreferenceManager.USER_DETAIL;
 public class UserProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
     private FirebaseAuth fireAuth;
-    Toolbar toolbar;
+    private ActionBarDrawerToggle toggle;
+    private NavigationView navigationView;
+    private FirebaseFirestore db;
+    private Toolbar toolbar;
+    private UserSharedPreferenceManager preferenceManager;
+    private Context mContext;
+    private String mUserFirstName;
+    private String mUserLastName;
+    private String mUserEmail;
+    private String mUserDateOfBirth;
+    private String mUserStandard;
+    private TextView userName, user_email, user_name, user_dob, user_standard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = getApplicationContext();
         setContentView(R.layout.activity_user_profile);
         toolbar = findViewById(R.id.ToolbarOfUserProfileActivity);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("");
         fireAuth = FirebaseAuth.getInstance();
-        drawerLayout = findViewById(R.id.userlayout);
-        NavigationView navigationView = findViewById(R.id.nav_views);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        TextView userName = findViewById(R.id.UserName);
-        TextView user_email = findViewById(R.id.user_email);
-        TextView user_name = findViewById(R.id.user_name);
-        TextView user_dob = findViewById(R.id.user_dob);
-        TextView user_standard = findViewById(R.id.user_standard);
+        setupUI();
 
-        SharedPreferences sharedPreferences = this.getSharedPreferences(USER_DETAIL, MODE_PRIVATE);
-        String userFirstName = sharedPreferences.getString("UserFirstName", "Username");
-        String userLastName = sharedPreferences.getString("UserLastName", "User last Name");
-        String userEmail = sharedPreferences.getString("UserEmail", "User email");
-        String UserDateOfBirth = sharedPreferences.getString("UserDateOfBirth", "00-00-00");
-        String UserStandard = sharedPreferences.getString("UserStandard", "9");
-        DocumentReference documentReference = db.collection("standard").document(UserStandard);
+        DocumentReference documentReference = db.collection(Constant.STANDARD_COLLECTION).document(mUserStandard);
         documentReference.get().addOnCompleteListener(task1 -> {
             if (task1.isSuccessful()) {
                 DocumentSnapshot documentSnapshot = task1.getResult();
@@ -73,12 +69,35 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
                 }
             }
         });
-        userName.setText(userFirstName);
-        String UserFullName = userFirstName + " " + userLastName;
+        userName.setText(mUserFirstName);
+        String UserFullName = mUserFirstName + " " + mUserLastName;
         user_name.setText(UserFullName);
-        user_email.setText(userEmail);
-        user_dob.setText(UserDateOfBirth);
+        user_email.setText(mUserEmail);
+        user_dob.setText(mUserDateOfBirth);
     }
+
+    private void setupUI() {
+        drawerLayout = findViewById(R.id.userlayout);
+        navigationView = findViewById(R.id.nav_views);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+        db = FirebaseFirestore.getInstance();
+        userName = findViewById(R.id.UserName);
+        user_email = findViewById(R.id.user_email);
+        user_name = findViewById(R.id.user_name);
+        user_dob = findViewById(R.id.user_dob);
+        user_standard = findViewById(R.id.user_standard);
+
+        mUserFirstName = preferenceManager.getUserInfo(mContext, UserSharedPreferenceManager.userInfoFields.USER_FIRST_NAME);
+        mUserLastName = preferenceManager.getUserInfo(mContext, UserSharedPreferenceManager.userInfoFields.USER_LAST_NAME);
+        mUserEmail = preferenceManager.getUserInfo(mContext, UserSharedPreferenceManager.userInfoFields.USER_EMAIL);
+        mUserDateOfBirth = preferenceManager.getUserInfo(mContext, UserSharedPreferenceManager.userInfoFields.USER_DOB);
+        mUserStandard = preferenceManager.getUserInfo(mContext, UserSharedPreferenceManager.userInfoFields.USER_STANDARD);
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
