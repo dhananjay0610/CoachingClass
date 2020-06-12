@@ -45,13 +45,15 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
         Note model = quizList.get(position);
         if (isQuizTaken(model.getId())) {
             holder.detail.setVisibility(View.VISIBLE);
+            holder.attainQuiz.setVisibility(View.GONE);
         } else {
             holder.detail.setVisibility(View.GONE);
+            holder.attainQuiz.setVisibility(View.VISIBLE);
         }
 
-        holder.textQuizName.setText("Quiz Name= " + model.getQuizName());
-        holder.textQuesNumber.setText("Question No.= " + (model.getQuestionNumber()));
-        holder.textQuizTime.setText("Quiz Time=" + (model.getQuizTime()));
+        holder.textQuizName.setText(model.getQuizName());
+        holder.textQuesNumber.setText(model.getQuestionNumber() + " questions");
+        holder.textQuizTime.setText(model.getQuizTime() + " minutes");
     }
 
     private boolean isQuizTaken(String id) {
@@ -87,7 +89,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
         private TextView textQuizTime;
         @SuppressLint("StaticFieldLeak")
         private View view;
-        private Button detail;
+        private Button detail, attainQuiz;
 
         NoteHolder(@NonNull View itemView) {
             super(itemView);
@@ -96,6 +98,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
             textQuesNumber = itemView.findViewById(R.id.ques_num);
             textQuizTime = itemView.findViewById(R.id.quiz_time);
             detail = itemView.findViewById(R.id.detail);
+            attainQuiz = itemView.findViewById(R.id.attainQuizButton);
 
 
             detail.setOnClickListener(view -> {
@@ -106,7 +109,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
             });
 
 
-            view.setOnClickListener(v -> {
+            attainQuiz.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION && listener != null) {
                     listener.onItemClick(isQuizTaken(quizList.get(getAdapterPosition()).getId()), quizList.get(position));

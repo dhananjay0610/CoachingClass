@@ -10,6 +10,7 @@ public class Constant {
     public static final String QUIZ_TAKEN_QUESTION_COLLECTION = "quizTakenQuestions";
     public static final String SUBJECT_COLLECTION = "subjects";
     public static final String PDF_COLLECTION = "PDF";
+    public static final String STANDARD_COLLECTION = "standard";
 
     public static interface QuizCollectionFields {
         public static final String QUESTION_NUMBER = "questionNumber";

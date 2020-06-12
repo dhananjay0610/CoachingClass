@@ -23,9 +23,6 @@ import com.alphaCoaching.Constant.Constant;
 import com.alphaCoaching.R;
 import com.alphaCoaching.Utils.UserSharedPreferenceManager;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -79,7 +76,7 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
         quizTime = Long.parseLong(bundle.get("quizTime").toString());
 
         question = findViewById(R.id.question);
-        qCount = findViewById(R.id.quesNum);
+        qCount = findViewById(R.id.questionNumber);
         timer = findViewById(R.id.countDown);
         option1 = findViewById(R.id.option1);
         option2 = findViewById(R.id.option2);
@@ -168,7 +165,7 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
             startTimer();
             questionStartTime = getCurrentTime();
             questionNumber = 0;
-            mProgressBar.setVisibility(View.VISIBLE);
+            mProgressBar.setVisibility(View.GONE);
         }
     }
 
@@ -242,28 +239,28 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
             nextQuestion();
         } else if (v.getId() == R.id.option1) {
             selectedOption = 1;
-            option1.setBackgroundTintList(ColorStateList.valueOf(Color.CYAN));
-            option2.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
-            option3.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
-            option4.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
+            option1.setBackgroundColor(Color.GREEN);
+            option2.setBackgroundResource(R.drawable.rectangularviiew);
+            option3.setBackgroundResource(R.drawable.rectangularviiew);
+            option4.setBackgroundResource(R.drawable.rectangularviiew);
         } else if (v.getId() == R.id.option2) {
             selectedOption = 2;
-            option2.setBackgroundTintList(ColorStateList.valueOf(Color.CYAN));
-            option1.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
-            option3.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
-            option4.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
+            option2.setBackgroundColor(Color.GREEN);
+            option1.setBackgroundResource(R.drawable.rectangularviiew);
+            option3.setBackgroundResource(R.drawable.rectangularviiew);
+            option4.setBackgroundResource(R.drawable.rectangularviiew);
         } else if (v.getId() == R.id.option3) {
             selectedOption = 3;
-            option3.setBackgroundTintList(ColorStateList.valueOf(Color.CYAN));
-            option1.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
-            option2.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
-            option4.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
+            option3.setBackgroundColor(Color.GREEN);
+            option1.setBackgroundResource(R.drawable.rectangularviiew);
+            option2.setBackgroundResource(R.drawable.rectangularviiew);
+            option4.setBackgroundResource(R.drawable.rectangularviiew);
         } else if (v.getId() == R.id.option4) {
             selectedOption = 4;
-            option4.setBackgroundTintList(ColorStateList.valueOf(Color.CYAN));
-            option1.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
-            option3.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
-            option2.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
+            option4.setBackgroundColor(Color.GREEN);
+            option1.setBackgroundResource(R.drawable.rectangularviiew);
+            option3.setBackgroundResource(R.drawable.rectangularviiew);
+            option2.setBackgroundResource(R.drawable.rectangularviiew);
         } else if (v.getId() == R.id.previous) {
             questionStartTime = getCurrentTime();
             previousQuestion();
@@ -406,7 +403,7 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
                                     break;
                             }
                             if (viewNum != 0)
-                                view.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#696880")));
+                                view.setBackgroundResource(R.drawable.rectangularviiew);
                             playAnim(view, 1, viewNum);
                         }
 
