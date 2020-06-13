@@ -58,7 +58,7 @@ public class QuizDetailActivity extends AppCompatActivity {
 
 
         adapter.setonButtonClickListener((v, quizTakenId, quizId) -> {
-            Intent i = new Intent(QuizDetailActivity.this, QuestionReview.class);
+            Intent i = new Intent(QuizDetailActivity.this, QuizReviewActivity.class);
             i.putExtra("QuizId", quizId);
             i.putExtra("quickened", quizTakenId);
             startActivity(i);

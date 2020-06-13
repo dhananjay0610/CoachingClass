@@ -14,5 +14,7 @@
     <string name="navigation_drawer_open">Open Navigation Drawer</string>
     <string name="navigation_drawer_close">Close Navigation Drawer</string>
     <string name="menu_home">Home</string>
+    <string name="loading">Loading ...</string>
+    <string name="marks">Marks :</string>
 
 </resources>

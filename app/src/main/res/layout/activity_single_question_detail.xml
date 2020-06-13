@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.QuestionDetailActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/ToolbarOfSingleQuestionActivity"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/quesLayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gradient"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbars">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/TimeTakenSingleQuestion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@color/fui_transparent"
+                android:backgroundTint="#fff"
+                android:elevation="1dp"
+                android:padding="9dp"
+                android:paddingStart="21dp"
+                android:text="Time Taken : "
+                android:textColor="@color/colorBlack"
+                android:textSize="21dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/TotalScoreSingleQuestion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@color/fui_transparent"
+                android:backgroundTint="#fff"
+                android:elevation="1dp"
+                android:padding="9dp"
+                android:paddingStart="21dp"
+                android:text="Total Score : "
+                android:textColor="@color/colorBlack"
+                android:textSize="21dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/AverageTimeSingleQuestion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/fui_transparent"
+                android:padding="9dp"
+                android:paddingStart="21dp"
+                android:text="Average Time : "
+                android:textColor="@color/colorBlack"
+                android:textSize="21dp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/quesNumSingleQuestion"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/categorybackground"
+            android:backgroundTint="#fff"
+            android:elevation="1dp"
+            android:padding="16dp"
+            android:text="1/10"
+            android:textAlignment="center"
+            android:textColor="@color/colorBlack"
+            android:textSize="21dp"
+            android:translationX="137dp"
+            android:translationY="4dp" />
+
+        <TextView
+            android:id="@+id/questionSingleQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="-18dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/categorybackground"
+            android:backgroundTint="#fff"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="Question"
+            android:textColor="@android:color/black"
+            android:textSize="21sp" />
+
+        <ImageView
+            android:id="@+id/imageViewForTickSingleQuestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginBottom="-50dp"
+            android:elevation="1dp"
+            android:paddingEnd="30dp"
+            android:translationY="-73dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/quesLay">
+
+        <Button
+            android:id="@+id/option1SingleQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/roundedborders"
+            android:backgroundTint="#989898"
+            android:text="Option1"
+            android:textAllCaps="false"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/option2SingleQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/roundedborders"
+            android:backgroundTint="#989898"
+            android:text="Option2"
+            android:textAllCaps="false"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/option3SingleQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/roundedborders"
+            android:backgroundTint="#989898"
+            android:text="Option3"
+            android:textAllCaps="false"
+            android:textSize="18sp" />
+        <Button
+            android:id="@+id/option4SingleQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/roundedborders"
+            android:backgroundTint="#989898"
+            android:text="Option4"
+            android:textAllCaps="false"
+            android:textSize="18sp" />
+    </LinearLayout>
+</LinearLayout>
