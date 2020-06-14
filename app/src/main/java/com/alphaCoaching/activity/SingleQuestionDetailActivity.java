@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.alphaCoaching.Constant.Constant;
 import com.alphaCoaching.R;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -71,14 +72,13 @@ public class SingleQuestionDetailActivity extends AppCompatActivity {
     private void getQuestionsList() {
         String docId = getIntent().getStringExtra("QuizId");
         questionList = new ArrayList<>();
-        FireStore.collection("questions").whereEqualTo("quizID", docId)
+        FireStore.collection(Constant.QUESTION_COLLECTION).whereEqualTo(Constant.QuestionCollectionFields.QUIZ_ID, docId)
                 .get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 QuerySnapshot questions = task.getResult();
                 assert questions != null;
                 int i = 0;
                 for (QueryDocumentSnapshot doc : questions) {
-                    Log.d("SingleQuestionActivity", "document id" + doc.getId());
                     QuestionId[i] = doc.getId();
                     i++;
                     questionList.add(new Question(doc.getId(),
@@ -99,14 +99,14 @@ public class SingleQuestionDetailActivity extends AppCompatActivity {
         String quizTakenId = getIntent().getStringExtra("quickened");
         final String[] MaxScore = {null};
         assert quizTakenId != null;
-        DocumentReference documentReference = db.collection("quizTaken").document(quizTakenId);
+        DocumentReference documentReference = db.collection(Constant.QUIZ_TAKEN_COLLECTION).document(quizTakenId);
         documentReference.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot documentSnapshot = task.getResult();
                 assert documentSnapshot != null;
                 if (documentSnapshot.exists()) {
-                    score = (String) documentSnapshot.get("score");
-                    MaxScore[0] = (String) documentSnapshot.get("TotalScore");
+                    score = String.valueOf(documentSnapshot.get(Constant.QuizTakenCollectionFields.SCORE));
+                    MaxScore[0] = String.valueOf(documentSnapshot.get(Constant.QuizTakenCollectionFields.TOTAL_SCORE));
                 }
                 TotalScore.setText("Score : " + (score) + "/" + MaxScore[0]);
             }
@@ -148,23 +148,21 @@ public class SingleQuestionDetailActivity extends AppCompatActivity {
         String QuestionId = questionList.get(questionNumber).getQuestionId();
         //fetching average time
 
-        DocumentReference documentReference = db.collection("questions").document(QuestionId);
+        DocumentReference documentReference = db.collection(Constant.QUESTION_COLLECTION).document(QuestionId);
         documentReference.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot documentSnapshot = task.getResult();
                 assert documentSnapshot != null;
                 if (documentSnapshot.exists()) {
-                    AverageTime.setText("Average : " + documentSnapshot.get("time"));
-                    // score = (String) documentSnapshot.get("score");
-                    Log.d("SingleQuestionActivity", "Average Time is :  " + documentSnapshot.get("time"));
+                    AverageTime.setText("Average : " + documentSnapshot.get(Constant.QuestionCollectionFields.QUE_TIME));
                 }
             }
         });
         String quizTakenId = getIntent().getStringExtra("quickened");
         FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-        CollectionReference yourCollRef = rootRef.collection("quizTakenQuestions");
-        Query query = yourCollRef.whereEqualTo("quizTakenId", quizTakenId)
-                .whereEqualTo("questionId", questionList.get(questionNumber).getQuestionId());
+        CollectionReference yourCollRef = rootRef.collection(Constant.QUIZ_TAKEN_QUESTION_COLLECTION);
+        Query query = yourCollRef.whereEqualTo(Constant.QuizTakenQuestionsFields.QUIZ_TAKEN_ID, quizTakenId)
+                .whereEqualTo(Constant.QuizTakenQuestionsFields.QUESTION_ID, questionList.get(questionNumber).getQuestionId());
         final Object[] AttemptedAnswer = {null};
         final Object[] timeTaken = {""};
         String finalAns = ans;
@@ -172,20 +170,15 @@ public class SingleQuestionDetailActivity extends AppCompatActivity {
             if (task.isSuccessful()) {
 
                 for (DocumentSnapshot documentSnapshot : Objects.requireNonNull(task.getResult())) {
-                    AttemptedAnswer[0] = documentSnapshot.get("attemptedAnswer");
-                    timeTaken[0] = documentSnapshot.get("timeTaken");
-                    Log.d("SingleQuestionActivity", timeTaken[0] + "  Attempted ans is : " + AttemptedAnswer[0] + "document snapshot get " + documentSnapshot.get("attemptedAnswer"));
-
+                    AttemptedAnswer[0] = documentSnapshot.get(Constant.QuizTakenQuestionsFields.ATTEMPTED_ANS);
+                    timeTaken[0] = documentSnapshot.get(Constant.QuizTakenQuestionsFields.TIME_TAKEN);
                 }
 
                 TimeTaken.setText("Time : " + timeTaken[0]);
-                Log.d("SingleQuestionActivity", timeTaken[0] + " " + AttemptedAnswer[0]);
                 if (AttemptedAnswer[0] == null) {
                     Toast.makeText(SingleQuestionDetailActivity.this, "Not attempted any answer", Toast.LENGTH_SHORT).show();
                     imageView.setImageResource(R.drawable.ic_close_black_24dp);
                 } else {
-                    Log.d("SingleQuestionActivity", finalAns + "  " + AttemptedAnswer[0]);
-
                     if (AttemptedAnswer[0].equals(finalAns)) {
                         imageView.setImageResource(R.drawable.ic_done_black_24dp);
                     } else {

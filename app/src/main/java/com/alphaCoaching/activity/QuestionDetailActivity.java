@@ -318,8 +318,8 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
             String UserName = FirstName + " " + LastName;
             Map<String, Object> data = new HashMap<>();
             data.put(Constant.QuizTakenCollectionFields.QUIZ_ID, quizId);
-            data.put(Constant.QuizTakenCollectionFields.SCORE, String.valueOf(quizScore));
-            data.put(Constant.QuizTakenCollectionFields.TOTAL_SCORE, String.valueOf(questionList.size()));
+            data.put(Constant.QuizTakenCollectionFields.SCORE, quizScore);
+            data.put(Constant.QuizTakenCollectionFields.TOTAL_SCORE, questionList.size());
             data.put(Constant.QuizTakenCollectionFields.USER_ID, UserSharedPreferenceManager.getUserInfo(getAppContext(), UserSharedPreferenceManager.userInfoFields.USER_UUID));
             data.put(Constant.QuizTakenCollectionFields.USER_NAME, UserName);
             firestore.collection(Constant.QUIZ_TAKEN_COLLECTION)
