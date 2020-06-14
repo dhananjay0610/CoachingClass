@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private FirebaseFirestore mFireBaseDB;
+    private static View homeNavigation;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .build();
         adapter = new FireStoreAdapter(options, this);
 
+        adapter.startListening();
         //two methods are declared in the recentLectureModel
         recyclerView.setAdapter(adapter);
     }
@@ -169,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onDestroy() {
         super.onDestroy();
+        adapter.stopListening();
     }
 
     @Override
@@ -179,12 +183,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onStart() {
         super.onStart();
-       adapter.startListening();
+//       adapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        adapter.stopListening();
+//        adapter.stopListening();
     }
 }

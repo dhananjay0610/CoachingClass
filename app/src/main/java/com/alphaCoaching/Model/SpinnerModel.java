@@ -3,6 +3,15 @@ package com.alphaCoaching.Model;
 public class SpinnerModel {
     private String title;
     private boolean selected;
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;

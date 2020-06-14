@@ -15,6 +15,7 @@ import com.alphaCoaching.Constant.Constant;
 import com.alphaCoaching.Model.Note;
 import com.alphaCoaching.Model.QuizTaken;
 import com.alphaCoaching.R;
+import com.alphaCoaching.Utils.UserSharedPreferenceManager;
 import com.alphaCoaching.adapter.NoteAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -67,6 +68,7 @@ public class QuizDetailActivity extends AppCompatActivity {
 
     private void getQuizAndTakenQuizData() {
         db.collection(Constant.QUIZ_COLLECTION)
+                .whereEqualTo(Constant.QuizCollectionFields.STANDARD, UserSharedPreferenceManager.getUserInfo(getApplicationContext(), UserSharedPreferenceManager.userInfoFields.USER_STANDARD))
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -87,6 +89,7 @@ public class QuizDetailActivity extends AppCompatActivity {
 
     private void getTekenQuizDdata(ArrayList<Note> quizList) {
         db.collection(Constant.QUIZ_TAKEN_COLLECTION)
+                .whereEqualTo(Constant.QuizTakenCollectionFields.USER_ID, UserSharedPreferenceManager.getUserInfo(getApplicationContext(), UserSharedPreferenceManager.userInfoFields.USER_UUID))
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

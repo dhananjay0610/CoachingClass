@@ -14,17 +14,18 @@
 
         <ImageView
             android:id="@+id/imagePdf"
-            android:layout_width="75dp"
+            android:layout_width="50dp"
             android:layout_centerVertical="true"
-            android:layout_height="75dp"
+            android:layout_height="50dp"
             android:src="@drawable/ic_pdf">
 
         </ImageView>
 
         <LinearLayout
             android:layout_width="1.4dp"
-            android:layout_height="100dp"
+            android:layout_height="60dp"
             android:layout_marginLeft="4.5dp"
+            android:layout_centerVertical="true"
             android:layout_toEndOf="@id/imagePdf"
             android:background="@color/black" />
 
@@ -37,7 +38,7 @@
             android:textColor="#000"
             android:layout_toEndOf="@+id/imagePdf"
             android:text="Name of PDF"
-            android:textSize="23sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -49,7 +50,7 @@
             android:layout_marginTop="2dp"
             android:layout_toEndOf="@+id/imagePdf"
             android:text="Name of Subject"
-            android:textSize="19sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -59,6 +60,6 @@
             android:gravity="end"
             android:text="PDF"
             android:textColor="#000"
-            android:textSize="17sp" />
+            android:textSize="13sp" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
