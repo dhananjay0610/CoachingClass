@@ -152,7 +152,7 @@ public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnP
     public void onItemClick(PDFModel snapshot, int position) {
 
         // final String[] url1 = {""};
-        DocumentReference documentReference = mFireBaseDB.collection("PDF").document(snapshot.getId());
+        DocumentReference documentReference = mFireBaseDB.collection(Constant.PDF_COLLECTION).document(snapshot.getId());
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

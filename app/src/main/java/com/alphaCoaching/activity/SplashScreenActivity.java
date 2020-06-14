@@ -52,6 +52,6 @@ public class SplashScreenActivity extends Activity {
         finish();
     }
 
-//    public static class CatGridAdapter {
-//    }
+    public static class CatGridAdapter {
+    }
 }

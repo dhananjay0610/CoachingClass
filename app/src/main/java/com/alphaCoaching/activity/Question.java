@@ -3,19 +3,23 @@ package com.alphaCoaching.activity;
 public class Question {
     private String id;
     private String question;
-    private String optionA, optionB, optionC, optionD;
+    private String option1, option2, option3, option4;
     private long correctOption;
     private String QuestionId;
 
     public Question(String id, String question, String optionA, String optionB, String optionC, String optionD, long correctOption, String questionId) {
         this.id = id;
         this.question = question;
-        this.optionA = optionA;
-        this.optionB = optionB;
-        this.optionC = optionC;
-        this.optionD = optionD;
+        this.option1 = optionA;
+        this.option2 = optionB;
+        this.option3 = optionC;
+        this.option4 = optionD;
         this.correctOption = correctOption;
         this.QuestionId = questionId;
+    }
+
+    public Question() {
+
     }
 
     public void setId(String id) {
@@ -43,35 +47,71 @@ public class Question {
     }
 
     public String getOptionA() {
-        return optionA;
+        return option1;
     }
 
     public void setOptionA(String optionA) {
-        this.optionA = optionA;
+        this.option1 = optionA;
     }
 
     public String getOptionB() {
-        return optionB;
+        return option2;
     }
 
     public void setOptionB(String optionB) {
-        this.optionB = optionB;
+        this.option2 = optionB;
+    }
+
+    public String getOption1() {
+        return option1;
+    }
+
+    public void setOption1(String option1) {
+        this.option1 = option1;
+    }
+
+    public String getOption2() {
+        return option2;
+    }
+
+    public void setOption2(String option2) {
+        this.option2 = option2;
+    }
+
+    public String getOption3() {
+        return option3;
+    }
+
+    public void setOption3(String option3) {
+        this.option3 = option3;
+    }
+
+    public String getOption4() {
+        return option4;
+    }
+
+    public void setOption4(String option4) {
+        this.option4 = option4;
+    }
+
+    public void setCorrectOption(long correctOption) {
+        this.correctOption = correctOption;
     }
 
     public String getOptionC() {
-        return optionC;
+        return option3;
     }
 
     public void setOptionC(String optionC) {
-        this.optionC = optionC;
+        this.option3 = optionC;
     }
 
     public String getOptionD() {
-        return optionD;
+        return option4;
     }
 
     public void setOptionD(String optionD) {
-        this.optionD = optionD;
+        this.option4 = optionD;
     }
 
     public long getCorrectOption() {
@@ -82,3 +122,89 @@ public class Question {
         this.correctOption = correctAns;
     }
 }
+
+
+//package com.alphaCoaching.activity;
+//
+//public class Question {
+//    private String id;
+//    private String question;
+//    private String optionA, optionB, optionC, optionD;
+//    private long correctOption;
+//    private String QuestionId;
+//
+//    public Question(String id, String question, String optionA, String optionB, String optionC, String optionD, long correctOption, String questionId) {
+//        this.id = id;
+//        this.question = question;
+//        this.optionA = optionA;
+//        this.optionB = optionB;
+//        this.optionC = optionC;
+//        this.optionD = optionD;
+//        this.correctOption = correctOption;
+//        this.QuestionId = questionId;
+//    }
+//
+//    public void setId(String id) {
+//        this.id = id;
+//    }
+//
+//    public String getId() {
+//        return id;
+//    }
+//
+//    public String getQuestion() {
+//        return question;
+//    }
+//
+//    public void setQuestion(String question) {
+//        this.question = question;
+//    }
+//
+//    public String getQuestionId() {
+//        return QuestionId;
+//    }
+//
+//    public void setQuestionId(String question) {
+//        this.QuestionId = question;
+//    }
+//
+//    public String getOptionA() {
+//        return optionA;
+//    }
+//
+//    public void setOptionA(String optionA) {
+//        this.optionA = optionA;
+//    }
+//
+//    public String getOptionB() {
+//        return optionB;
+//    }
+//
+//    public void setOptionB(String optionB) {
+//        this.optionB = optionB;
+//    }
+//
+//    public String getOptionC() {
+//        return optionC;
+//    }
+//
+//    public void setOptionC(String optionC) {
+//        this.optionC = optionC;
+//    }
+//
+//    public String getOptionD() {
+//        return optionD;
+//    }
+//
+//    public void setOptionD(String optionD) {
+//        this.optionD = optionD;
+//    }
+//
+//    public long getCorrectOption() {
+//        return correctOption;
+//    }
+//
+//    public void setCorrectAns(int correctAns) {
+//        this.correctOption = correctAns;
+//    }
+//}

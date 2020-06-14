@@ -33,13 +33,11 @@ public class PdfViewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pdf_view);
         Toolbar toolbar = findViewById(R.id.toolbarOfViewActivity);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-
         pdfView = findViewById(R.id.PdfViewer);
         Intent intent = getIntent();
         link = intent.getStringExtra("url");
@@ -47,49 +45,27 @@ public class PdfViewActivity extends AppCompatActivity {
         if (isConnected()) {
             // Toast.makeText(getApplicationContext(), "Internet Connected", Toast.LENGTH_SHORT).show();
         } else {
-
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
-
-
             AlertDialog.Builder builder = new AlertDialog.Builder(PdfViewActivity.this);
-
             builder.setTitle("NoInternet Connection Alert")
-
                     .setMessage("GO to Setting ?")
-
                     .setCancelable(false)
-
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
                         @Override
-
                         public void onClick(DialogInterface dialog, int which) {
-
                             startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
                         }
-
                     })
-
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
-
                         @Override
-
                         public void onClick(DialogInterface dialog, int which) {
-
                             Toast.makeText(PdfViewActivity.this, "Go Back TO HomePage!", Toast.LENGTH_SHORT).show();
-
                         }
-
                     });
-
             //Creating dialog box
-
             AlertDialog dialog = builder.create();
-
             dialog.show();
-
         }
-
         new RetrievePDFStream().execute(link);
     }
 
@@ -107,68 +83,37 @@ public class PdfViewActivity extends AppCompatActivity {
     }
 
     class RetrievePDFStream extends AsyncTask<String, Void, InputStream> {
-
-
         ProgressDialog progressDialog;
+
         @Override
         protected InputStream doInBackground(String... strings) {
-
             InputStream inputStream = null;
-
-
             try {
-
-
                 URL urlx = new URL(strings[0]);
-
                 HttpURLConnection urlConnection = (HttpURLConnection) urlx.openConnection();
-
                 if (urlConnection.getResponseCode() == 200) {
-
                     inputStream = new BufferedInputStream(urlConnection.getInputStream());
-
-
                 }
-
             } catch (IOException e) {
-
                 return null;
-
             }
-
             return inputStream;
-
-
         }
 
         protected void onPreExecute() {
-
             Log.d("PdfViewActivity", "before execution :" + link);
-
             progressDialog = new ProgressDialog(PdfViewActivity.this);
-
             progressDialog.setTitle("getting the book content...");
-
             progressDialog.setMessage("Please wait...");
-
             progressDialog.setCanceledOnTouchOutside(false);
-
             progressDialog.show();
-
-
         }
-
 
         @Override
-
         protected void onPostExecute(InputStream inputStream) {
-
             pdfView.fromStream(inputStream).load();
-
             progressDialog.dismiss();
-
         }
-
     }
 
     @Override

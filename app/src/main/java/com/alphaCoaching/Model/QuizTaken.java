@@ -2,13 +2,13 @@ package com.alphaCoaching.Model;
 
 public class QuizTaken {
     private String id;
-    private String TotalScore;
+    private long TotalScore;
     private String quizId;
-    private String score;
+    private long score;
     private String userId;
     private String userName;
 
-    public QuizTaken (String TotalScore, String userId, String score, String quizId, String userName) {
+    public QuizTaken (long TotalScore, String userId, long score, String quizId, String userName) {
         this.quizId = quizId;
         this.score = score;
         this.TotalScore = TotalScore;
@@ -32,11 +32,11 @@ public class QuizTaken {
         return quizId;
     }
 
-    public String getScore() {
+    public long getScore() {
         return score;
     }
 
-    public String getTotalScore() {
+    public long getTotalScore() {
         return TotalScore;
     }
 

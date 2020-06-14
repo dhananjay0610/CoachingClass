@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?><!--<TextView xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:id="@+id/textViewQuestionNumber"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:layout_gravity="center"-->
+<!--    android:background="@drawable/backgraoundwhitewithroundedcorners"-->
+<!--    android:backgroundTint="#000"-->
+<!--    android:gravity="center"-->
+<!--    android:textColor="#fff"-->
+<!--    android:layout_margin="4dp"-->
+<!--    android:textSize="20dp"-->
+<!--    android:textStyle="bold" />-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@drawable/backgraoundwhitewithroundedcorners"
+    android:gravity="center">
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textViewQuestionNumber"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:layout_margin="3dp"-->
+    <!--        android:gravity="center"-->
+    <!--        android:text="1"-->
+    <!--        android:textColor="#fff"-->
+    <!--        android:textStyle="bold" />-->
+
+
+    <TextView
+        android:id="@+id/QuestionNumber"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:background="@drawable/roundedborders"
+        android:backgroundTint="#989898"
+        android:padding="15dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:text="1"
+        android:textColor="#000"
+        android:textSize="19sp" />
+
+    <!--    <Button-->
+    <!--        android:id="@+id/QuestionNumber"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_margin="5dp"-->
+    <!--        android:layout_marginLeft="25dp"-->
+    <!--        android:layout_marginRight="25dp"-->
+    <!--        android:background="@drawable/roundedborders"-->
+    <!--        android:backgroundTint="#989898"-->
+    <!--        android:text="1"-->
+    <!--        android:textColor="#000"-->
+    <!--        android:textSize="19sp" />-->
+
+
+</LinearLayout>
