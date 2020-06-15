@@ -67,6 +67,7 @@ public class QuizDetailActivity extends AppCompatActivity implements NavigationV
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
         getQuizAndTakenQuizData();
     }
     private void setupWindowAnimation() {
@@ -158,7 +159,7 @@ public class QuizDetailActivity extends AppCompatActivity implements NavigationV
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.nav_quiz) {
-//            onBackPressed();
+            onBackPressed();
         } else if (id == R.id.nav_home) {
             loadHomeActivity();
         } else if (id == R.id.nav_Pdf) {
@@ -191,5 +192,12 @@ public class QuizDetailActivity extends AppCompatActivity implements NavigationV
         Intent i = new Intent(QuizDetailActivity.this, PdfListActivity.class);
         startActivity(i);
     }
-
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 }
