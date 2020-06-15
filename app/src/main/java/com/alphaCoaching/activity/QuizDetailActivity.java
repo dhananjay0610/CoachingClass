@@ -3,6 +3,8 @@ package com.alphaCoaching.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,6 +33,7 @@ public class QuizDetailActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArrayList<Note> quizList;
     private ArrayList<QuizTaken> quizTakenList;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,7 @@ public class QuizDetailActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbarOfQuizActivity);
         setSupportActionBar(toolbar);
         recyclerView = findViewById(R.id.recycler_view);
+        mProgressBar = findViewById(R.id.quizListProgressbar);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         quizList = new ArrayList<>();
         quizTakenList = new ArrayList<>();
@@ -67,6 +71,7 @@ public class QuizDetailActivity extends AppCompatActivity {
     }
 
     private void getQuizAndTakenQuizData() {
+        mProgressBar.setVisibility(View.VISIBLE);
         db.collection(Constant.QUIZ_COLLECTION)
                 .whereEqualTo(Constant.QuizCollectionFields.STANDARD, UserSharedPreferenceManager.getUserInfo(getApplicationContext(), UserSharedPreferenceManager.userInfoFields.USER_STANDARD))
                 .get()
@@ -103,6 +108,7 @@ public class QuizDetailActivity extends AppCompatActivity {
                             adapter = new NoteAdapter(QuizDetailActivity.this, quizList, quizTakenList);
                             recyclerView.setAdapter(adapter);
                             recyclerView.setHasFixedSize(true);
+                            mProgressBar.setVisibility(View.GONE);
                             setupAdapter();
                         }
                     }

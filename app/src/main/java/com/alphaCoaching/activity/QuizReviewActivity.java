@@ -1,12 +1,14 @@
 package com.alphaCoaching.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,15 +37,16 @@ import java.util.Objects;
 public class QuizReviewActivity extends AppCompatActivity {
 
     private TextView textViewMarks;
-    private TextView TotalAttempt;
+    private TextView TotalAttempt, progressInPercent;
     private ProgressBar progressBar;
     private FirebaseFirestore FireStore;
     private DocumentReference documentReference;
     private static List<Question> questionList;
     private static List<QuizTakenQuestion> takenQuestionList;
-    private Button ButtonQuestionReview;
+    private Button ButtonQuestionReview, mWholeClassResultButton;
     private String quizId, quizTakenId;
     private GridView gridView;
+    private LinearLayout mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,9 @@ public class QuizReviewActivity extends AppCompatActivity {
         textViewMarks = findViewById(R.id.TotalMarks);
         ButtonQuestionReview = findViewById(R.id.ButtonQuestionReview);
         gridView = findViewById(R.id.grid);
+        mWholeClassResultButton = findViewById(R.id.seeClassResultButton);
+        mProgressBar = findViewById(R.id.quizReviewProgressbar);
+        progressInPercent = findViewById(R.id.accuracyProgressValue);
         FireStore = FirebaseFirestore.getInstance();
         //toolbar
         Toolbar toolbar = findViewById(R.id.toolbarOfQuizReviewActivity);
@@ -73,10 +79,21 @@ public class QuizReviewActivity extends AppCompatActivity {
             startActivity(i);
         });
 
+        mWholeClassResultButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(QuizReviewActivity.this, WholeClassResultList.class);
+                intent1.putExtra("QuizId", quizId);
+//                intent1.putExtra("QuizTakenId", quizTakenId);
+                startActivity(intent1);
+            }
+        });
+
 
     }
 
     private void getQuestionsList() {
+        mProgressBar.setVisibility(View.VISIBLE);
         //ArrayList to store the question class variable
         questionList = new ArrayList<>();
         FireStore.collection(Constant.QUESTION_COLLECTION).whereEqualTo(Constant.QuestionCollectionFields.QUIZ_ID, quizId)
@@ -165,9 +182,6 @@ public class QuizReviewActivity extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                /* Display the Toast */
-//                Log.d("QuizReviewActivity","============"+position);
-//                Toast.makeText(getApplicationContext(), "hh"+l+" "+position, Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(QuizReviewActivity.this, SingleQuestionDetailActivity.class);
                 i.putExtra("QuizId", quizId);
                 i.putExtra("quickened", quizTakenId);
@@ -222,8 +236,11 @@ public class QuizReviewActivity extends AppCompatActivity {
 
         Log.d("QuizReviewActivity", "The value is of accuracy percentage : " + accuracyPercentage + " " + totalAttempts + " " + totalCorrect);
         TotalAttempt.setText(text);
+        progressInPercent.setText(accuracyPercentage + "%");
         progressBar.setMax(100);
         progressBar.setProgress((int) accuracyPercentage);
+
+        mProgressBar.setVisibility(View.GONE);
     }
 
     private QuizTakenQuestion getTakenQuestion(String id) {

@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text"
-        android:columnWidth="80dp"
+        android:columnWidth="50dp"
         android:gravity="center"
         android:backgroundTint="#fff"
         android:horizontalSpacing="4dp"
@@ -130,18 +130,31 @@
             android:textSize="21dp"
             android:textStyle="bold" />
 
-        <ProgressBar
-            android:id="@+id/accuracyProgressBar"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_margin="3dp"
-            android:layout_weight="1"
-            android:background="#000"
-            android:max="100"
-            android:padding="3dp"
-            android:progress="0"
-            android:progressDrawable="@drawable/custom_progress" />
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/accuracyProgressValue"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="10%" />
+
+            <ProgressBar
+                android:id="@+id/accuracyProgressBar"
+                style="@style/ResultProgressBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="100"
+                android:progress="50" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -186,15 +199,50 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/ButtonQuestionReview"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/mar1"
-        android:layout_centerHorizontal="true"
-        android:backgroundTint="@color/black"
-        android:padding="16dp"
-        android:textAllCaps="false"
-        android:text="Get all question detail"
-        android:textColor="#fff" />
+        android:layout_below="@+id/mar1"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/ButtonQuestionReview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mar1"
+            android:backgroundTint="@color/black"
+            android:gravity="start"
+            android:padding="16dp"
+            android:text="Get all question detail"
+            android:textAllCaps="false"
+            android:textColor="#fff" />
+
+        <Button
+            android:id="@+id/seeClassResultButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mar1"
+            android:backgroundTint="@color/black"
+            android:gravity="end"
+            android:padding="16dp"
+            android:text="Whole class result"
+            android:textAllCaps="false"
+            android:textColor="#fff" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/quizReviewProgressbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gradientstart"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:visibility="visible" />
+    </LinearLayout>
 </RelativeLayout>

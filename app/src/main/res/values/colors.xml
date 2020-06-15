@@ -13,4 +13,6 @@
     <color name="contenttextcolor">#999da4</color>
     <color name="cardbg">#F6F6F6</color>
     <color name="titletextcolor">#25Bbd6</color>
+
+    <color name="resultProgressColor">#008000</color>
 </resources>
