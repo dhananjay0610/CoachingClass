@@ -1,10 +1,14 @@
 package com.alphaCoaching.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
+import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,10 +26,13 @@ import com.alphaCoaching.Model.QuizTaken;
 import com.alphaCoaching.R;
 import com.alphaCoaching.Utils.UserSharedPreferenceManager;
 import com.alphaCoaching.adapter.NoteAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -38,6 +45,7 @@ public class QuizDetailActivity extends AppCompatActivity implements NavigationV
     private ArrayList<Note> quizList;
     private ArrayList<QuizTaken> quizTakenList;
     private FirebaseAuth fireAuth;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +55,7 @@ public class QuizDetailActivity extends AppCompatActivity implements NavigationV
         Toolbar toolbar = findViewById(R.id.toolbarOfQuizActivity);
         setSupportActionBar(toolbar);
         recyclerView = findViewById(R.id.recycler_view);
+        mProgressBar = findViewById(R.id.quizListProgressbar);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         quizList = new ArrayList<>();
         quizTakenList = new ArrayList<>();
@@ -86,6 +95,7 @@ public class QuizDetailActivity extends AppCompatActivity implements NavigationV
     }
 
     private void getQuizAndTakenQuizData() {
+        mProgressBar.setVisibility(View.VISIBLE);
         db.collection(Constant.QUIZ_COLLECTION)
                 .whereEqualTo(Constant.QuizCollectionFields.STANDARD, UserSharedPreferenceManager.getUserInfo(getApplicationContext(), UserSharedPreferenceManager.userInfoFields.USER_STANDARD))
                 .get()
@@ -108,17 +118,21 @@ public class QuizDetailActivity extends AppCompatActivity implements NavigationV
         db.collection(Constant.QUIZ_TAKEN_COLLECTION)
                 .whereEqualTo(Constant.QuizTakenCollectionFields.USER_ID, UserSharedPreferenceManager.getUserInfo(getApplicationContext(), UserSharedPreferenceManager.userInfoFields.USER_UUID))
                 .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                            QuizTaken quiz = document.toObject(QuizTaken.class);
-                            quiz.setId(document.getId());
-                            quizTakenList.add(quiz);
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                QuizTaken quiz = document.toObject(QuizTaken.class);
+                                quiz.setId(document.getId());
+                                quizTakenList.add(quiz);
+                            }
+                            adapter = new NoteAdapter(QuizDetailActivity.this, quizList, quizTakenList);
+                            recyclerView.setAdapter(adapter);
+                            recyclerView.setHasFixedSize(true);
+                            mProgressBar.setVisibility(View.GONE);
+                            setupAdapter();
                         }
-                        adapter = new NoteAdapter(QuizDetailActivity.this, quizList, quizTakenList);
-                        recyclerView.setAdapter(adapter);
-                        recyclerView.setHasFixedSize(true);
-                        setupAdapter();
                     }
                 });
     }
@@ -139,11 +153,12 @@ public class QuizDetailActivity extends AppCompatActivity implements NavigationV
         super.onStop();
     }
 
+    @SuppressLint("RtlHardcoded")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.nav_quiz) {
-            onBackPressed();
+//            onBackPressed();
         } else if (id == R.id.nav_home) {
             loadHomeActivity();
         } else if (id == R.id.nav_Pdf) {

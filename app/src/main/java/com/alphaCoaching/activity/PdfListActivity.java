@@ -179,7 +179,8 @@ public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnP
         } else if (id == R.id.nav_home) {
             loadHomeActivity();
         } else if (id == R.id.nav_Pdf) {
-            onBackPressed();
+//            do nothing.
+//            onBackPressed();
         } else if (id == R.id.nav_userProfile) {
             loadUserData();
         } else if (id == R.id.nav_logout) {

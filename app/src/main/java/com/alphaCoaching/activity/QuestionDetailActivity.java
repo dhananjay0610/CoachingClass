@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,12 +47,12 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
     private Long quizTime;
     private Button next, previous;
     private Toolbar toolbar;
-    private ProgressBar mProgressBar;
+    private LinearLayout mProgressBar;
     private ArrayList<Long> arr = new ArrayList<>();
     private HashMap<Integer, Long> timeTalken = new HashMap<>();
 
     //Array needed to store data in order to add them in the database
-    private ArrayList<String> attemptedAnswers = new ArrayList<>();
+    private HashMap<Integer, String> attemptedAnswers = new HashMap<>();
     private Boolean isExamEnd = false;
     private long questionStartTime;
 
@@ -95,9 +96,9 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
 
     }
 
-       private void setupWindowAnimation(){
-           Slide slide= (Slide) TransitionInflater.from(this).inflateTransition(R.transition.activity_slide);
-           getWindow().setExitTransition(slide);
+    private void setupWindowAnimation() {
+        Slide slide = (Slide) TransitionInflater.from(this).inflateTransition(R.transition.activity_slide);
+        getWindow().setExitTransition(slide);
 
     }
 
@@ -211,27 +212,17 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
                         - questionStartTime);
 //            Toast.makeText(this, "Time Taken: " + timeTalken.get(questionNumber), Toast.LENGTH_SHORT).show();
 
-            if (attemptedAnswers.size() == questionNumber) {
-                if (selectedOption == 1)
-                    attemptedAnswers.add(questionNumber, questionList.get(questionNumber).getOptionA());
-                else if (selectedOption == 2)
-                    attemptedAnswers.add(questionNumber, questionList.get(questionNumber).getOptionB());
-                else if (selectedOption == 3)
-                    attemptedAnswers.add(questionNumber, questionList.get(questionNumber).getOptionC());
-                else if (selectedOption == 4)
-                    attemptedAnswers.add(questionNumber, questionList.get(questionNumber).getOptionD());
-            } else {
-                if (selectedOption == 1)
-                    attemptedAnswers.set(questionNumber, questionList.get(questionNumber).getOptionA());
-                else if (selectedOption == 2)
-                    attemptedAnswers.set(questionNumber, questionList.get(questionNumber).getOptionB());
-                else if (selectedOption == 3)
-                    attemptedAnswers.set(questionNumber, questionList.get(questionNumber).getOptionC());
-                else if (selectedOption == 4)
-                    attemptedAnswers.set(questionNumber, questionList.get(questionNumber).getOptionD());
-            }
 
+            if (selectedOption == 1)
+                attemptedAnswers.put(questionNumber, questionList.get(questionNumber).getOptionA());
+            else if (selectedOption == 2)
+                attemptedAnswers.put(questionNumber, questionList.get(questionNumber).getOptionB());
+            else if (selectedOption == 3)
+                attemptedAnswers.put(questionNumber, questionList.get(questionNumber).getOptionC());
+            else if (selectedOption == 4)
+                attemptedAnswers.put(questionNumber, questionList.get(questionNumber).getOptionD());
 
+            selectedOption = 0;
             nextQuestion();
         } else if (v.getId() == R.id.option1) {
             selectedOption = 1;
@@ -280,6 +271,21 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
             option2.setEnabled(true);
             option3.setEnabled(true);
             option4.setEnabled(true);
+
+            Log.d("Shubham", "previousQuestion: " + attemptedAnswers.get(questionNumber));
+            Log.d("Shubham", "previousQuestion: " + attemptedAnswers.get(questionNumber).equals(questionList.get(questionNumber).getOption1()));
+            Log.d("Shubham", "previousQuestion: " + attemptedAnswers.get(questionNumber).equals(questionList.get(questionNumber).getOption2()));
+            Log.d("Shubham", "previousQuestion: " + attemptedAnswers.get(questionNumber).equals(questionList.get(questionNumber).getOption3()));
+            Log.d("Shubham", "previousQuestion: " + attemptedAnswers.get(questionNumber).equals(questionList.get(questionNumber).getOption4()));
+            if (attemptedAnswers.get(questionNumber).equals(questionList.get(questionNumber).getOption1())) {
+                option1.setBackgroundColor(Color.GREEN);
+            } if (attemptedAnswers.get(questionNumber).equals(questionList.get(questionNumber).getOption2())) {
+                option2.setBackgroundColor(Color.GREEN);
+            } if (attemptedAnswers.get(questionNumber).equals(questionList.get(questionNumber).getOption3())) {
+                option3.setBackgroundColor(Color.GREEN);
+            } if (attemptedAnswers.get(questionNumber).equals(questionList.get(questionNumber).getOption4())) {
+                option4.setBackgroundColor(Color.GREEN);
+            }
         }
     }
 
@@ -347,7 +353,7 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
     }
 
     private void calculateScore() {
-        for (int i=0; i< questionList.size(); i++) {
+        for (int i = 0; i < questionList.size(); i++) {
             long correctAns = questionList.get(i).getCorrectOption();
             String correctAnswer = "";
 
@@ -361,7 +367,7 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
                 correctAnswer = questionList.get(i).getOptionD();
             }
 
-            if (correctAnswer.equals(attemptedAnswers.get(i))) {
+            if (attemptedAnswers.get(i) != null && correctAnswer.equals(attemptedAnswers.get(i))) {
                 quizScore++;
             }
         }

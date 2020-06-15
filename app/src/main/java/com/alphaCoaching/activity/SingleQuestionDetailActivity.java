@@ -5,8 +5,11 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +31,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class SingleQuestionDetailActivity extends AppCompatActivity {
-    private TextView question, qCount, TimeTaken, AverageTime, TotalScore;
+    private TextView question, TimeTaken, AverageTime, TotalScore;
+    private ImageView questionImage;
     private Button option1, option2, option3, option4;
     private List<Question> questionList;
     private FirebaseFirestore FireStore;
@@ -36,6 +40,7 @@ public class SingleQuestionDetailActivity extends AppCompatActivity {
     private String score;
     String[] QuestionId = new String[45];
     ImageView imageView;
+    private LinearLayout mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,15 +51,16 @@ public class SingleQuestionDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         question = findViewById(R.id.questionSingleQuestion);
-        qCount = findViewById(R.id.quesNumSingleQuestion);
+        questionImage = findViewById(R.id.questionImage);
         option1 = findViewById(R.id.option1SingleQuestion);
         option2 = findViewById(R.id.option2SingleQuestion);
         option3 = findViewById(R.id.option3SingleQuestion);
         option4 = findViewById(R.id.option4SingleQuestion);
+        mProgressBar = findViewById(R.id.singleQuestionProgressbar);
 
         TimeTaken = findViewById(R.id.TimeTakenSingleQuestion);
         AverageTime = findViewById(R.id.AverageTimeSingleQuestion);
-        imageView = findViewById(R.id.imageViewForTickSingleQuestion);
+//        imageView = findViewById(R.id.imageViewForTickSingleQuestion);
         TotalScore = findViewById(R.id.TotalScoreSingleQuestion);
         FireStore = FirebaseFirestore.getInstance();
         Intent intent = getIntent();
@@ -67,6 +73,7 @@ public class SingleQuestionDetailActivity extends AppCompatActivity {
 
 
     private void getQuestionsList() {
+        mProgressBar.setVisibility(View.VISIBLE);
         String docId = getIntent().getStringExtra("QuizId");
         questionList = new ArrayList<>();
         FireStore.collection(Constant.QUESTION_COLLECTION).whereEqualTo(Constant.QuestionCollectionFields.QUIZ_ID, docId)
@@ -119,7 +126,6 @@ public class SingleQuestionDetailActivity extends AppCompatActivity {
         option2.setText(questionList.get(questionNumber).getOptionB());
         option3.setText(questionList.get(questionNumber).getOptionC());
         option4.setText(questionList.get(questionNumber).getOptionD());
-        qCount.setText(questionNumber + 1 + "/" + (questionList.size()));
 
         //To fetch from the quizTaken collection
         int n = (int) questionList.get(questionNumber).getCorrectOption();
@@ -127,19 +133,23 @@ public class SingleQuestionDetailActivity extends AppCompatActivity {
         switch (n) {
             case 1:
                 ans = (questionList.get(questionNumber).getOptionA());
-                option1.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+//                option1.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+                option1.setBackgroundColor(Color.GREEN);
                 break;
             case 2:
                 ans = (questionList.get(questionNumber).getOptionB());
-                option2.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+//                option2.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+                option2.setBackgroundColor(Color.GREEN);
                 break;
             case 3:
                 ans = (questionList.get(questionNumber).getOptionC());
-                option3.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+//                option3.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+                option3.setBackgroundColor(Color.GREEN);
                 break;
             case 4:
                 ans = (questionList.get(questionNumber).getOptionD());
-                option4.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+//                option4.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+                option4.setBackgroundColor(Color.GREEN);
                 break;
         }
         String QuestionId = questionList.get(questionNumber).getQuestionId();
@@ -175,24 +185,29 @@ public class SingleQuestionDetailActivity extends AppCompatActivity {
                 TimeTaken.setText(text);
                 if (AttemptedAnswer[0] == null) {
                     Toast.makeText(SingleQuestionDetailActivity.this, "Not attempted any answer", Toast.LENGTH_SHORT).show();
-                    imageView.setImageResource(R.drawable.ic_close_black_24dp);
+//                    imageView.setImageResource(R.drawable.ic_close_black_24dp);
                 } else {
                     if (AttemptedAnswer[0].equals(finalAns)) {
-                        imageView.setImageResource(R.drawable.ic_done_black_24dp);
+//                        imageView.setImageResource(R.drawable.ic_done_black_24dp);
                     } else {
-                        imageView.setImageResource(R.drawable.ic_close_black_24dp);
+//                        imageView.setImageResource(R.drawable.ic_close_black_24dp);
                         if (AttemptedAnswer[0].equals(questionList.get(questionNumber).getOptionA())) {
-                            option1.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+//                            option1.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                            option1.setBackgroundColor(Color.RED);
                         } else if (AttemptedAnswer[0].equals(questionList.get(questionNumber).getOptionB())) {
-                            option2.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+//                            option2.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                            option2.setBackgroundColor(Color.RED);
                         } else if (AttemptedAnswer[0].equals(questionList.get(questionNumber).getOptionC())) {
-                            option3.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+//                            option3.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                            option3.setBackgroundColor(Color.RED);
                         } else if (AttemptedAnswer[0].equals(questionList.get(questionNumber).getOptionD())) {
-                            option4.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+//                            option4.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                            option4.setBackgroundColor(Color.RED);
                         }
                     }
                 }
             }
         });
+        mProgressBar.setVisibility(View.GONE);
     }
 }

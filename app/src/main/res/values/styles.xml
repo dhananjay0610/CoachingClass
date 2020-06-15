@@ -21,4 +21,12 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+    <style name="ResultProgressBar" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressBackgroundTint">@color/gray</item>
+        <item name="android:progressTint">@color/resultProgressColor</item>
+        <item name="height">100dp</item>
+        <item name="android:width">100dp</item>
+        <item name="android:minWidth">200dp</item>
+    </style>
+
 </resources>
