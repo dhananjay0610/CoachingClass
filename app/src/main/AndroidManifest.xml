@@ -55,6 +55,9 @@
         <activity
             android:name=".activity.LectureActivity"
             android:parentActivityName=".activity.MainActivity" />
+        <activity
+            android:name=".activity.WholeClassResultList"
+            android:parentActivityName=".activity.QuizReviewActivity"/>
 
         <meta-data
             android:name="preloaded_fonts"
