@@ -2,7 +2,6 @@ package com.alphaCoaching.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -42,30 +41,21 @@ public class PdfViewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         link = intent.getStringExtra("url");
         Log.d("PdfViewActivity", "url : " + link);
-        if (isConnected()) {
-            // Toast.makeText(getApplicationContext(), "Internet Connected", Toast.LENGTH_SHORT).show();
-        } else {
+        if (!isConnected()) {
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
             AlertDialog.Builder builder = new AlertDialog.Builder(PdfViewActivity.this);
             builder.setTitle("NoInternet Connection Alert")
                     .setMessage("GO to Setting ?")
                     .setCancelable(false)
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
-                        }
-                    })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(PdfViewActivity.this, "Go Back TO HomePage!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    .setPositiveButton("Yes", (dialog, which) -> startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS)))
+                    .setNegativeButton("No", (dialog, which) -> Toast.makeText(PdfViewActivity.this, "Go Back TO HomePage!", Toast.LENGTH_SHORT).show());
             //Creating dialog box
             AlertDialog dialog = builder.create();
             dialog.show();
         }
+//        else {
+//            // Toast.makeText(getApplicationContext(), "Internet Connected", Toast.LENGTH_SHORT).show();
+//        }
         new RetrievePDFStream().execute(link);
     }
 
@@ -77,12 +67,12 @@ public class PdfViewActivity extends AppCompatActivity {
             connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
             return connected;
         } catch (Exception e) {
-            Log.e("Connectivity Exception", e.getMessage());
+            Log.e("Connectivity Exception", Objects.requireNonNull(e.getMessage()));
         }
         return connected;
     }
 
-    class RetrievePDFStream extends AsyncTask<String, Void, InputStream> {
+     class RetrievePDFStream extends AsyncTask<String, Void, InputStream> {
         ProgressDialog progressDialog;
 
         @Override

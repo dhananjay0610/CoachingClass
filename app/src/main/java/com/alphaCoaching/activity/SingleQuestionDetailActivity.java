@@ -31,12 +31,9 @@ public class SingleQuestionDetailActivity extends AppCompatActivity {
     private TextView question, qCount, TimeTaken, AverageTime, TotalScore;
     private Button option1, option2, option3, option4;
     private List<Question> questionList;
-    private int questionNumber;
     private FirebaseFirestore FireStore;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String score;
-    Button previous;
-    Button next;
     String[] QuestionId = new String[45];
     ImageView imageView;
 
@@ -108,7 +105,8 @@ public class SingleQuestionDetailActivity extends AppCompatActivity {
                     score = String.valueOf(documentSnapshot.get(Constant.QuizTakenCollectionFields.SCORE));
                     MaxScore[0] = String.valueOf(documentSnapshot.get(Constant.QuizTakenCollectionFields.TOTAL_SCORE));
                 }
-                TotalScore.setText("Score : " + (score) + "/" + MaxScore[0]);
+                String text="Score : " + (score) + "/" + MaxScore[0];
+                TotalScore.setText(text);
             }
         });
     }
@@ -123,7 +121,6 @@ public class SingleQuestionDetailActivity extends AppCompatActivity {
         option4.setText(questionList.get(questionNumber).getOptionD());
         qCount.setText(questionNumber + 1 + "/" + (questionList.size()));
 
-//        questionNumber = 0;
         //To fetch from the quizTaken collection
         int n = (int) questionList.get(questionNumber).getCorrectOption();
         String ans = "";
@@ -174,7 +171,8 @@ public class SingleQuestionDetailActivity extends AppCompatActivity {
                     timeTaken[0] = documentSnapshot.get(Constant.QuizTakenQuestionsFields.TIME_TAKEN);
                 }
 
-                TimeTaken.setText("Time : " + timeTaken[0]);
+                String text="Time : " + timeTaken[0];
+                TimeTaken.setText(text);
                 if (AttemptedAnswer[0] == null) {
                     Toast.makeText(SingleQuestionDetailActivity.this, "Not attempted any answer", Toast.LENGTH_SHORT).show();
                     imageView.setImageResource(R.drawable.ic_close_black_24dp);

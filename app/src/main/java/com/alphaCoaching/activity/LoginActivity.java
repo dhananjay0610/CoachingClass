@@ -3,7 +3,6 @@ package com.alphaCoaching.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
@@ -20,10 +19,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
@@ -115,10 +112,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-//                Intent intent1 = new Intent(LoginActivity.this, MainActivity.class);
-//                startActivity(intent1);
-                Intent intent11 = new Intent(LoginActivity.this, MainActivity.class);
+   Intent intent11 = new Intent(LoginActivity.this, MainActivity.class);
                 intent11.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent11);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -138,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot snapshot : Objects.requireNonNull(task.getResult())) {
-                            UserSharedPreferenceManager.storeUserSubjects(getApplicationContext(), snapshot.getId(), snapshot.get("name").toString());
+                            UserSharedPreferenceManager.storeUserSubjects(getApplicationContext(), snapshot.getId(), Objects.requireNonNull(snapshot.get("name")).toString());
                         }
                     }
                 });

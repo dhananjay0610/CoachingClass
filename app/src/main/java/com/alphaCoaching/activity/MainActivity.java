@@ -1,11 +1,9 @@
 package com.alphaCoaching.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -17,10 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alphaCoaching.Constant.Constant;
+import com.alphaCoaching.Model.RecentLecturesModel;
 import com.alphaCoaching.R;
 import com.alphaCoaching.Utils.UserSharedPreferenceManager;
 import com.alphaCoaching.adapter.FireStoreAdapter;
-import com.alphaCoaching.Model.RecentLecturesModel;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,16 +28,16 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-import static com.alphaCoaching.Utils.UserSharedPreferenceManager.USER_DETAIL;
-
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FireStoreAdapter.OnListItemclick {
     private DrawerLayout drawerLayout;
     private FirebaseAuth fireAuth;
     private FireStoreAdapter adapter;
     private Toolbar toolbar;
     private RecyclerView recyclerView;
+    NavigationView navigationView;
+    FrameLayout frameLayout;
+    ActionBarDrawerToggle toggle;
     private FirebaseFirestore mFireBaseDB;
-    private static View homeNavigation;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,16 +50,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mFireBaseDB = FirebaseFirestore.getInstance();
         fireAuth = FirebaseAuth.getInstance();
         drawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+        frameLayout = findViewById(R.id.fragment_container);
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.getMenu().getItem(1).setChecked(true);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
         checkRecentLectures();
-
-
     }
 
     private void checkRecentLectures() {
@@ -98,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .setQuery(query, RecentLecturesModel.class)
                 .build();
         adapter = new FireStoreAdapter(options, this);
-
         adapter.startListening();
         //two methods are declared in the recentLectureModel
         recyclerView.setAdapter(adapter);
@@ -114,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(intent);
     }
 
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -122,11 +118,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             loadQuizData();
         } else if (id == R.id.nav_home) {
             onBackPressed();
-        }
-        else if(id== R.id.nav_Pdf){
+        } else if (id == R.id.nav_Pdf) {
             loadPdfList();
-        }
-        else if (id == R.id.nav_userProfile) {
+        } else if (id == R.id.nav_userProfile) {
             loadUserData();
         } else if (id == R.id.nav_logout) {
             fireAuth.signOut();

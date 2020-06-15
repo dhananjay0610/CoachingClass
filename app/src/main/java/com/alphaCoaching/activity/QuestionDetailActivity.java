@@ -2,7 +2,6 @@ package com.alphaCoaching.activity;
 
 import android.animation.Animator;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -22,7 +21,6 @@ import androidx.appcompat.widget.Toolbar;
 import com.alphaCoaching.Constant.Constant;
 import com.alphaCoaching.R;
 import com.alphaCoaching.Utils.UserSharedPreferenceManager;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -43,8 +41,6 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
     private List<Question> questionList;
     private int questionNumber;
     private FirebaseFirestore firestore;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private FirebaseAuth fireAuth;
     private int quizScore;
     private String quizId;
     private Long quizTime;
@@ -58,7 +54,6 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
     private ArrayList<String> attemptedAnswers = new ArrayList<>();
     private Boolean isExamEnd = false;
     private long questionStartTime;
-    private long questionEndTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +67,9 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         Bundle bundle = getIntent().getExtras();
+        assert bundle != null;
         quizId = bundle.getString("docID");
-        quizTime = Long.parseLong(bundle.get("quizTime").toString());
+        quizTime = Long.parseLong(Objects.requireNonNull(bundle.get("quizTime")).toString());
 
         question = findViewById(R.id.question);
         qCount = findViewById(R.id.questionNumber);
@@ -206,7 +202,7 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View v) {
         if (v.getId() == (R.id.next)) {
-            questionEndTime = getCurrentTime();
+            long questionEndTime = getCurrentTime();
             arr.add(arr.get(questionNumber) + questionEndTime - questionStartTime);
             if (timeTalken.containsKey(questionNumber))
                 timeTalken.put(questionNumber, timeTalken.get(questionNumber) + questionEndTime - questionStartTime);
@@ -278,8 +274,8 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
             playAnim(option4, 0, 4);
 
             qCount.setText((questionNumber + 1) + "/" + (questionList.size()));
-
-            timer.setText("Time: " + (" "));
+            String text="Time: " + " ";
+            timer.setText(text);
             option1.setEnabled(true);
             option2.setEnabled(true);
             option3.setEnabled(true);
@@ -299,8 +295,8 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
             playAnim(option4, 0, 4);
 
             qCount.setText((questionNumber + 1) + "/" + (questionList.size()));
-
-            timer.setText("Time: " + " ");
+            String text="Time: " + " ";
+            timer.setText(text);
             //  startTimer();
             option1.setEnabled(true);
             option2.setEnabled(true);
@@ -308,11 +304,9 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
             option4.setEnabled(true);
         } else {
             isExamEnd = true;
-
             calculateScore();
 
             //adding data to the FireStore quizTaken collection
-
             String FirstName = UserSharedPreferenceManager.getUserInfo(getAppContext(), UserSharedPreferenceManager.userInfoFields.USER_FIRST_NAME);
             String LastName = UserSharedPreferenceManager.getUserInfo(getAppContext(), UserSharedPreferenceManager.userInfoFields.USER_LAST_NAME);
             String UserName = FirstName + " " + LastName;
@@ -406,7 +400,6 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
                                 view.setBackgroundResource(R.drawable.rectangularviiew);
                             playAnim(view, 1, viewNum);
                         }
-
                     }
 
                     @Override

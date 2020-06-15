@@ -131,7 +131,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
     public void setonButtonClickListener(MyAdapterListener myAdapterListener) {
         this.onClickListener = myAdapterListener;
     }
-
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }

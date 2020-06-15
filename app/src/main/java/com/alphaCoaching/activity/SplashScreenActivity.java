@@ -20,21 +20,15 @@ public class SplashScreenActivity extends Activity {
         super.onCreate(savedInstanceState);
         fireAuth = FirebaseAuth.getInstance();
         Log.d(TAG, "onCreate: ");
-        // Toast.makeText(getApplication(), "Into the splashscreen", Toast.LENGTH_SHORT).show();
-
         new Handler().postDelayed(() -> {
             if (fireAuth.getCurrentUser() != null) {
                 openMainActivity();
-//                    openLoginActivity();
             } else {
                 openLoginActivity();
             }
         }, 3000);
 
-//        openLoginActivity();
-//        openMainActivity();
     }
-
     private void openLoginActivity() {
         Intent mainActivityIntent = new Intent(getApplicationContext(), LoginActivity.class);
         mainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

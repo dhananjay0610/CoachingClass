@@ -3,8 +3,6 @@ package com.alphaCoaching.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ProgressBar;
@@ -13,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.solver.widgets.ConstraintAnchor;
 
 import com.alphaCoaching.Constant.Constant;
 import com.alphaCoaching.Model.QuizTakenQuestion;
@@ -72,8 +69,6 @@ public class QuizReviewActivity extends AppCompatActivity {
             i.putExtra("quickened", quizTakenId);
             startActivity(i);
         });
-
-
     }
 
     private void getQuestionsList() {
@@ -124,8 +119,7 @@ public class QuizReviewActivity extends AppCompatActivity {
         //Main iteration over all the questions from the quizTakenQuestions Collection
         for (int i = 0; i < questionList.size(); i++) {
             int n = (int) questionList.get(i).getCorrectOption();
-            String x = questionList.get(i).getOptionA();
-            String ans = "";
+           String ans = "";
             switch (n) {
                 case 1:
                     ans = (questionList.get(i).getOption1());
@@ -162,37 +156,14 @@ public class QuizReviewActivity extends AppCompatActivity {
         GridAdapter adapter = new GridAdapter(getApplicationContext(), number, questionBackground);
         gridView.setAdapter(adapter);
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                /* Display the Toast */
-//                Log.d("QuizReviewActivity","============"+position);
-//                Toast.makeText(getApplicationContext(), "hh"+l+" "+position, Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(QuizReviewActivity.this, SingleQuestionDetailActivity.class);
-                i.putExtra("QuizId", quizId);
-                i.putExtra("quickened", quizTakenId);
-                i.putExtra("questionNumber", position);
-                startActivity(i);
-            }
-        });
-
         //OnItemClickListener on the grid item
-
-//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-////                Intent i = new Intent(QuizReviewActivity.this, QuestionReview.class);
-////                i.putExtra("QuizId", quizId);
-////                i.putExtra("quickened", quizTakenId);
-////                i.putExtra("", quizTakenId);
-////                i.putExtra("quickened", quizTakenId);
-////                startActivity(i);
-//
-//                Log.d("QuizReviewActivity", "Position : " + position);
-//                String selectedItem = adapterView.getItemAtPosition(position).toString();
-//                Toast.makeText(QuizReviewActivity.this, "Position : " + position + " id : " + id + " " + selectedItem, Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        gridView.setOnItemClickListener((adapterView, view, position, l) -> {
+            Intent i = new Intent(QuizReviewActivity.this, SingleQuestionDetailActivity.class);
+            i.putExtra("QuizId", quizId);
+            i.putExtra("quickened", quizTakenId);
+            i.putExtra("questionNumber", position);
+            startActivity(i);
+        });
 
         //following variables to display text in the progressbar and the accuracy
         int totalAttempts = 0;
@@ -214,8 +185,6 @@ public class QuizReviewActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.accuracyProgressBar);
         String accuracy = totalCorrect + "/" + totalAttempts;
         float accuracyPercentage = ((float) totalCorrect / (float) totalAttempts) * 100;
-//        int a=Integer.parseInt(accuracy);
-//        a=a*100;
         DecimalFormat df = new DecimalFormat("#.##");
         accuracyPercentage = Float.parseFloat(df.format(accuracyPercentage));
         String text = accuracy + " " + accuracyPercentage + "%";
