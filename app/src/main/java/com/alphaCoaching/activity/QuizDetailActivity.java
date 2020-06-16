@@ -1,15 +1,22 @@
 package com.alphaCoaching.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,24 +28,30 @@ import com.alphaCoaching.Utils.UserSharedPreferenceManager;
 import com.alphaCoaching.adapter.NoteAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class QuizDetailActivity extends AppCompatActivity {
+public class QuizDetailActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private DrawerLayout drawerLayout;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private NoteAdapter adapter;
     private RecyclerView recyclerView;
     private ArrayList<Note> quizList;
     private ArrayList<QuizTaken> quizTakenList;
+    private FirebaseAuth fireAuth;
     private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_detail);
+        setupWindowAnimation();
         Toolbar toolbar = findViewById(R.id.toolbarOfQuizActivity);
         setSupportActionBar(toolbar);
         recyclerView = findViewById(R.id.recycler_view);
@@ -46,9 +59,21 @@ public class QuizDetailActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         quizList = new ArrayList<>();
         quizTakenList = new ArrayList<>();
+        drawerLayout = findViewById(R.id.quizDrawer);
+        NavigationView navigationView = findViewById(R.id.nav_viewOfQuizActivity);
+        navigationView.getMenu().getItem(2).setChecked(true);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+
         getQuizAndTakenQuizData();
     }
-
+    private void setupWindowAnimation() {
+        Transition slide = TransitionInflater.from(this).inflateTransition(R.transition.activity_fade);
+        getWindow().setEnterTransition(slide);
+    }
     private void setupAdapter() {
         adapter.setOnItemClickListener((isQuizTaken, quizModel) -> {
             if (!isQuizTaken) {
@@ -75,24 +100,22 @@ public class QuizDetailActivity extends AppCompatActivity {
         db.collection(Constant.QUIZ_COLLECTION)
                 .whereEqualTo(Constant.QuizCollectionFields.STANDARD, UserSharedPreferenceManager.getUserInfo(getApplicationContext(), UserSharedPreferenceManager.userInfoFields.USER_STANDARD))
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Note quiz = document.toObject(Note.class);
-                                quiz.setId(document.getId());
-                                quizList.add(quiz);
-                            }
-                            getTekenQuizDdata(quizList);
-                        } else {
-
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                            Note quiz = document.toObject(Note.class);
+                            quiz.setId(document.getId());
+                            quizList.add(quiz);
                         }
+                        getTakenQuizData(quizList);
                     }
+//                    else {
+//
+//                    }
                 });
     }
 
-    private void getTekenQuizDdata(ArrayList<Note> quizList) {
+    private void getTakenQuizData(ArrayList<Note> quizList) {
         db.collection(Constant.QUIZ_TAKEN_COLLECTION)
                 .whereEqualTo(Constant.QuizTakenCollectionFields.USER_ID, UserSharedPreferenceManager.getUserInfo(getApplicationContext(), UserSharedPreferenceManager.userInfoFields.USER_UUID))
                 .get()
@@ -131,4 +154,50 @@ public class QuizDetailActivity extends AppCompatActivity {
         super.onStop();
     }
 
+    @SuppressLint("RtlHardcoded")
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.nav_quiz) {
+            onBackPressed();
+        } else if (id == R.id.nav_home) {
+            loadHomeActivity();
+        } else if (id == R.id.nav_Pdf) {
+            loadPdfList();
+        } else if (id == R.id.nav_userProfile) {
+            loadUserData();
+        } else if (id == R.id.nav_logout) {
+            fireAuth.signOut();
+            UserSharedPreferenceManager.removeUserData(getApplicationContext());
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private void loadHomeActivity() {
+        Intent i = new Intent(QuizDetailActivity.this, MainActivity.class);
+        startActivity(i);
+    }
+
+    private void loadUserData() {
+        Intent i = new Intent(QuizDetailActivity.this, UserProfileActivity.class);
+        startActivity(i);
+    }
+
+    private void loadPdfList() {
+        Intent i = new Intent(QuizDetailActivity.this, PdfListActivity.class);
+        startActivity(i);
+    }
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

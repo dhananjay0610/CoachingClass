@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.solver.widgets.ConstraintAnchor;
 
 import com.alphaCoaching.Constant.Constant;
 import com.alphaCoaching.R;
@@ -30,7 +29,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 public class QuestionReview extends AppCompatActivity implements View.OnClickListener {
     private TextView question, qCount, TimeTaken, AverageTime, TotalScore;
     private Button option1, option2, option3, option4;
@@ -122,13 +120,12 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
                     MaxScore[0] = String.valueOf(documentSnapshot.get(Constant.QuizTakenCollectionFields.TOTAL_SCORE));
                 }
                 Log.d("QuestionReview", "Max Score is : " + MaxScore[0]);
-                TotalScore.setText("Score : " + (score) + "/" + MaxScore[0]);
+                String text="Score : " + (score) + "/" + MaxScore[0];
+                TotalScore.setText(text);
             }
         });
 
     }
-
-    //int questionNo = 0;
 
     private void setQuestion() {
         question.setText(questionList.get(0).getQuestion());
@@ -138,15 +135,11 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
         option4.setText(questionList.get(0).getOptionD());
         qCount.setText(1 + "/" + (questionList.size()));
         imageView.setImageResource(R.drawable.ic_autorenew_black_24dp);
+//        questionNumber = 0;
 
-        questionNumber = 0;
         //To fetch from the quizTaken collection
         int n = (int) questionList.get(questionNumber).getCorrectOption();
         String ans = "";
-//        int[] arr = new int[n];
-//        for (int i = 0; i < n; i++)
-//            arr[i] = 0;
-//        arr[n - 1] = 1;
         switch (n) {
             case 1:
                 ans = (questionList.get(questionNumber).getOptionA());
@@ -166,15 +159,16 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
                 break;
         }
         String QuestionId = questionList.get(questionNumber).getQuestionId();
-        //fetching average time
 
+        //fetching average time
         DocumentReference documentReference = db.collection(Constant.QUESTION_COLLECTION).document(QuestionId);
         documentReference.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot documentSnapshot = task.getResult();
                 assert documentSnapshot != null;
                 if (documentSnapshot.exists()) {
-                    AverageTime.setText("Average : " + documentSnapshot.get(Constant.QuestionCollectionFields.QUE_TIME));
+                    String txt="Average : " + documentSnapshot.get(Constant.QuestionCollectionFields.QUE_TIME);
+                    AverageTime.setText(txt);
                 }
             }
         });
@@ -194,7 +188,8 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
                     timeTaken[0] = documentSnapshot.get(Constant.QuizTakenQuestionsFields.TIME_TAKEN);
                 }
 
-                TimeTaken.setText("Time : " + timeTaken[0]);
+                String text="Time : " + timeTaken[0];
+                TimeTaken.setText(text);
                 if (AttemptedAnswer[0] == null) {
                     Toast.makeText(QuestionReview.this, "Not attempted any answer", Toast.LENGTH_SHORT).show();
                     imageView.setImageResource(R.drawable.ic_close_black_24dp);

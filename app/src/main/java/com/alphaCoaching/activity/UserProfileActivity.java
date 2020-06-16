@@ -2,8 +2,9 @@ package com.alphaCoaching.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -25,18 +26,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
 
-import static com.alphaCoaching.Utils.UserSharedPreferenceManager.USER_DETAIL;
-
-//import com.alphaCoaching.Constant.Constant;
-
 public class UserProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
     private FirebaseAuth fireAuth;
-    private ActionBarDrawerToggle toggle;
-    private NavigationView navigationView;
     private FirebaseFirestore db;
     private Toolbar toolbar;
-    private UserSharedPreferenceManager preferenceManager;
+    // private UserSharedPreferenceManager preferenceManager;
     private Context mContext;
     private String mUserFirstName;
     private String mUserLastName;
@@ -50,6 +45,7 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         super.onCreate(savedInstanceState);
         mContext = getApplicationContext();
         setContentView(R.layout.activity_user_profile);
+        setupWindowAnimation();
         toolbar = findViewById(R.id.ToolbarOfUserProfileActivity);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("");
@@ -65,7 +61,6 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
                     long standard = (long) documentSnapshot.get("standard");
                     String Standard = standard + "";
                     user_standard.setText(Standard);
-
                 }
             }
         });
@@ -78,9 +73,11 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
 
     private void setupUI() {
         drawerLayout = findViewById(R.id.userlayout);
-        navigationView = findViewById(R.id.nav_views);
-        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        NavigationView navigationView = findViewById(R.id.nav_views);
+        navigationView.getMenu().getItem(4).setChecked(true);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
@@ -90,12 +87,11 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         user_name = findViewById(R.id.user_name);
         user_dob = findViewById(R.id.user_dob);
         user_standard = findViewById(R.id.user_standard);
-
-        mUserFirstName = preferenceManager.getUserInfo(mContext, UserSharedPreferenceManager.userInfoFields.USER_FIRST_NAME);
-        mUserLastName = preferenceManager.getUserInfo(mContext, UserSharedPreferenceManager.userInfoFields.USER_LAST_NAME);
-        mUserEmail = preferenceManager.getUserInfo(mContext, UserSharedPreferenceManager.userInfoFields.USER_EMAIL);
-        mUserDateOfBirth = preferenceManager.getUserInfo(mContext, UserSharedPreferenceManager.userInfoFields.USER_DOB);
-        mUserStandard = preferenceManager.getUserInfo(mContext, UserSharedPreferenceManager.userInfoFields.USER_STANDARD);
+        mUserFirstName = UserSharedPreferenceManager.getUserInfo(mContext, UserSharedPreferenceManager.userInfoFields.USER_FIRST_NAME);
+        mUserLastName = UserSharedPreferenceManager.getUserInfo(mContext, UserSharedPreferenceManager.userInfoFields.USER_LAST_NAME);
+        mUserEmail = UserSharedPreferenceManager.getUserInfo(mContext, UserSharedPreferenceManager.userInfoFields.USER_EMAIL);
+        mUserDateOfBirth = UserSharedPreferenceManager.getUserInfo(mContext, UserSharedPreferenceManager.userInfoFields.USER_DOB);
+        mUserStandard = UserSharedPreferenceManager.getUserInfo(mContext, UserSharedPreferenceManager.userInfoFields.USER_STANDARD);
     }
 
     @Override
@@ -105,10 +101,9 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
             loadQuizData();
         } else if (id == R.id.nav_home) {
             loadHomeActivity();
-        }   else if(id== R.id.nav_Pdf){
+        } else if (id == R.id.nav_Pdf) {
             loadPdfList();
-        }
-        else if (id == R.id.nav_userProfile) {
+        } else if (id == R.id.nav_userProfile) {
             onBackPressed();
         } else if (id == R.id.nav_logout) {
             fireAuth.signOut();
@@ -121,15 +116,16 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+
     private void loadPdfList() {
         Intent i = new Intent(UserProfileActivity.this, PdfListActivity.class);
         startActivity(i);
     }
+
     private void loadHomeActivity() {
         Intent i = new Intent(UserProfileActivity.this, MainActivity.class);
         startActivity(i);
     }
-
 
     private void loadQuizData() {
         Intent i = new Intent(UserProfileActivity.this, QuizDetailActivity.class);
@@ -144,6 +140,12 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         } else {
             super.onBackPressed();
         }
+    }
+
+
+    private void setupWindowAnimation() {
+        Transition slide = TransitionInflater.from(this).inflateTransition(R.transition.activity_fade);
+        getWindow().setEnterTransition(slide);
     }
 
 }

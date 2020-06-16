@@ -5,62 +5,153 @@
     android:layout_marginStart="10dp"
     android:layout_marginTop="10dp"
     android:layout_marginEnd="10dp"
-    android:layout_marginBottom="10dp"
     android:background="@drawable/card_bg"
-    android:backgroundTint="@color/colorWhite"
     android:elevation="9dp"
-    android:gravity="center"
+    android:gravity="left"
     android:orientation="vertical"
     android:padding="10dp">
 
-    <TextView
-        android:id="@+id/quiz_name"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="5dp"
-        android:text="CAT 1"
-        android:textColor="@color/colorBlack"
-        android:textSize="18dp"
-        android:textStyle="bold" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/ques_num"
+        <TextView
+            android:id="@+id/quiz_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="CAT 1"
+            android:textColor="@color/colorBlack"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/ques_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="5dp"
+            android:paddingTop="10dp"
+            android:text="CAT 1"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/quiz_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="5dp"
+            android:paddingTop="10dp"
+            android:text="CAT 1"
+            android:textColor="@color/black"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="1.5dp"-->
+    <!--        android:layout_marginLeft="9dp"-->
+    <!--        android:layout_marginTop="6dp"-->
+    <!--        android:layout_marginRight="9dp"-->
+    <!--        android:background="@color/colorPrimaryDark"-->
+    <!--        android:orientation="vertical" />-->
+
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="5dp"
-        android:paddingTop="10dp"
-        android:text="CAT 1"
-        android:textColor="@color/black"
-        android:textSize="18dp"
-        android:textStyle="bold" />
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:layout_marginLeft="50dp">
 
-    <TextView
-        android:id="@+id/quiz_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="5dp"
-        android:paddingTop="10dp"
-        android:text="CAT 1"
-        android:textColor="@color/black"
-        android:textSize="18dp"
-        android:textStyle="bold" />
+        <Button
+            android:id="@+id/attainQuizButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="Attain Quiz" />
 
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="1.5dp"-->
-<!--        android:layout_marginLeft="9dp"-->
-<!--        android:layout_marginTop="6dp"-->
-<!--        android:layout_marginRight="9dp"-->
-<!--        android:background="@color/colorPrimaryDark"-->
-<!--        android:orientation="vertical" />-->
-
-    <Button
-        android:layout_width="wrap_content"
-        android:text="open detail"
-        android:id="@+id/detail"
-        android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:visibility="gone"
+            android:text="See Report" />
+    </LinearLayout>
 
 </LinearLayout>
+
+
+
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:layout_marginStart="10dp"-->
+<!--    android:layout_marginTop="10dp"-->
+<!--    android:layout_marginEnd="10dp"-->
+<!--    android:layout_marginBottom="10dp"-->
+<!--    android:background="@drawable/card_bg"-->
+<!--    android:backgroundTint="@color/colorWhite"-->
+<!--    android:elevation="9dp"-->
+<!--    android:gravity="center"-->
+<!--    android:orientation="vertical"-->
+<!--    android:padding="10dp">-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/quiz_name"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:gravity="center"-->
+<!--        android:padding="5dp"-->
+<!--        android:text="CAT 1"-->
+<!--        android:textColor="@color/colorBlack"-->
+<!--        android:textSize="18dp"-->
+<!--        android:textStyle="bold" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/ques_num"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:gravity="center"-->
+<!--        android:padding="5dp"-->
+<!--        android:paddingTop="10dp"-->
+<!--        android:text="CAT 1"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textSize="18dp"-->
+<!--        android:textStyle="bold" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/quiz_time"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:gravity="center"-->
+<!--        android:padding="5dp"-->
+<!--        android:paddingTop="10dp"-->
+<!--        android:text="CAT 1"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textSize="18dp"-->
+<!--        android:textStyle="bold" />-->
+
+<!--&lt;!&ndash;    <LinearLayout&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_height="1.5dp"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_marginLeft="9dp"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_marginTop="6dp"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_marginRight="9dp"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:background="@color/colorPrimaryDark"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:orientation="vertical" />&ndash;&gt;-->
+
+<!--    <Button-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:text="open detail"-->
+<!--        android:id="@+id/detail"-->
+<!--        android:layout_height="wrap_content"/>-->
+
+<!--</LinearLayout>-->

@@ -1,15 +1,17 @@
 package com.alphaCoaching.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.AdapterView;
+import android.view.MenuItem;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,47 +23,50 @@ import com.alphaCoaching.R;
 import com.alphaCoaching.Utils.UserSharedPreferenceManager;
 import com.alphaCoaching.adapter.PDFAdapter;
 import com.alphaCoaching.adapter.SpinnerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Objects;
 
 import static com.alphaCoaching.AlphaApplication.getAppContext;
 
-public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnPdfItemClick {
+public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnPdfItemClick, NavigationView.OnNavigationItemSelectedListener {
 
     private static RecyclerView recyclerView;
-    private Toolbar toolbar;
     private static PDFAdapter adapter;
+    private DrawerLayout drawerLayout;
+    private FirebaseAuth fireAuth;
     private static FirebaseFirestore mFireBaseDB;
     private Spinner spinner;
-    private static FirestoreRecyclerOptions<PDFModel> options, optionsTemp;
+    Toolbar toolbar;
     private static ArrayList<PDFModel> pdfs;
-    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pdf_list);
         mFireBaseDB = FirebaseFirestore.getInstance();
-        mContext = getAppContext();
 
         //toolbar
         toolbar = findViewById(R.id.ToolbarOfPdfListActivity);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("PDF ");
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         recyclerView = findViewById(R.id.recycler_viewPdf);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         spinner = findViewById(R.id.dropdown_menu);
+        drawerLayout = findViewById(R.id.pdfDrawer);
+        NavigationView navigationView = findViewById(R.id.nav_viewOfPdfActivity);
+        navigationView.getMenu().getItem(3).setChecked(true);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
         getAllPdfs();
         getAllSubjects();
     }
@@ -74,7 +79,6 @@ public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnP
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot snapshot : Objects.requireNonNull(task.getResult())) {
-//                            UserSharedPreferenceManager.storeUserSubjects(getApplicationContext(), snapshot.getId(), snapshot.get("name").toString());
                             PDFModel model = snapshot.toObject(PDFModel.class);
                             model.setId(snapshot.getId());
                             pdfs.add(model);
@@ -95,7 +99,7 @@ public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnP
                     if (task.isSuccessful()) {
                         int i = 0;
                         for (QueryDocumentSnapshot snapshot : Objects.requireNonNull(task.getResult())) {
-                            UserSharedPreferenceManager.storeUserSubjects(getApplicationContext(), snapshot.getId(), snapshot.get("name").toString());
+                            UserSharedPreferenceManager.storeUserSubjects(getApplicationContext(), snapshot.getId(), Objects.requireNonNull(snapshot.get("name")).toString());
                             subjects.add(snapshot.toObject(SubjectModel.class));
                             subjects.get(i).setId(snapshot.getId());
                             i++;
@@ -123,9 +127,9 @@ public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnP
         return pdfs;
     }
 
-    public FirestoreRecyclerOptions<PDFModel> getOptionsTemp() {
-        return optionsTemp;
-    }
+//    public FirestoreRecyclerOptions<PDFModel> getOptionsTemp() {
+//        return optionsTemp;
+//    }
 
 
     public void updateAdapter(ArrayList<PDFModel> options) {
@@ -133,10 +137,10 @@ public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnP
         recyclerView.setAdapter(adapter);
     }
 
-    private String getCurrentUserStandard() {
-        return UserSharedPreferenceManager.getUserInfo(getApplicationContext(), UserSharedPreferenceManager.userInfoFields.USER_STANDARD);
-
-    }
+//    private String getCurrentUserStandard() {
+//        return UserSharedPreferenceManager.getUserInfo(getApplicationContext(), UserSharedPreferenceManager.userInfoFields.USER_STANDARD);
+//
+//    }
 
     @Override
     public void onStart() {
@@ -150,25 +154,60 @@ public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnP
 
     @Override
     public void onItemClick(PDFModel snapshot, int position) {
-
-        // final String[] url1 = {""};
         DocumentReference documentReference = mFireBaseDB.collection(Constant.PDF_COLLECTION).document(snapshot.getId());
-        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    assert document != null;
-                    if (document.exists()) {
-                        String url = (String) document.get("url");
-                        //  url1[0] = urls;
-                        Log.d("PdfListActivity", document.getId() + "url is : " + url);
-                        Intent intent1 = new Intent(PdfListActivity.this, PdfViewActivity.class);
-                        intent1.putExtra("url", url);
-                        startActivity(intent1);
-                    }
+        documentReference.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                assert document != null;
+                if (document.exists()) {
+                    String url = (String) document.get("url");
+                    Log.d("PdfListActivity", document.getId() + "url is : " + url);
+                    Intent intent1 = new Intent(PdfListActivity.this, PdfViewActivity.class);
+                    intent1.putExtra("url", url);
+                    startActivity(intent1);
                 }
             }
         });
+    }
+
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.nav_quiz) {
+            loadQuizData();
+        } else if (id == R.id.nav_home) {
+            loadHomeActivity();
+        } else if (id == R.id.nav_Pdf) {
+//            do nothing.
+//            onBackPressed();
+        } else if (id == R.id.nav_userProfile) {
+            loadUserData();
+        } else if (id == R.id.nav_logout) {
+            fireAuth.signOut();
+            UserSharedPreferenceManager.removeUserData(getApplicationContext());
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private void loadUserData() {
+        Intent i = new Intent(PdfListActivity.this, UserProfileActivity.class);
+        startActivity(i);
+    }
+
+    private void loadHomeActivity() {
+        Intent i = new Intent(PdfListActivity.this, MainActivity.class);
+        startActivity(i);
+    }
+
+    private void loadQuizData() {
+        Intent i = new Intent(PdfListActivity.this, QuizDetailActivity.class);
+        startActivity(i);
+
     }
 }
