@@ -1,8 +1,11 @@
 package com.alphaCoaching.activity;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +29,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -37,6 +41,7 @@ public class QuizReviewActivity extends AppCompatActivity {
     private TextView textViewMarks;
     private TextView TotalAttempt, progressInPercent;
     private ProgressBar progressBar;
+    private ProgressBar TwoprogressBar;
     private FirebaseFirestore FireStore;
     private DocumentReference documentReference;
     private static List<Question> questionList;
@@ -67,6 +72,7 @@ public class QuizReviewActivity extends AppCompatActivity {
         quizTakenId = intent.getStringExtra("quickened");
         Log.d("QuizReviewActivity", "Quiz id : " + quizId + " quizTaken id : " + quizTakenId);
 
+        TwoprogressBar = findViewById(R.id.twoprogress);
         getQuestionsList();
 
         //Going to the questionReview Activity
@@ -137,7 +143,7 @@ public class QuizReviewActivity extends AppCompatActivity {
         //Main iteration over all the questions from the quizTakenQuestions Collection
         for (int i = 0; i < questionList.size(); i++) {
             int n = (int) questionList.get(i).getCorrectOption();
-           String ans = "";
+            String ans = "";
             switch (n) {
                 case 1:
                     ans = (questionList.get(i).getOption1());
@@ -205,13 +211,44 @@ public class QuizReviewActivity extends AppCompatActivity {
         float accuracyPercentage = ((float) totalCorrect / (float) totalAttempts) * 100;
         DecimalFormat df = new DecimalFormat("#.##");
         accuracyPercentage = Float.parseFloat(df.format(accuracyPercentage));
-        String text = accuracy + " " + accuracyPercentage + "%";
+        float attemptPercentage = ((float) totalAttempts / (float) questionList.size()) * 100;
+        String text = totalAttempts + "/" + questionList.size() + " " + attemptPercentage + "%";
 
-        Log.d("QuizReviewActivity", "The value is of accuracy percentage : " + accuracyPercentage + " " + totalAttempts + " " + totalCorrect);
+        Log.d("QuizReviewActivity", "The value of accuracy percentage  is : " + accuracyPercentage + totalCorrect + " / " + totalAttempts + " ");
         TotalAttempt.setText(text);
         progressInPercent.setText(accuracyPercentage + "%");
         progressBar.setMax(100);
         progressBar.setProgress((int) accuracyPercentage);
+
+        //The secondary progress bar
+        TextView textviewProgress = findViewById(R.id.textOfProgressBar);
+
+        SpannableString text1 = new SpannableString("C/W/U : " + totalCorrect + "/" + (totalAttempts - totalCorrect) + "/" + totalUnAttempts);
+        text1.setSpan(new ForegroundColorSpan(Color.GREEN), 8, 9, 0);
+        text1.setSpan(new ForegroundColorSpan(Color.RED), 10, 11, 0);
+        text1.setSpan(new ForegroundColorSpan(Color.LTGRAY), 12, text1.length(), 0);
+        textviewProgress.setText(text1, TextView.BufferType.SPANNABLE);
+
+        CircularProgressBar circularProgressBar = findViewById(R.id.circularProgressBar);
+        // Set Progress
+        circularProgressBar.setProgressMax(questionList.size());
+        circularProgressBar.setProgress(totalCorrect);
+
+        TextView textView1 = findViewById(R.id.centerText);
+        float k = ((float)totalCorrect /(float) questionList.size()) * 100;
+        k = Float.parseFloat(df.format(k));
+
+        textView1.setText(k + "%");
+
+        TwoprogressBar.setMax(questionList.size());
+
+        // TwoprogressBar.setProgress(0);
+        TwoprogressBar.setProgress(totalCorrect);
+        TwoprogressBar.setSecondaryProgressTintList(ColorStateList.valueOf(Color.RED));
+        TwoprogressBar.setSecondaryProgress(totalAttempts);
+        // TwoprogressBar.setSecondaryProgress(4);
+        Log.d("QuizReviewActivity", "-=-=-=-=-=-=-" + totalAttempts + " " + totalCorrect + " " + questionList.size());
+
 
         mProgressBar.setVisibility(View.GONE);
     }
