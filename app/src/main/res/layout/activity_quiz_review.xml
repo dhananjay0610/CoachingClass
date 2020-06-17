@@ -39,7 +39,7 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="5dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:gravity="bottom"
         android:paddingStart="5dp"
         android:paddingBottom="8dp"
@@ -52,9 +52,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text"
+        android:backgroundTint="#fff"
         android:columnWidth="50dp"
         android:gravity="center"
-        android:backgroundTint="#fff"
         android:horizontalSpacing="4dp"
         android:numColumns="auto_fit"
         android:scrollbarFadeDuration="@integer/config_navAnimTime"
@@ -133,8 +133,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
             android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
             android:orientation="vertical">
 
             <TextView
@@ -200,9 +200,71 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/m"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/mar1"
+        android:layout_below="@id/mar1"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textOfProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="C/W/U : ..."
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="21sp" />
+
+        <ProgressBar
+            android:id="@+id/twoprogress"
+            style="@style/MyProgressBarTwo"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:progress="0"
+            android:secondaryProgress="10"
+            android:theme="@style/MyProgressBarTwo" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_gravity="center_horizontal">
+
+            <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                android:id="@+id/circularProgressBar"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_centerInParent="true"
+                android:textAlignment="center"
+                android:tooltipText="200"
+                app:cpb_background_progressbar_color="#b6bbd8"
+                app:cpb_background_progressbar_width="20dp"
+                app:cpb_progress_direction="to_right"
+                app:cpb_progressbar_color="#3f51b5"
+                app:cpb_progressbar_width="10dp"
+                app:cpb_round_border="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/centerText"
+                android:layout_centerInParent="true"
+                android:text="30%" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/m"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <Button
@@ -244,5 +306,23 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:visibility="visible" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/quizProgressbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gradientstart"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:visibility="visible" />
+
+
     </LinearLayout>
 </RelativeLayout>

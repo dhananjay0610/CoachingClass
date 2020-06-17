@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-<!--        <item name="colorPrimaryDark">#990099</item>-->
+        <!--        <item name="colorPrimaryDark">#990099</item>-->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -26,6 +26,15 @@
         <item name="android:progressTint">@color/resultProgressColor</item>
         <item name="height">100dp</item>
         <item name="android:width">100dp</item>
+        <item name="android:minWidth">200dp</item>
+    </style>
+
+
+    <style name="MyProgressBarTwo" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="colorButtonNormal">#F50000</item>
+        <item name="colorControlActivated">#76F843</item>
+        <item name="colorControlHighlight">#ff6d00</item>
+        <item name="android:progressDrawable">@drawable/myprogressbar</item>
         <item name="android:minWidth">200dp</item>
     </style>
 

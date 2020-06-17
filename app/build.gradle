@@ -71,6 +71,8 @@ dependencies {
     implementation 'br.com.simplepass:loading-button-android:2.1.5'
 //    implementation 'com.google.firebase:firebase-analytics:17.2.2'
 
+    //for circular progressbar
+    implementation 'com.mikhaellopez:circularprogressbar:3.0.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.navigation:navigation-fragment:2.0.0'
     implementation 'androidx.navigation:navigation-ui:2.0.0'
@@ -80,6 +82,7 @@ dependencies {
 
     //for tab layout
     implementation 'com.google.android.material:material:1.2.0-alpha03'
+
     //for cirlce image view
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 }
