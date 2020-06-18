@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.QuizAnalysis">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/mar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/fui_transparent"
+                android:backgroundTint="#fff"
+                android:elevation="1dp"
+                android:padding="9dp"
+                android:paddingStart="21dp"
+                android:paddingEnd="1dp"
+                android:text="@string/marks"
+                android:textColor="@color/colorBlack"
+                android:textSize="21dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/TotalMarks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@color/fui_transparent"
+                android:backgroundTint="#fff"
+                android:elevation="1dp"
+                android:text="@string/loading"
+                android:textColor="@color/colorBlack"
+                android:textSize="21dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/mar2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mar"
+            android:layout_gravity="center"
+            android:layout_marginTop="3dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/fui_transparent"
+                android:backgroundTint="#fff"
+                android:elevation="1dp"
+                android:padding="9dp"
+                android:paddingStart="21dp"
+                android:paddingEnd="2dp"
+                android:text="Accuracy : "
+                android:textColor="@color/colorBlack"
+                android:textSize="21dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/accuracyProgressValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="10%" />
+
+                <ProgressBar
+                    android:id="@+id/accuracyProgressBar"
+                    style="@style/ResultProgressBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:progress="50" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/mar1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mar2"
+            android:layout_gravity="center"
+            android:layout_marginTop="3dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/fui_transparent"
+                android:backgroundTint="#fff"
+                android:elevation="1dp"
+                android:padding="9dp"
+                android:paddingStart="21dp"
+                android:paddingEnd="1dp"
+                android:text="Total Attempts : "
+                android:textColor="@color/colorBlack"
+                android:textSize="21dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/TotalAttempt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="@color/fui_transparent"
+                android:backgroundTint="#fff"
+                android:elevation="1dp"
+                android:text="@string/loading"
+                android:textColor="@color/colorBlack"
+                android:textSize="21dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/m"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/mar1"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textOfProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:layout_marginBottom="8dp"
+                android:text="C/W/U : ..."
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="21sp" />
+
+            <ProgressBar
+                android:id="@+id/twoprogress"
+                style="@style/MyProgressBarTwo"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:progress="0"
+                android:secondaryProgress="10"
+                android:theme="@style/MyProgressBarTwo" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="15dp">
+
+                <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                    android:id="@+id/circularProgressBar"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_centerInParent="true"
+                    android:textAlignment="center"
+                    android:tooltipText="200"
+                    app:cpb_background_progressbar_color="#b6bbd8"
+                    app:cpb_background_progressbar_width="20dp"
+                    app:cpb_progress_direction="to_right"
+                    app:cpb_progressbar_color="#3f51b5"
+                    app:cpb_progressbar_width="10dp"
+                    app:cpb_round_border="true" />
+
+                <TextView
+                    android:id="@+id/centerText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="30%" />
+            </RelativeLayout>
+            <Button
+                android:id="@+id/seeClassResultButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:gravity="end"
+                android:padding="16dp"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center_horizontal"
+                android:text="Whole class result"
+                android:textAllCaps="false"
+                android:textColor="#fff" />
+        </LinearLayout>
+
+        <!--        <LinearLayout-->
+        <!--            android:id="@+id/buttons"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_below="@+id/m"-->
+        <!--            android:gravity="center"-->
+        <!--            android:orientation="horizontal">-->
+
+        <!--            <Button-->
+        <!--                android:id="@+id/ButtonQuestionReview"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_below="@id/mar1"-->
+        <!--                android:backgroundTint="@color/black"-->
+        <!--                android:gravity="start"-->
+        <!--                android:padding="16dp"-->
+        <!--                android:text="Get all question detail"-->
+        <!--                android:textAllCaps="false"-->
+        <!--                android:textColor="#fff" />-->
+
+        <!--            <Button-->
+        <!--                android:id="@+id/seeClassResultButton"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_below="@id/mar1"-->
+        <!--                android:backgroundTint="@color/black"-->
+        <!--                android:gravity="end"-->
+        <!--                android:padding="16dp"-->
+        <!--                android:text="Whole class result"-->
+        <!--                android:textAllCaps="false"-->
+        <!--                android:textColor="#fff" />-->
+        <!--                </LinearLayout>-->
+
+        <LinearLayout
+            android:id="@+id/quizReviewProgressbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gradientstart"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ProgressBar
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/quizProgressbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gradientstart"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ProgressBar
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:visibility="visible" />
+
+
+        </LinearLayout>
+    </RelativeLayout>
+</FrameLayout>

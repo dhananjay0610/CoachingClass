@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.QuizQuestions">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="20dp"
+            android:gravity="bottom"
+            android:paddingStart="5dp"
+            android:paddingBottom="8dp"
+            android:text="The Questions : "
+            android:textSize="24dp"
+            android:textStyle="bold" />
+
+        <GridView
+            android:id="@+id/grid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text"
+            android:backgroundTint="#fff"
+            android:columnWidth="70dp"
+            android:gravity="center"
+            android:horizontalSpacing="4dp"
+            android:numColumns="auto_fit"
+            android:scrollbarFadeDuration="@integer/config_navAnimTime"
+            android:scrollbars="vertical"
+            android:stretchMode="spacingWidthUniform"
+            android:verticalSpacing="1dp" />
+
+        <LinearLayout
+            android:id="@+id/tp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/grid"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="9dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:src="@drawable/ic_green" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="Correct "
+                android:textSize="16dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/ic_red" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="Wrong "
+                android:textSize="16dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/ic_black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="Unattempted "
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/ButtonQuestionReview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="@color/black"
+            android:gravity="center_horizontal"
+            android:padding="16dp"
+            android:text="Get all question detail"
+            android:textAllCaps="false"
+            android:textColor="#fff" />
+
+
+        <!--        <LinearLayout-->
+        <!--            android:id="@+id/quizReviewProgressbar"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:background="@color/gradientstart"-->
+        <!--            android:gravity="center"-->
+        <!--            android:visibility="gone">-->
+
+        <!--            <ProgressBar-->
+        <!--                style="?android:attr/progressBarStyle"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_gravity="center_vertical"-->
+        <!--                android:visibility="visible" />-->
+        <!--        </LinearLayout>-->
+
+        <!--        <LinearLayout-->
+        <!--            android:id="@+id/quizProgressbar"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:background="@color/gradientstart"-->
+        <!--            android:gravity="center"-->
+        <!--            android:visibility="gone">-->
+
+        <!--            <ProgressBar-->
+        <!--                style="?android:attr/progressBarStyle"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_gravity="center_vertical"-->
+        <!--                android:visibility="visible" />-->
+
+
+        <!--        </LinearLayout>-->
+    </RelativeLayout>
+
+</FrameLayout>
