@@ -17,7 +17,6 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 
 import java.util.Objects;
 
-
 public class LectureActivity extends AppCompatActivity {
     FirebaseFirestore mFireBaseDB;
     TextView textViewDescription;

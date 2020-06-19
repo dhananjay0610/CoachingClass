@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/text"
         android:backgroundTint="#fff"
-        android:columnWidth="50dp"
+        android:columnWidth="70dp"
         android:gravity="center"
         android:horizontalSpacing="4dp"
         android:numColumns="auto_fit"
@@ -63,10 +63,60 @@
         android:verticalSpacing="1dp" />
 
     <LinearLayout
+        android:id="@+id/tp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/grid"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="9dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:src="@drawable/ic_green" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Correct "
+            android:textSize="16dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:src="@drawable/ic_red" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Wrong "
+            android:textSize="16dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:src="@drawable/ic_black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Unattempted "
+            android:textSize="16dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/mar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/grid"
+        android:layout_below="@+id/tp"
         android:layout_gravity="center"
         android:layout_marginTop="3dp"
         android:orientation="horizontal">
@@ -205,7 +255,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/mar1"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp"
         android:orientation="vertical">
@@ -214,6 +264,7 @@
             android:id="@+id/textOfProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
             android:layout_marginBottom="8dp"
             android:text="C/W/U : ..."
             android:textAllCaps="true"
@@ -233,8 +284,8 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="15dp">
 
             <com.mikhaellopez.circularprogressbar.CircularProgressBar
                 android:id="@+id/circularProgressBar"
@@ -251,9 +302,9 @@
                 app:cpb_round_border="true" />
 
             <TextView
+                android:id="@+id/centerText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/centerText"
                 android:layout_centerInParent="true"
                 android:text="30%" />
         </RelativeLayout>

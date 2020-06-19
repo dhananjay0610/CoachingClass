@@ -29,6 +29,7 @@ public class SplashScreenActivity extends Activity {
         }, 3000);
 
     }
+
     private void openLoginActivity() {
         Intent mainActivityIntent = new Intent(getApplicationContext(), LoginActivity.class);
         mainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -46,6 +47,6 @@ public class SplashScreenActivity extends Activity {
         finish();
     }
 
-    public static class CatGridAdapter {
-    }
+//    public static class CatGridAdapter {
+//    }
 }
