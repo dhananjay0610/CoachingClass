@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.alphaCoaching.Constant.Constant;
 import com.alphaCoaching.R;
 import com.alphaCoaching.Utils.UserSharedPreferenceManager;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -95,24 +96,37 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseUser currentUser = fireAuth.getCurrentUser();
                 assert currentUser != null;
                 String user_Uuid = currentUser.getUid();
-                DocumentReference documentReference = db.collection
+                DocumentReference documentReference = mFireBaseDB.collection
                         (Constant.USER_COLLECTION).document(user_Uuid);
                 documentReference.get().addOnCompleteListener(task1 -> {
                     if (task1.isSuccessful()) {
                         DocumentSnapshot documentSnapshot = task1.getResult();
                         assert documentSnapshot != null;
                         if (documentSnapshot.exists()) {
-                            String userFirstName = (String) documentSnapshot.get(Constant.UserCollectionFields.FIRST_NAME);
-                            String userLastName = (String) documentSnapshot.get(Constant.UserCollectionFields.LAST_NAME);
-                            String userStandard = (String) documentSnapshot.get(Constant.UserCollectionFields.STANDARD);
-                            String dateOfBirth = (String) documentSnapshot.get(Constant.UserCollectionFields.DOB);
-                            String userEmail = (String) documentSnapshot.get(Constant.UserCollectionFields.EMAIL);
-                            UserSharedPreferenceManager.storeUserDetail(getAppContext(), user_Uuid, userFirstName, userLastName, userStandard, dateOfBirth, userEmail);
-                            storeSubjects();
+                            Boolean loginStatus = (Boolean) documentSnapshot.get(Constant.UserCollectionFields.LOGIN_STATUS);
+//                            loginStatus is true when the user is logged in somewhere, otherwise return false for a single device logged in.
+                            if (loginStatus) {
+                                Toast.makeText(getApplicationContext(), "You are already logged in somewhere, logout from that device first!", Toast.LENGTH_LONG);
+                                fireAuth.signOut();
+                                UserSharedPreferenceManager.removeUserData(getApplicationContext());
+                                Intent intent = new Intent(this, LoginActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                updateLoginStatus(user_Uuid);
+                                String userFirstName = (String) documentSnapshot.get(Constant.UserCollectionFields.FIRST_NAME);
+                                String userLastName = (String) documentSnapshot.get(Constant.UserCollectionFields.LAST_NAME);
+                                String userStandard = (String) documentSnapshot.get(Constant.UserCollectionFields.STANDARD);
+                                String dateOfBirth = (String) documentSnapshot.get(Constant.UserCollectionFields.DOB);
+                                String userEmail = (String) documentSnapshot.get(Constant.UserCollectionFields.EMAIL);
+                                UserSharedPreferenceManager.storeUserDetail(getAppContext(), user_Uuid, userFirstName, userLastName, userStandard, dateOfBirth, userEmail);
+                                storeSubjects();
+                            }
                         }
                     }
                 });
-   Intent intent11 = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent11 = new Intent(LoginActivity.this, MainActivity.class);
                 intent11.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent11);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -123,6 +137,18 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void updateLoginStatus(String userId) {
+        DocumentReference contact = mFireBaseDB.collection(Constant.USER_COLLECTION).document(userId);
+        contact.update(Constant.UserCollectionFields.LOGIN_STATUS, true)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(LoginActivity.this, "Updated Successfully",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void storeSubjects() {

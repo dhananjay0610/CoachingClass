@@ -206,7 +206,7 @@ public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnP
     }
 
     private void loadQuizData() {
-        Intent i = new Intent(PdfListActivity.this, QuizDetailActivity.class);
+        Intent i = new Intent(PdfListActivity.this, QuizListActivity.class);
         startActivity(i);
 
     }

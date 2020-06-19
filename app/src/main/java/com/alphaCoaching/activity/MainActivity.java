@@ -1,7 +1,12 @@
 package com.alphaCoaching.activity;
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
@@ -27,6 +32,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FireStoreAdapter.OnListItemclick {
     private DrawerLayout drawerLayout;
@@ -145,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void loadQuizData() {
-        Intent intent = new Intent(MainActivity.this, QuizDetailActivity.class);
+        Intent intent = new Intent(MainActivity.this, QuizListActivity.class);
         startActivity(intent);
     }
 

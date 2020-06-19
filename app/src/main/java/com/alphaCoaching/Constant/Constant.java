@@ -26,6 +26,12 @@ public class Constant {
         public static final String QUESTION_ID = "questionId";
         public static final String QUIZ_TAKEN_ID = "quizTakenId";
         public static final String TIME_TAKEN = "timeTaken";
+        public static final String QUESTION = "question";
+        public static final String OPTION_1 = "option1";
+        public static final String OPTION_2 = "option2";
+        public static final String OPTION_3 = "option3";
+        public static final String OPTION_4 = "option4";
+        public static final String CORRECT_OPTION = "correctOption";
     }
 
     public static interface QuizTakenCollectionFields {
@@ -34,6 +40,8 @@ public class Constant {
         public static final String TOTAL_SCORE = "TotalScore";
         public static final String USER_ID = "userId";
         public static final String USER_NAME = "userName";
+        public static final String QUIZ_START_TIME = "quizStartTime";
+        public static final String QUIZ_END_TIME = "quizEndTime";
     }
 
     public static interface QuestionCollectionFields {

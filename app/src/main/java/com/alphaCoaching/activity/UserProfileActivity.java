@@ -128,7 +128,7 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
     }
 
     private void loadQuizData() {
-        Intent i = new Intent(UserProfileActivity.this, QuizDetailActivity.class);
+        Intent i = new Intent(UserProfileActivity.this, QuizListActivity.class);
         startActivity(i);
 
     }

@@ -60,7 +60,6 @@ public class QuestionAdapter extends FirestoreRecyclerAdapter<QuestionModel, Que
             textQuizTime = itemView.findViewById(R.id.quiz_time);
             detail = itemView.findViewById(R.id.detail);
             detail.setOnClickListener(view -> {
-                //Intent intent=new Intent(QuizDetailActivity.this, QuestionReview.class);
                 onClickListener.buttonOnClick(view, getAdapterPosition(), getSnapshots().getSnapshot(getAdapterPosition()));
             });
 
