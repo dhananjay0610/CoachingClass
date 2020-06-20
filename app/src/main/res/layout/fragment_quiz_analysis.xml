@@ -169,7 +169,7 @@
                 android:textSize="21sp" />
 
             <ProgressBar
-                android:id="@+id/twoprogress"
+                android:id="@+id/twoProgress"
                 style="@style/MyProgressBarTwo"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -205,52 +205,20 @@
                     android:layout_centerInParent="true"
                     android:text="30%" />
             </RelativeLayout>
+
             <Button
                 android:id="@+id/seeClassResultButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
                 android:backgroundTint="@color/black"
                 android:gravity="end"
                 android:padding="16dp"
-                android:layout_marginTop="5dp"
-                android:layout_gravity="center_horizontal"
                 android:text="Whole class result"
                 android:textAllCaps="false"
                 android:textColor="#fff" />
         </LinearLayout>
-
-        <!--        <LinearLayout-->
-        <!--            android:id="@+id/buttons"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_below="@+id/m"-->
-        <!--            android:gravity="center"-->
-        <!--            android:orientation="horizontal">-->
-
-        <!--            <Button-->
-        <!--                android:id="@+id/ButtonQuestionReview"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_below="@id/mar1"-->
-        <!--                android:backgroundTint="@color/black"-->
-        <!--                android:gravity="start"-->
-        <!--                android:padding="16dp"-->
-        <!--                android:text="Get all question detail"-->
-        <!--                android:textAllCaps="false"-->
-        <!--                android:textColor="#fff" />-->
-
-        <!--            <Button-->
-        <!--                android:id="@+id/seeClassResultButton"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_below="@id/mar1"-->
-        <!--                android:backgroundTint="@color/black"-->
-        <!--                android:gravity="end"-->
-        <!--                android:padding="16dp"-->
-        <!--                android:text="Whole class result"-->
-        <!--                android:textAllCaps="false"-->
-        <!--                android:textColor="#fff" />-->
-        <!--                </LinearLayout>-->
 
         <LinearLayout
             android:id="@+id/quizReviewProgressbar"
@@ -282,8 +250,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:visibility="visible" />
-
-
         </LinearLayout>
     </RelativeLayout>
 </FrameLayout>

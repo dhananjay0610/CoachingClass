@@ -1,40 +1,40 @@
 package com.alphaCoaching.adapter;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.alphaCoaching.fragment.QuizAnalysis;
-import com.alphaCoaching.fragment.QuizQuestions;
-
+import java.util.ArrayList;
 
 public class PagerAdapter extends FragmentPagerAdapter {
+    private final ArrayList<Fragment> fragmentList = new ArrayList<>();
+    private final ArrayList<String> fragmentTitle = new ArrayList<>();
 
-private int noOfTabs;
-
-    public PagerAdapter(@NonNull FragmentManager fm,int noOfTabs) {
+    public PagerAdapter(@NonNull FragmentManager fm) {
         super(fm);
-        this.noOfTabs=noOfTabs;
-
     }
+
     @NonNull
     @Override
     public Fragment getItem(int position) {
-
-        switch (position){
-            case 0:
-                return  new QuizAnalysis();
-            case 1:
-                return  new QuizQuestions();
-            default:
-                return  null;
-        }
-
+        return fragmentList.get(position);
     }
 
     @Override
     public int getCount() {
-        return noOfTabs;
+        return fragmentList.size();
+    }
+
+    public void addFragment(Fragment fragment, String title) {
+        fragmentList.add(fragment);
+        fragmentTitle.add(title);
+    }
+
+    @Nullable
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return fragmentTitle.get(position);
     }
 }
