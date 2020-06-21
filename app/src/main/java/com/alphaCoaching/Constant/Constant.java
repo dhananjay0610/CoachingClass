@@ -11,6 +11,7 @@ public class Constant {
     public static final String SUBJECT_COLLECTION = "subjects";
     public static final String PDF_COLLECTION = "PDF";
     public static final String STANDARD_COLLECTION = "standard";
+    public static final String VIDEO_COLLECTION = "video";
 
     public static interface QuizCollectionFields {
         public static final String QUESTION_NUMBER = "questionNumber";
@@ -63,6 +64,7 @@ public class Constant {
         public static final String EMAIL = "email";
         public static final String FIRST_TIME_LOGIN = "firstTimeLogin";
         public static final String LOGIN_STATUS = "loginStatus";
+        public static final String TOKEN = "token";
     }
 
     public static interface RecentLectureFields {

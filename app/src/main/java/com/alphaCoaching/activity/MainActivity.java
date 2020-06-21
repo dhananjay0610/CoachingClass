@@ -130,12 +130,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_userProfile) {
             loadUserData();
         } else if (id == R.id.nav_logout) {
+            new LoginActivity().logoutUser(UserSharedPreferenceManager.getUserInfo(getApplicationContext(), UserSharedPreferenceManager.userInfoFields.USER_UUID));
             fireAuth.signOut();
             UserSharedPreferenceManager.removeUserData(getApplicationContext());
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
+        } else if (id == R.id.nav_videos) {
+            startVideoActivity();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -153,6 +156,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void loadQuizData() {
         Intent intent = new Intent(MainActivity.this, QuizListActivity.class);
+        startActivity(intent);
+    }
+
+    private void startVideoActivity() {
+        Intent intent = new Intent(MainActivity.this, VideosActivity.class);
         startActivity(intent);
     }
 

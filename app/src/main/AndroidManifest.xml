@@ -15,8 +15,10 @@
         android:roundIcon="@drawable/alpha_launcher_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.SingleQuestionDetailActivity"
-            android:parentActivityName=".activity.QuizReviewActivity"/>
+        <activity android:name=".activity.videosActivity"></activity>
+        <activity
+            android:name=".activity.SingleQuestionDetailActivity"
+            android:parentActivityName=".activity.QuizReviewActivity" />
         <activity
             android:name=".activity.QuizReviewActivity"
             android:parentActivityName=".activity.QuizListActivity" />
@@ -57,10 +59,21 @@
             android:parentActivityName=".activity.MainActivity" />
         <activity
             android:name=".activity.WholeClassResultList"
-            android:parentActivityName=".activity.QuizReviewActivity"/>
+            android:parentActivityName=".activity.QuizReviewActivity" />
         <activity
             android:name=".activity.QuizDetailActivity"
-            android:parentActivityName=".activity.QuizListActivity"/>
+            android:parentActivityName=".activity.QuizListActivity" />
+        <activity
+            android:name=".activity.VideosActivity"
+            android:parentActivityName=".activity.MainActivity" />
+        <service
+            android:name=".FcmConnection.FCMMessageReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".FcmConnection.FCMTokenReceiver" />
 
         <meta-data
             android:name="preloaded_fonts"

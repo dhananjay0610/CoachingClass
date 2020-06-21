@@ -81,4 +81,19 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="210dp" />
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/quizDetailProgressbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gradientstart"
+        android:visibility="gone"
+        android:gravity="center">
+
+        <ProgressBar
+            android:id="@+id/quizListProgressbar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -106,6 +106,7 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         } else if (id == R.id.nav_userProfile) {
             onBackPressed();
         } else if (id == R.id.nav_logout) {
+            new LoginActivity().logoutUser(UserSharedPreferenceManager.getUserInfo(getApplicationContext(), UserSharedPreferenceManager.userInfoFields.USER_UUID));
             fireAuth.signOut();
             UserSharedPreferenceManager.removeUserData(getApplicationContext());
             Intent intent = new Intent(this, LoginActivity.class);
