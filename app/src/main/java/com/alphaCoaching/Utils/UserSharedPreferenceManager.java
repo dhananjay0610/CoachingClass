@@ -2,6 +2,7 @@ package com.alphaCoaching.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.alphaCoaching.Constant.Constant;
 import com.google.firebase.auth.FirebaseAuth;

@@ -24,7 +24,7 @@ public class ScoreActivity extends AppCompatActivity {
         score.setText(score_st);
         button = findViewById(R.id.button_done);
         button.setOnClickListener(view -> {
-            Intent intent = new Intent(ScoreActivity.this, MainActivity.class);
+            Intent intent = new Intent(ScoreActivity.this, QuizListActivity.class);
             startActivity(intent);
         });
     }

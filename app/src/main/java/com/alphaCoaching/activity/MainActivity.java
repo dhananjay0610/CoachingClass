@@ -1,7 +1,12 @@
 package com.alphaCoaching.activity;
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
@@ -27,6 +32,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FireStoreAdapter.OnListItemclick {
     private DrawerLayout drawerLayout;
@@ -123,12 +130,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_userProfile) {
             loadUserData();
         } else if (id == R.id.nav_logout) {
+            new LoginActivity().logoutUser(UserSharedPreferenceManager.getUserInfo(getApplicationContext(), UserSharedPreferenceManager.userInfoFields.USER_UUID));
             fireAuth.signOut();
             UserSharedPreferenceManager.removeUserData(getApplicationContext());
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
+        } else if (id == R.id.nav_videos) {
+            startVideoActivity();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -145,7 +155,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void loadQuizData() {
-        Intent intent = new Intent(MainActivity.this, QuizDetailActivity.class);
+        Intent intent = new Intent(MainActivity.this, QuizListActivity.class);
+        startActivity(intent);
+    }
+
+    private void startVideoActivity() {
+        Intent intent = new Intent(MainActivity.this, VideosActivity.class);
         startActivity(intent);
     }
 
