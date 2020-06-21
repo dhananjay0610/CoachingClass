@@ -41,7 +41,7 @@
                 android:paddingStart="5dp"
                 android:layout_gravity="end"
                 android:background="@color/green"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:textSize="18dp"
                 android:textColor="@color/black"
                 android:text="status"/>

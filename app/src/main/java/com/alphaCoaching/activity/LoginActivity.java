@@ -3,6 +3,7 @@ package com.alphaCoaching.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
@@ -12,8 +13,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alphaCoaching.Constant.Constant;
+import com.alphaCoaching.FcmConnection.FCMTokenReceiver;
 import com.alphaCoaching.R;
 import com.alphaCoaching.Utils.UserSharedPreferenceManager;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -33,9 +36,9 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private EditText email;
     private EditText password;
-    private FirebaseAuth fireAuth;
+    private static FirebaseAuth fireAuth;
     private Handler handler = new Handler();
-    private FirebaseFirestore mFireBaseDB;
+    private static FirebaseFirestore mFireBaseDB;
     private CircularProgressButton mLoginBtn;
 
     @Override
@@ -95,34 +98,70 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseUser currentUser = fireAuth.getCurrentUser();
                 assert currentUser != null;
                 String user_Uuid = currentUser.getUid();
-                DocumentReference documentReference = db.collection
+                DocumentReference documentReference = mFireBaseDB.collection
                         (Constant.USER_COLLECTION).document(user_Uuid);
                 documentReference.get().addOnCompleteListener(task1 -> {
                     if (task1.isSuccessful()) {
                         DocumentSnapshot documentSnapshot = task1.getResult();
                         assert documentSnapshot != null;
                         if (documentSnapshot.exists()) {
-                            String userFirstName = (String) documentSnapshot.get(Constant.UserCollectionFields.FIRST_NAME);
-                            String userLastName = (String) documentSnapshot.get(Constant.UserCollectionFields.LAST_NAME);
-                            String userStandard = (String) documentSnapshot.get(Constant.UserCollectionFields.STANDARD);
-                            String dateOfBirth = (String) documentSnapshot.get(Constant.UserCollectionFields.DOB);
-                            String userEmail = (String) documentSnapshot.get(Constant.UserCollectionFields.EMAIL);
-                            UserSharedPreferenceManager.storeUserDetail(getAppContext(), user_Uuid, userFirstName, userLastName, userStandard, dateOfBirth, userEmail);
-                            storeSubjects();
+                            Boolean loginStatus = (Boolean) documentSnapshot.get(Constant.UserCollectionFields.LOGIN_STATUS);
+//                            loginStatus is true when the user is logged in somewhere, otherwise return false for a single device logged in.
+                            if (loginStatus) {
+                                Toast.makeText(getApplicationContext(), "You are already logged in somewhere, logout from that device first!", Toast.LENGTH_LONG).show();
+//                                logoutUser(user_Uuid);
+
+                                fireAuth.signOut();
+//                                UserSharedPreferenceManager.removeUserData(getApplicationContext());
+                                Intent intent = new Intent(this, LoginActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+//                                fireAuth.signOut();
+//                                UserSharedPreferenceManager.removeUserData(getApplicationContext());
+//                                Intent intent = new Intent(this, LoginActivity.class);
+//                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                                startActivity(intent);
+//                                finish();
+                            } else {
+                                updateLoginStatus(user_Uuid, true);
+                                String userFirstName = (String) documentSnapshot.get(Constant.UserCollectionFields.FIRST_NAME);
+                                String userLastName = (String) documentSnapshot.get(Constant.UserCollectionFields.LAST_NAME);
+                                String userStandard = (String) documentSnapshot.get(Constant.UserCollectionFields.STANDARD);
+                                String dateOfBirth = (String) documentSnapshot.get(Constant.UserCollectionFields.DOB);
+                                String userEmail = (String) documentSnapshot.get(Constant.UserCollectionFields.EMAIL);
+                                UserSharedPreferenceManager.storeUserDetail(getAppContext(), user_Uuid, userFirstName, userLastName, userStandard, dateOfBirth, userEmail);
+                                storeSubjects();
+                                openMainActivity();
+                            }
                         }
                     }
                 });
-   Intent intent11 = new Intent(LoginActivity.this, MainActivity.class);
-                intent11.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent11);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                finish();
                 mLoginBtn.dispose();
             } else {
                 mLoginBtn.startMorphRevertAnimation();
                 Toast.makeText(getApplicationContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void openMainActivity() {
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        Intent intent = new Intent(this, FCMTokenReceiver.class);
+        startService(intent);
+        finish();
+    }
+
+    private void updateLoginStatus(String userId, Boolean status) {
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        DocumentReference contact = firestore.collection(Constant.USER_COLLECTION).document(userId);
+        contact.update(Constant.UserCollectionFields.LOGIN_STATUS, status)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                    }
+                });
     }
 
     private void storeSubjects() {
@@ -136,5 +175,16 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+
+    public void logoutUser(String userId) {
+//        Intent intent = new Intent(getAppContext(), LoginActivity.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        FirebaseAuth.getInstance().signOut();
+//        UserSharedPreferenceManager.removeUserData(getAppContext());
+//        startActivity(intent);
+//        finish();
+        updateLoginStatus(userId, false);
     }
 }

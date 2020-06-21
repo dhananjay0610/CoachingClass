@@ -184,6 +184,7 @@ public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnP
         } else if (id == R.id.nav_userProfile) {
             loadUserData();
         } else if (id == R.id.nav_logout) {
+            new LoginActivity().logoutUser(UserSharedPreferenceManager.getUserInfo(getApplicationContext(), UserSharedPreferenceManager.userInfoFields.USER_UUID));
             fireAuth.signOut();
             UserSharedPreferenceManager.removeUserData(getApplicationContext());
             Intent intent = new Intent(this, LoginActivity.class);
@@ -206,7 +207,7 @@ public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnP
     }
 
     private void loadQuizData() {
-        Intent i = new Intent(PdfListActivity.this, QuizDetailActivity.class);
+        Intent i = new Intent(PdfListActivity.this, QuizListActivity.class);
         startActivity(i);
 
     }

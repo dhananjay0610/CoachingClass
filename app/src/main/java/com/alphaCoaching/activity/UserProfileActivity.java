@@ -106,6 +106,7 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         } else if (id == R.id.nav_userProfile) {
             onBackPressed();
         } else if (id == R.id.nav_logout) {
+            new LoginActivity().logoutUser(UserSharedPreferenceManager.getUserInfo(getApplicationContext(), UserSharedPreferenceManager.userInfoFields.USER_UUID));
             fireAuth.signOut();
             UserSharedPreferenceManager.removeUserData(getApplicationContext());
             Intent intent = new Intent(this, LoginActivity.class);
@@ -128,7 +129,7 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
     }
 
     private void loadQuizData() {
-        Intent i = new Intent(UserProfileActivity.this, QuizDetailActivity.class);
+        Intent i = new Intent(UserProfileActivity.this, QuizListActivity.class);
         startActivity(i);
 
     }
