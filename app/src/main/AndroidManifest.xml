@@ -15,7 +15,7 @@
         android:roundIcon="@drawable/alpha_launcher_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.videosActivity"></activity>
+        <activity android:name=".activity.VideosActivity"></activity>
         <activity
             android:name=".activity.SingleQuestionDetailActivity"
             android:parentActivityName=".activity.QuizReviewActivity" />
