@@ -156,10 +156,6 @@ public class QuizReviewActivity extends AppCompatActivity {
             } else
                 totalUnAttempts++;
         }
-        Log.d("QuizReviewActivity", "The no of 0 is : " + totalAttempts);
-        Log.d("QuizReviewActivity", "The no of 1 is : " + totalCorrect);
-        Log.d("QuizReviewActivity", "The no of -1 is : " + totalUnAttempts);
-//   String accuracy = totalCorrect + "/" + totalAttempts;
         float accuracyPercentages = ((float) totalCorrect / (float) totalAttempts) * 100;
         DecimalFormat df = new DecimalFormat("##.##");
         accuracyPercentages = Float.parseFloat(df.format(accuracyPercentages));

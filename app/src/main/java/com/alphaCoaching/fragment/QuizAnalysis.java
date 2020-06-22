@@ -18,33 +18,34 @@ import androidx.fragment.app.Fragment;
 
 import com.alphaCoaching.R;
 import com.alphaCoaching.activity.QuestionReview;
+import com.alphaCoaching.activity.WholeClassResultList;
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
 public class QuizAnalysis extends Fragment {
-    View view;
-    String quizId;
-    String quizTakenId;
-    String TotalMarks;
-    String accuracyProgressValue;
-    int accuracyProgress;            //max value is 100
-    String TotalAttempts;
-    String textProgressBar;
-    int TwoProgressFirst;
-    int TwoProgressSecondary;
-    int TwoProgressTotal;
-    int CircularProgress;
-    String centerText;
+    private View view;
+    private String quizId;
+    private String quizTakenId;
+    private String TotalMarks;
+    private String accuracyProgressValue;
+    private int accuracyProgress;            //max value is 100
+    private String TotalAttempts;
+    private String textProgressBar;
+    private int TwoProgressFirst;
+    private int TwoProgressSecondary;
+    private int TwoProgressTotal;
+    private int CircularProgress;
+    private String centerText;
 
 
-    TextView textViewTotalMarks;
-    TextView textViewTotalAttempt;
-    TextView textViewaccuracyProgressValue;
-    ProgressBar accuracyProgressBar;
-    TextView textOfProgressBar;
-    ProgressBar twoProgress;
-    CircularProgressBar circularProgressBar;
-    Button seeClassResultButton;
-    TextView textViewcenterText;
+    private TextView textViewTotalMarks;
+    private TextView textViewTotalAttempt;
+    private TextView textViewaccuracyProgressValue;
+    private ProgressBar accuracyProgressBar;
+    private TextView textOfProgressBar;
+    private ProgressBar twoProgress;
+    private CircularProgressBar circularProgressBar;
+    private Button seeClassResultButton;
+    private TextView textViewcenterText;
 
     public QuizAnalysis() {
     }
@@ -68,7 +69,6 @@ public class QuizAnalysis extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d("fragment", quizId + " " + quizTakenId + " " + TotalMarks + " " + accuracyProgressValue + " " + accuracyProgress + " " + TotalAttempts + " " + textProgressBar + " " + TwoProgressFirst + " " + TwoProgressSecondary + " " + TwoProgressTotal + " " + CircularProgress + " " + centerText);
 
         view = inflater.inflate(R.layout.fragment_quiz_analysis, container, false);
         seeClassResultButton = view.findViewById(R.id.seeClassResultButton);
@@ -103,8 +103,7 @@ public class QuizAnalysis extends Fragment {
         seeClassResultButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("fragment", quizId + " " + quizTakenId + " " + TotalMarks + " " + accuracyProgressValue + " " + accuracyProgress + " " + TotalAttempts + " " + TwoProgressFirst + " " + TwoProgressSecondary + " " + TwoProgressTotal + " " + CircularProgress + " " + centerText);
-                Intent i = new Intent(getActivity(), QuestionReview.class);
+                Intent i = new Intent(getActivity(), WholeClassResultList.class);
                 i.putExtra("QuizId", quizId);
                 startActivity(i);
             }

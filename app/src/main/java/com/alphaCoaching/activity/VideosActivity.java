@@ -4,11 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Spinner;
@@ -20,6 +23,7 @@ import com.alphaCoaching.Utils.UserSharedPreferenceManager;
 import com.alphaCoaching.adapter.PDFAdapter;
 import com.alphaCoaching.adapter.VideoAdapter;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -37,6 +41,8 @@ public class VideosActivity extends AppCompatActivity implements NavigationView.
     private DrawerLayout mDrawerLayout;
     private ArrayList<VideoModel> mVideosList;
     private static VideoAdapter adapter;
+    private NavigationView navigationView;
+    private FirebaseAuth fireAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +56,12 @@ public class VideosActivity extends AppCompatActivity implements NavigationView.
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mFilterSpinner = findViewById(R.id.video_dropdown_menu);
         mDrawerLayout = findViewById(R.id.videosDrawer);
+        fireAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
-
-        NavigationView navigationView = findViewById(R.id.nav_viewOfVideosActivity);
-        navigationView.getMenu().getItem(4).setChecked(true);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
 
 
         getAllVideos();
@@ -85,11 +88,60 @@ public class VideosActivity extends AppCompatActivity implements NavigationView.
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
+        int id = item.getItemId();
+        if (id == R.id.nav_quiz) {
+            loadQuizData();
+        } else if (id == R.id.nav_home) {
+            loadHomeActivity();
+        } else if (id == R.id.nav_Pdf) {
+            loadPdfList();
+        } else if (id == R.id.nav_userProfile) {
+            loadUserData();
+        } else if (id == R.id.nav_logout) {
+            new LoginActivity().logoutUser(UserSharedPreferenceManager.getUserInfo(getApplicationContext(), UserSharedPreferenceManager.userInfoFields.USER_UUID));
+            fireAuth.signOut();
+            UserSharedPreferenceManager.removeUserData(getApplicationContext());
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        } else if (id == R.id.nav_videos) {
+            onBackPressed();
+        }
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private void loadHomeActivity() {
+        Intent i = new Intent(VideosActivity.this, MainActivity.class);
+        startActivity(i);
+    }
+
+    private void loadQuizData() {
+        Intent intent = new Intent(VideosActivity.this, QuizListActivity.class);
+        startActivity(intent);
+    }
+
+    private void loadPdfList() {
+        Intent i = new Intent(VideosActivity.this, PdfListActivity.class);
+        startActivity(i);
+    }
+
+    private void loadUserData() {
+        Intent i = new Intent(VideosActivity.this, UserProfileActivity.class);
+        startActivity(i);
     }
 
     @Override
     public void onItemClick(VideoModel snapshot, int position) {
         Log.d("Shubham", "onItemClick: item is clicked!");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        navigationView = findViewById(R.id.nav_viewOfVideosActivity);
+        navigationView.getMenu().getItem(5).setChecked(true);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 }
