@@ -2,7 +2,6 @@ package com.alphaCoaching.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -27,7 +26,7 @@ import java.util.Objects;
 public class WholeClassResultList extends AppCompatActivity {
 
     private static String quizId;
-    private FirebaseFirestore firestore;
+    private FirebaseFirestore Firestore;
     private ArrayList<QuizTaken> quizTakenList;
     private WholeClassResultAdapter adapter;
     private RecyclerView recyclerView;
@@ -44,7 +43,7 @@ public class WholeClassResultList extends AppCompatActivity {
         Intent intent = getIntent();
         quizId = intent.getStringExtra("QuizId");
 
-        firestore = FirebaseFirestore.getInstance();
+        Firestore = FirebaseFirestore.getInstance();
 
         getAllUserList();
     }
@@ -52,7 +51,7 @@ public class WholeClassResultList extends AppCompatActivity {
     private void getAllUserList() {
         mProgressbar.setVisibility(View.VISIBLE);
         quizTakenList = new ArrayList<>();
-        firestore.collection(Constant.QUIZ_TAKEN_COLLECTION)
+        Firestore.collection(Constant.QUIZ_TAKEN_COLLECTION)
                 .whereEqualTo(Constant.QuizTakenCollectionFields.QUIZ_ID, quizId)
                 .orderBy(Constant.QuizTakenCollectionFields.SCORE, Query.Direction.DESCENDING)
                 .get()
@@ -65,7 +64,7 @@ public class WholeClassResultList extends AppCompatActivity {
                             quizTaken.setId(doc.getId());
                             quizTakenList.add(quizTaken);
                         }
-                        adapter = new WholeClassResultAdapter(quizTakenList, Integer.parseInt(quizTakenObject.getDocuments().get(0).get(Constant.QuizTakenCollectionFields.SCORE).toString()));
+                        adapter = new WholeClassResultAdapter(quizTakenList, Integer.parseInt(Objects.requireNonNull(quizTakenObject.getDocuments().get(0).get(Constant.QuizTakenCollectionFields.SCORE)).toString()));
                         recyclerView.setAdapter(adapter);
                         recyclerView.setHasFixedSize(true);
                         mProgressbar.setVisibility(View.GONE);

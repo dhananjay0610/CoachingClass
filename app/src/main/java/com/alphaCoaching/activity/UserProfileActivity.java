@@ -31,7 +31,6 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
     private FirebaseAuth fireAuth;
     private FirebaseFirestore db;
     private Toolbar toolbar;
-    // private UserSharedPreferenceManager preferenceManager;
     private Context mContext;
     private String mUserFirstName;
     private String mUserLastName;
