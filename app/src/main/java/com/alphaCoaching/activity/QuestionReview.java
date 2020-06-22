@@ -111,7 +111,7 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
             }
         });
 
-        String quizTakenId = getIntent().getStringExtra("quickened");
+        String quizTakenId = getIntent().getStringExtra("QuizId");
         final String[] MaxScore = {null};
         assert quizTakenId != null;
         DocumentReference documentReference = db.collection(Constant.QUIZ_TAKEN_COLLECTION).document(quizTakenId);

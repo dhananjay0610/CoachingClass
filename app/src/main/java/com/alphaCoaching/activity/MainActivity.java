@@ -58,13 +58,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fireAuth = FirebaseAuth.getInstance();
         drawerLayout = findViewById(R.id.drawer_layout);
         frameLayout = findViewById(R.id.fragment_container);
-        navigationView = findViewById(R.id.nav_view);
-        navigationView.getMenu().getItem(1).setChecked(true);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
 
         checkRecentLectures();
     }
@@ -192,12 +189,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onStart() {
         super.onStart();
-//       adapter.startListening();
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.getMenu().getItem(1).setChecked(true);
+        navigationView.setNavigationItemSelectedListener(this);
+        adapter.startListening();
+
     }
 
     @Override
     public void onStop() {
         super.onStop();
-//        adapter.stopListening();
+        adapter.stopListening();
     }
 }

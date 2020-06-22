@@ -39,6 +39,7 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
     private String mUserDateOfBirth;
     private String mUserStandard;
     private TextView userName, user_email, user_name, user_dob, user_standard;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,14 +74,11 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
 
     private void setupUI() {
         drawerLayout = findViewById(R.id.userlayout);
-        NavigationView navigationView = findViewById(R.id.nav_views);
-        navigationView.getMenu().getItem(4).setChecked(true);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
         db = FirebaseFirestore.getInstance();
         userName = findViewById(R.id.UserName);
         user_email = findViewById(R.id.user_email);
@@ -113,6 +111,8 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
+        } else if (id == R.id.nav_videos) {
+            startVideoActivity();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -143,10 +143,22 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         }
     }
 
+    private void startVideoActivity() {
+        Intent intent = new Intent(UserProfileActivity.this, VideosActivity.class);
+        startActivity(intent);
+    }
+
 
     private void setupWindowAnimation() {
         Transition slide = TransitionInflater.from(this).inflateTransition(R.transition.activity_fade);
         getWindow().setEnterTransition(slide);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        navigationView = findViewById(R.id.nav_views);
+        navigationView.getMenu().getItem(4).setChecked(true);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
 }

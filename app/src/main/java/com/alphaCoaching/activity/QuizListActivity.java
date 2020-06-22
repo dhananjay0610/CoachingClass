@@ -47,6 +47,7 @@ public class QuizListActivity extends AppCompatActivity implements NavigationVie
     private ArrayList<QuizTaken> quizTakenList;
     private FirebaseAuth fireAuth;
     private ProgressBar mProgressBar;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +62,13 @@ public class QuizListActivity extends AppCompatActivity implements NavigationVie
         quizList = new ArrayList<>();
         quizTakenList = new ArrayList<>();
         drawerLayout = findViewById(R.id.quizDrawer);
-        NavigationView navigationView = findViewById(R.id.nav_viewOfQuizActivity);
-        navigationView.getMenu().getItem(2).setChecked(true);
+//        navigationView = findViewById(R.id.nav_viewOfQuizActivity);
+//        navigationView.getMenu().getItem(2).setChecked(true);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
+//        navigationView.setNavigationItemSelectedListener(this);
 
         getQuizAndTakenQuizData();
     }
@@ -150,6 +151,9 @@ public class QuizListActivity extends AppCompatActivity implements NavigationVie
 
     protected void onStart() {
         super.onStart();
+        navigationView = findViewById(R.id.nav_viewOfQuizActivity);
+        navigationView.getMenu().getItem(2).setChecked(true);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -177,6 +181,8 @@ public class QuizListActivity extends AppCompatActivity implements NavigationVie
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
+        } else if (id == R.id.nav_videos) {
+            startVideoActivity();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -203,5 +209,10 @@ public class QuizListActivity extends AppCompatActivity implements NavigationVie
         } else {
             super.onBackPressed();
         }
+    }
+
+    private void startVideoActivity() {
+        Intent intent = new Intent(QuizListActivity.this, VideosActivity.class);
+        startActivity(intent);
     }
 }
