@@ -13,7 +13,6 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginTop="5dp"
         android:orientation="vertical">
 
@@ -38,8 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="#fff"
-            android:columnWidth="70dp"
-            android:gravity="center"
+            android:columnWidth="60dp"
             android:horizontalSpacing="4dp"
             android:numColumns="auto_fit"
             android:scrollbarFadeDuration="@integer/config_navAnimTime"
@@ -54,47 +52,69 @@
             android:layout_below="@id/grid"
             android:layout_marginStart="18dp"
             android:layout_marginTop="20dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <ImageView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="7dp"
-                android:src="@drawable/ic_green" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:text="Correct "
-                android:textSize="16dp" />
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginStart="15dp"
+                    android:backgroundTint="@color/green"
+                    android:background="@drawable/rectangularviiew"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:src="@drawable/ic_red" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="Correct "
+                    android:textSize="16dp" />
+            </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:text="Wrong "
-                android:textSize="16dp" />
+                android:layout_height="wrap_content">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:contentDescription="black"
-                android:src="@drawable/ic_black" />
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginStart="15dp"
+                    android:backgroundTint="@color/red"
+                    android:background="@drawable/rectangularviiew"/>
 
-            <TextView
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="Wrong "
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:text="Unattempted "
-                android:textSize="16dp" />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginStart="15dp"
+                    android:contentDescription="black"
+                    android:backgroundTint="@color/gray"
+                    android:background="@drawable/rectangularviiew"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="Unattempted "
+                    android:textSize="16dp" />
+            </LinearLayout>
 
         </LinearLayout>
 

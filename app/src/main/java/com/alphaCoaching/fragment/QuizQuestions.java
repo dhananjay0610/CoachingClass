@@ -131,7 +131,7 @@ public class QuizQuestions extends Fragment {
         for (int i = 0; i < questionList.size(); i++) {
             number[i] = String.valueOf(i + 1);
         }
-        GridAdapter adapter = new GridAdapter(Objects.requireNonNull(getActivity()).getApplicationContext(), number, questionBackground);
+        GridAdapter adapter = new GridAdapter(requireActivity().getApplicationContext(), number, questionBackground);
         gridView.setAdapter(adapter);
 
         //OnItemClickListener on the grid item
