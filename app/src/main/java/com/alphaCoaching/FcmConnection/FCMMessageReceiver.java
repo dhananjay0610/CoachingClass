@@ -9,23 +9,33 @@ import android.os.Build;
 import android.util.Log;
 
 
+import java.util.HashMap;
 import java.util.Map;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.alphaCoaching.Constant.Constant;
 import com.alphaCoaching.R;
 import com.alphaCoaching.activity.DisplayVideos;
+import com.alphaCoaching.Utils.UserSharedPreferenceManager;
 import com.alphaCoaching.activity.MainActivity;
 import com.alphaCoaching.activity.PdfListActivity;
 import com.alphaCoaching.activity.PdfViewActivity;
 import com.alphaCoaching.activity.QuizDetailActivity;
 import com.alphaCoaching.activity.VideosActivity;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 
 public class FCMMessageReceiver extends FirebaseMessagingService {
+
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore mFireStoreDb;
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
@@ -33,6 +43,7 @@ public class FCMMessageReceiver extends FirebaseMessagingService {
         String notificationSubject = data.get("subject");
         String subjectUrl = data.get("subjectUrl");
         String projectName = data.get("H3");
+        storeNotification(notificationSubject, subjectUrl);
         showNotification(notificationSubject, subjectUrl, projectName);
     }
 
@@ -84,5 +95,28 @@ public class FCMMessageReceiver extends FirebaseMessagingService {
     public void onNewToken(String registrationToken) {
         Log.d("Firebase", registrationToken);
         startService(new Intent(this, FCMTokenReceiver.class));
+    }
+
+//    this function stores the notification on the server when user gets the notification.
+    private void storeNotification(String subject, String url) {
+        mAuth = FirebaseAuth.getInstance();
+        mFireStoreDb = FirebaseFirestore.getInstance();
+
+        Map<String, Object> dataToSave = new HashMap<>();
+        dataToSave.put(Constant.NotificationFields.SUBJECT, subject);
+        dataToSave.put(Constant.NotificationFields.SUBJECT_URL, url);
+        dataToSave.put(Constant.NotificationFields.STATUS, false);
+        dataToSave.put(Constant.NotificationFields.TIME, System.currentTimeMillis());
+        dataToSave.put(Constant.NotificationFields.USER_ID, UserSharedPreferenceManager.getUserInfo(getApplicationContext(), UserSharedPreferenceManager.userInfoFields.USER_UUID));
+
+        mFireStoreDb.collection(Constant.NOTIFICATION_COLLECTION)
+                .document()
+                .set(dataToSave)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+//                        notification data is stored into database.
+                    }
+                });
     }
 }

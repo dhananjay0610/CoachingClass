@@ -46,12 +46,19 @@ public class GridAdapter extends BaseAdapter {
 //        Button textView = view.findViewById(R.id.QuestionNumber);
         textView.setText(questionNumber[i]);
         //0 means wrong answer  && 1 means correct answer  && -1 means not attempted
-        if (questionBackground[i] == 1)
+        if (questionBackground[i] == 1) {
             textView.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
-        else if (questionBackground[i] == 0)
+            textView.setBackgroundColor(Color.GREEN);
+            textView.setBackgroundResource(R.drawable.rounded_square_corner);
+        } else if (questionBackground[i] == 0) {
             textView.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-        else if (questionBackground[i] == -1)
-            textView.setBackgroundTintList(ColorStateList.valueOf(Color.BLACK));
+            textView.setBackgroundColor(Color.RED);
+            textView.setBackgroundResource(R.drawable.rounded_square_corner);
+        } else if (questionBackground[i] == -1) {
+            textView.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+            textView.setBackgroundColor(Color.GRAY);
+            textView.setBackgroundResource(R.drawable.rounded_square_corner);
+        }
         return view;
     }
 }
