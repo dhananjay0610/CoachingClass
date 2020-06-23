@@ -29,7 +29,7 @@
             android:title="User Profile" />
         <item
             android:id="@+id/nav_videos"
-            android:icon="@drawable/ic_video"
+            android:icon="@drawable/video_nav_icon"
             android:title="Videos" />
 
     </group>

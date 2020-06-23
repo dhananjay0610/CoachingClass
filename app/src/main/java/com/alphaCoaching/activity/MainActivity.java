@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FrameLayout frameLayout;
     ActionBarDrawerToggle toggle;
     private FirebaseFirestore mFireBaseDB;
+    private ImageView mNotificationIcon;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,12 +61,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fireAuth = FirebaseAuth.getInstance();
         drawerLayout = findViewById(R.id.drawer_layout);
         frameLayout = findViewById(R.id.fragment_container);
+        mNotificationIcon = findViewById(R.id.notification_icon);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
         checkRecentLectures();
+        mNotificationIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, NotificationListsActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     private void checkRecentLectures() {

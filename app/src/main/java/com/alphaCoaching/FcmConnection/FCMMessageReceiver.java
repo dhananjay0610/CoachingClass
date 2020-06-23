@@ -15,6 +15,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.alphaCoaching.R;
+import com.alphaCoaching.activity.DisplayVideos;
 import com.alphaCoaching.activity.MainActivity;
 import com.alphaCoaching.activity.PdfListActivity;
 import com.alphaCoaching.activity.PdfViewActivity;
@@ -49,7 +50,9 @@ public class FCMMessageReceiver extends FirebaseMessagingService {
         if (subject.equals("video")) {
             title = "Video is added";
             description = "Video is added for you. Click to watch the video now.";
-            intent = new Intent(getApplicationContext(), VideosActivity.class);
+            intent = new Intent(getApplicationContext(), DisplayVideos.class);
+            intent.putExtra("force_fullscreen", true);
+            intent.putExtra("url", url);
         } else if (subject.equals("pdf")) {
             title = "PDF is added";
             description = "PDF is added for you. Click to read the PDF now.";
