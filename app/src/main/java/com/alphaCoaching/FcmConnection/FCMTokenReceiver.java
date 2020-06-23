@@ -52,6 +52,9 @@ public class FCMTokenReceiver extends IntentService {
 
     private void sendTokenToServer() {
         String userId = UserSharedPreferenceManager.getUserInfo(getApplicationContext(), UserSharedPreferenceManager.userInfoFields.USER_UUID);
+        if (userId == null)
+            return;
+
         DocumentReference contact = mFireBaseDB.collection(Constant.USER_COLLECTION).document(userId);
         contact.update(Constant.UserCollectionFields.TOKEN, token)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
