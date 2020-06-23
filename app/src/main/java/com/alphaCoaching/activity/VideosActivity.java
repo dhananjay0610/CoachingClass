@@ -134,8 +134,8 @@ public class VideosActivity extends AppCompatActivity implements NavigationView.
 
     @Override
     public void onItemClick(VideoModel snapshot, int position) {
-        Log.d("Shubham", "onItemClick: item is clicked!");
         Intent intent=new Intent(VideosActivity.this,DisplayVideos.class);
+        intent.putExtra("force_fullscreen",true);
         intent.putExtra("url",snapshot.getUrl());
         intent.putExtra("title",snapshot.getName());
         startActivity(intent);

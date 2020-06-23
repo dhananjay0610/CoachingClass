@@ -4,12 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alphaCoaching.R;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerFullScreenListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
 public class DisplayVideos extends AppCompatActivity {
@@ -21,7 +23,7 @@ public class DisplayVideos extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_videos);
 
-        Toast.makeText(this, "for FULL SCREEN mode ROTATE your device,you can also scroll after that better experience", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "for FULL SCREEN mode ROTATE your device,you can also scroll after that better experience", Toast.LENGTH_LONG).show();
         textView=findViewById(R.id.tvVideoTitle);
 
         Intent intent=getIntent();
