@@ -12,6 +12,7 @@ public class Constant {
     public static final String PDF_COLLECTION = "PDF";
     public static final String STANDARD_COLLECTION = "standard";
     public static final String VIDEO_COLLECTION = "video";
+    public static final String NOTIFICATION_COLLECTION = "user_notifications";
 
     public static interface QuizCollectionFields {
         public static final String QUESTION_NUMBER = "questionNumber";
@@ -73,5 +74,13 @@ public class Constant {
         public static final String LECTURE_DATE = "lectureDate";
         public static final String SUBJECT = "subject";
         public static final String STANDARD = "standard";
+    }
+
+    public static interface NotificationFields {
+        public static final String STATUS = "notification_status";
+        public static final String SUBJECT = "notification_subject";
+        public static final String TIME = "notification_time";
+        public static final String SUBJECT_URL = "subject_url";
+        public static final String USER_ID = "user_id";
     }
 }

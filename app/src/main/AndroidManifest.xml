@@ -15,10 +15,10 @@
         android:roundIcon="@drawable/alpha_launcher_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.DisplayVideos"
-            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout">
-
-        </activity>
+        <activity android:name=".activity.NotificationListsActivity" />
+        <activity
+            android:name=".activity.DisplayVideos"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout" />
         <activity
             android:name=".activity.SingleQuestionDetailActivity"
             android:parentActivityName=".activity.QuizReviewActivity" />
