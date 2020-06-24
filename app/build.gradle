@@ -69,8 +69,11 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'me.spark:submitbutton:1.0.1'
     implementation 'br.com.simplepass:loading-button-android:2.1.5'
+    implementation 'com.google.firebase:firebase-messaging:20.2.0'
 //    implementation 'com.google.firebase:firebase-analytics:17.2.2'
 
+    //for circular progressbar
+    implementation 'com.mikhaellopez:circularprogressbar:3.0.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.navigation:navigation-fragment:2.0.0'
     implementation 'androidx.navigation:navigation-ui:2.0.0'
@@ -80,6 +83,7 @@ dependencies {
 
     //for tab layout
     implementation 'com.google.android.material:material:1.2.0-alpha03'
+
     //for cirlce image view
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 }

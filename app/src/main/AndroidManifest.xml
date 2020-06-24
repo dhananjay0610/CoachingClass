@@ -15,11 +15,16 @@
         android:roundIcon="@drawable/alpha_launcher_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.SingleQuestionDetailActivity"
-            android:parentActivityName=".activity.QuizReviewActivity"/>
+        <activity android:name=".activity.NotificationListsActivity" />
+        <activity
+            android:name=".activity.DisplayVideos"
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout" />
+        <activity
+            android:name=".activity.SingleQuestionDetailActivity"
+            android:parentActivityName=".activity.QuizReviewActivity" />
         <activity
             android:name=".activity.QuizReviewActivity"
-            android:parentActivityName=".activity.QuizDetailActivity" />
+            android:parentActivityName=".activity.QuizListActivity" />
         <activity
             android:name=".activity.PdfListActivity"
             android:parentActivityName=".activity.MainActivity" />
@@ -32,7 +37,7 @@
         <activity android:name=".activity.ScoreActivity" />
         <activity
             android:name=".activity.QuestionDetailActivity"
-            android:parentActivityName=".activity.QuizDetailActivity" />
+            android:parentActivityName=".activity.QuizListActivity" />
         <activity
             android:name=".activity.PdfViewActivity"
             android:parentActivityName=".activity.MainActivity" />
@@ -50,14 +55,29 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.LoginActivity" />
         <activity
-            android:name=".activity.QuizDetailActivity"
+            android:name=".activity.QuizListActivity"
             android:parentActivityName=".activity.MainActivity" />
         <activity
             android:name=".activity.LectureActivity"
             android:parentActivityName=".activity.MainActivity" />
         <activity
             android:name=".activity.WholeClassResultList"
-            android:parentActivityName=".activity.QuizReviewActivity"/>
+            android:parentActivityName=".activity.QuizReviewActivity" />
+        <activity
+            android:name=".activity.QuizDetailActivity"
+            android:parentActivityName=".activity.QuizListActivity" />
+        <activity
+            android:name=".activity.VideosActivity"
+            android:parentActivityName=".activity.MainActivity" />
+
+        <service
+            android:name=".FcmConnection.FCMMessageReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".FcmConnection.FCMTokenReceiver" />
 
         <meta-data
             android:name="preloaded_fonts"

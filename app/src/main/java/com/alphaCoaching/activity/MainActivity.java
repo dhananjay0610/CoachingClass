@@ -1,9 +1,16 @@
 package com.alphaCoaching.activity;
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -28,6 +35,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FireStoreAdapter.OnListItemclick {
     private DrawerLayout drawerLayout;
     private FirebaseAuth fireAuth;
@@ -37,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FrameLayout frameLayout;
     ActionBarDrawerToggle toggle;
     private FirebaseFirestore mFireBaseDB;
+    private ImageView mNotificationIcon;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,15 +60,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fireAuth = FirebaseAuth.getInstance();
         drawerLayout = findViewById(R.id.drawer_layout);
         frameLayout = findViewById(R.id.fragment_container);
-        navigationView = findViewById(R.id.nav_view);
-        navigationView.getMenu().getItem(1).setChecked(true);
+        mNotificationIcon = findViewById(R.id.notification_icon);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
 
         checkRecentLectures();
+        mNotificationIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, NotificationListsActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     private void checkRecentLectures() {
@@ -122,12 +137,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_userProfile) {
             loadUserData();
         } else if (id == R.id.nav_logout) {
+            new LoginActivity().logoutUser(UserSharedPreferenceManager.getUserInfo(getApplicationContext(), UserSharedPreferenceManager.userInfoFields.USER_UUID));
             fireAuth.signOut();
             UserSharedPreferenceManager.removeUserData(getApplicationContext());
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
+        } else if (id == R.id.nav_videos) {
+            startVideoActivity();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -144,7 +162,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void loadQuizData() {
-        Intent intent = new Intent(MainActivity.this, QuizDetailActivity.class);
+        Intent intent = new Intent(MainActivity.this, QuizListActivity.class);
+        startActivity(intent);
+    }
+
+    private void startVideoActivity() {
+        Intent intent = new Intent(MainActivity.this, VideosActivity.class);
         startActivity(intent);
     }
 
@@ -176,12 +199,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onStart() {
         super.onStart();
-//       adapter.startListening();
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.getMenu().getItem(1).setChecked(true);
+        navigationView.setNavigationItemSelectedListener(this);
+        adapter.startListening();
+
     }
 
     @Override
     public void onStop() {
         super.onStop();
-//        adapter.stopListening();
+        adapter.stopListening();
     }
 }

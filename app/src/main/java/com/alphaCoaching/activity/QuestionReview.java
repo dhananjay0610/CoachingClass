@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
     private List<Question> questionList;
     private int questionNumber;
     private FirebaseFirestore FireStore;
+    private LinearLayout mProgressBar;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private String score;
     Button previous;
@@ -53,6 +55,7 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Review Your Questions");
 
+        mProgressBar = findViewById(R.id.quizReviewProgressbar);
         question = findViewById(R.id.questionReview);
         qCount = findViewById(R.id.quesNumReview);
         option1 = findViewById(R.id.option1Review);
@@ -81,6 +84,7 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
         return super.onSupportNavigateUp();
     }
     private void getQuestionsList() {
+        mProgressBar.setVisibility(View.VISIBLE);
         String docId = getIntent().getStringExtra("QuizId");
         questionList = new ArrayList<>();
         FireStore.collection(Constant.QUESTION_COLLECTION).whereEqualTo(Constant.QuestionCollectionFields.QUIZ_ID, docId)
@@ -107,7 +111,7 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
             }
         });
 
-        String quizTakenId = getIntent().getStringExtra("quickened");
+        String quizTakenId = getIntent().getStringExtra("QuizId");
         final String[] MaxScore = {null};
         assert quizTakenId != null;
         DocumentReference documentReference = db.collection(Constant.QUIZ_TAKEN_COLLECTION).document(quizTakenId);
@@ -211,7 +215,7 @@ public class QuestionReview extends AppCompatActivity implements View.OnClickLis
                 }
             }
         });
-
+        mProgressBar.setVisibility(View.GONE);
     }
 
 //    int k = 0;

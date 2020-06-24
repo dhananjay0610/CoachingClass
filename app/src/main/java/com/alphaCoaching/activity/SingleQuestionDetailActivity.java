@@ -40,14 +40,14 @@ public class SingleQuestionDetailActivity extends AppCompatActivity {
     private String score;
     String[] QuestionId = new String[45];
     ImageView imageView;
+    Toolbar toolbar;
     private LinearLayout mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_question_detail);
-
-        Toolbar toolbar = findViewById(R.id.ToolbarOfSingleQuestionActivity);
+        toolbar= findViewById(R.id.ToolbarOfSingleQuestionActivity);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         question = findViewById(R.id.questionSingleQuestion);

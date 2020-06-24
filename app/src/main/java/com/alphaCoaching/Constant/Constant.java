@@ -11,6 +11,8 @@ public class Constant {
     public static final String SUBJECT_COLLECTION = "subjects";
     public static final String PDF_COLLECTION = "PDF";
     public static final String STANDARD_COLLECTION = "standard";
+    public static final String VIDEO_COLLECTION = "video";
+    public static final String NOTIFICATION_COLLECTION = "user_notifications";
 
     public static interface QuizCollectionFields {
         public static final String QUESTION_NUMBER = "questionNumber";
@@ -26,6 +28,12 @@ public class Constant {
         public static final String QUESTION_ID = "questionId";
         public static final String QUIZ_TAKEN_ID = "quizTakenId";
         public static final String TIME_TAKEN = "timeTaken";
+        public static final String QUESTION = "question";
+        public static final String OPTION_1 = "option1";
+        public static final String OPTION_2 = "option2";
+        public static final String OPTION_3 = "option3";
+        public static final String OPTION_4 = "option4";
+        public static final String CORRECT_OPTION = "correctOption";
     }
 
     public static interface QuizTakenCollectionFields {
@@ -34,6 +42,8 @@ public class Constant {
         public static final String TOTAL_SCORE = "TotalScore";
         public static final String USER_ID = "userId";
         public static final String USER_NAME = "userName";
+        public static final String QUIZ_START_TIME = "quizStartTime";
+        public static final String QUIZ_END_TIME = "quizEndTime";
     }
 
     public static interface QuestionCollectionFields {
@@ -55,6 +65,7 @@ public class Constant {
         public static final String EMAIL = "email";
         public static final String FIRST_TIME_LOGIN = "firstTimeLogin";
         public static final String LOGIN_STATUS = "loginStatus";
+        public static final String TOKEN = "token";
     }
 
     public static interface RecentLectureFields {
@@ -63,5 +74,13 @@ public class Constant {
         public static final String LECTURE_DATE = "lectureDate";
         public static final String SUBJECT = "subject";
         public static final String STANDARD = "standard";
+    }
+
+    public static interface NotificationFields {
+        public static final String STATUS = "notification_status";
+        public static final String SUBJECT = "notification_subject";
+        public static final String TIME = "notification_time";
+        public static final String SUBJECT_URL = "subject_url";
+        public static final String USER_ID = "user_id";
     }
 }

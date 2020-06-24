@@ -53,9 +53,6 @@ public class PdfViewActivity extends AppCompatActivity {
             AlertDialog dialog = builder.create();
             dialog.show();
         }
-//        else {
-//            // Toast.makeText(getApplicationContext(), "Internet Connected", Toast.LENGTH_SHORT).show();
-//        }
         new RetrievePDFStream().execute(link);
     }
 

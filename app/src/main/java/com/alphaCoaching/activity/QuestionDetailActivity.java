@@ -1,6 +1,10 @@
 package com.alphaCoaching.activity;
 
 import android.animation.Animator;
+import android.app.ActivityManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,10 +16,10 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -48,21 +52,19 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
     private Button next, previous;
     private Toolbar toolbar;
     private LinearLayout mProgressBar;
-    private ArrayList<Long> arr = new ArrayList<>();
     private HashMap<Integer, Long> timeTalken = new HashMap<>();
 
     //Array needed to store data in order to add them in the database
     private HashMap<Integer, String> attemptedAnswers = new HashMap<>();
     private Boolean isExamEnd = false;
     private long questionStartTime;
+    private long mQuizStartTime, mQuizEndTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_detail);
         quizScore = 0;
-        for (int i = 0; i < 100; i++)
-            arr.add((long) 0);
 
         toolbar = findViewById(R.id.ToolbarOfQuestionDetailActivity);
         setSupportActionBar(toolbar);
@@ -70,7 +72,7 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
         Bundle bundle = getIntent().getExtras();
         assert bundle != null;
         quizId = bundle.getString("docID");
-        quizTime = Long.parseLong(Objects.requireNonNull(bundle.get("quizTime")).toString());
+        quizTime = Long.parseLong((String) Objects.requireNonNull(bundle.get("quizTime")));
 
         question = findViewById(R.id.question);
         qCount = findViewById(R.id.questionNumber);
@@ -94,6 +96,59 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
         getQuestionsList();
         setupWindowAnimation();
 
+    }
+
+    @Override
+    public void onPause() {
+        if (isApplicationSentToBackground(this)) {
+            Toast.makeText(getAppContext(), "Your quiz is submitted as you have pressed the home button.", Toast.LENGTH_LONG).show();
+            examEndProcress();
+        }
+        super.onPause();
+    }
+
+    private boolean isApplicationSentToBackground(final Context context) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
+        if (!tasks.isEmpty()) {
+            ComponentName topActivity = tasks.get(0).topActivity;
+            if (!topActivity.getPackageName().equals(context.getPackageName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        quitQuiz(false);
+    }
+
+    private void quitQuiz(boolean isHomeButtonPressed) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Do you want to exit the test. \nYou may lost your scores after exiting the quiz!");
+        dialog.
+                setPositiveButton("Stay here", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("Exit Test", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        examEndProcress();
+                        dialog.dismiss();
+                    }
+                });
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AlertDialog alertDialog = dialog.create();
+                alertDialog.show();
+            }
+        });
     }
 
     private void setupWindowAnimation() {
@@ -160,6 +215,7 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
             option4.setText(questionList.get(0).getOptionD());
             qCount.setText((1) + "/" + (questionList.size()));
             startTimer();
+            mQuizStartTime = System.currentTimeMillis();
             questionStartTime = getCurrentTime();
             questionNumber = 0;
             mProgressBar.setVisibility(View.GONE);
@@ -185,7 +241,7 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
                 //to check if exam has end
                 if (!isExamEnd) {
                     Intent intent = new Intent(QuestionDetailActivity.this, ScoreActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     intent.putExtra("SCORE", (quizScore) + "/" + (questionList.size()));
                     startActivity(intent);
                     QuestionDetailActivity.this.finish();
@@ -204,7 +260,6 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
     public void onClick(View v) {
         if (v.getId() == (R.id.next)) {
             long questionEndTime = getCurrentTime();
-            arr.add(arr.get(questionNumber) + questionEndTime - questionStartTime);
             if (timeTalken.containsKey(questionNumber))
                 timeTalken.put(questionNumber, timeTalken.get(questionNumber) + questionEndTime - questionStartTime);
             else
@@ -265,25 +320,23 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
             playAnim(option4, 0, 4);
 
             qCount.setText((questionNumber + 1) + "/" + (questionList.size()));
-            String text="Time: " + " ";
+            String text = "Time: " + " ";
             timer.setText(text);
             option1.setEnabled(true);
             option2.setEnabled(true);
             option3.setEnabled(true);
             option4.setEnabled(true);
 
-            Log.d("Shubham", "previousQuestion: " + attemptedAnswers.get(questionNumber));
-            Log.d("Shubham", "previousQuestion: " + attemptedAnswers.get(questionNumber).equals(questionList.get(questionNumber).getOption1()));
-            Log.d("Shubham", "previousQuestion: " + attemptedAnswers.get(questionNumber).equals(questionList.get(questionNumber).getOption2()));
-            Log.d("Shubham", "previousQuestion: " + attemptedAnswers.get(questionNumber).equals(questionList.get(questionNumber).getOption3()));
-            Log.d("Shubham", "previousQuestion: " + attemptedAnswers.get(questionNumber).equals(questionList.get(questionNumber).getOption4()));
             if (attemptedAnswers.get(questionNumber).equals(questionList.get(questionNumber).getOption1())) {
                 option1.setBackgroundColor(Color.GREEN);
-            } if (attemptedAnswers.get(questionNumber).equals(questionList.get(questionNumber).getOption2())) {
+            }
+            if (attemptedAnswers.get(questionNumber).equals(questionList.get(questionNumber).getOption2())) {
                 option2.setBackgroundColor(Color.GREEN);
-            } if (attemptedAnswers.get(questionNumber).equals(questionList.get(questionNumber).getOption3())) {
+            }
+            if (attemptedAnswers.get(questionNumber).equals(questionList.get(questionNumber).getOption3())) {
                 option3.setBackgroundColor(Color.GREEN);
-            } if (attemptedAnswers.get(questionNumber).equals(questionList.get(questionNumber).getOption4())) {
+            }
+            if (attemptedAnswers.get(questionNumber).equals(questionList.get(questionNumber).getOption4())) {
                 option4.setBackgroundColor(Color.GREEN);
             }
         }
@@ -301,7 +354,7 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
             playAnim(option4, 0, 4);
 
             qCount.setText((questionNumber + 1) + "/" + (questionList.size()));
-            String text="Time: " + " ";
+            String text = "Time: " + " ";
             timer.setText(text);
             //  startTimer();
             option1.setEnabled(true);
@@ -309,47 +362,63 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
             option3.setEnabled(true);
             option4.setEnabled(true);
         } else {
-            isExamEnd = true;
-            calculateScore();
-
-            //adding data to the FireStore quizTaken collection
-            String FirstName = UserSharedPreferenceManager.getUserInfo(getAppContext(), UserSharedPreferenceManager.userInfoFields.USER_FIRST_NAME);
-            String LastName = UserSharedPreferenceManager.getUserInfo(getAppContext(), UserSharedPreferenceManager.userInfoFields.USER_LAST_NAME);
-            String UserName = FirstName + " " + LastName;
-            Map<String, Object> data = new HashMap<>();
-            data.put(Constant.QuizTakenCollectionFields.QUIZ_ID, quizId);
-            data.put(Constant.QuizTakenCollectionFields.SCORE, quizScore);
-            data.put(Constant.QuizTakenCollectionFields.TOTAL_SCORE, questionList.size());
-            data.put(Constant.QuizTakenCollectionFields.USER_ID, UserSharedPreferenceManager.getUserInfo(getAppContext(), UserSharedPreferenceManager.userInfoFields.USER_UUID));
-            data.put(Constant.QuizTakenCollectionFields.USER_NAME, UserName);
-            firestore.collection(Constant.QUIZ_TAKEN_COLLECTION)
-                    .add(data)
-                    .addOnSuccessListener(documentReference1 -> {
-                        Log.d("QuestionActivity", "DocumentSnapshot written with ID: " + documentReference1.getId());
-
-                        //adding data to the quizTakenQuestions collection
-                        for (int questionnumber = 0; questionnumber < questionList.size(); questionnumber++) {
-                            Map<String, Object> data1 = new HashMap<>();
-                            data1.put(Constant.QuizTakenQuestionsFields.ATTEMPTED_ANS, attemptedAnswers.get(questionnumber));
-                            data1.put(Constant.QuizTakenQuestionsFields.QUESTION_ID, questionList.get(questionnumber).getId());
-                            data1.put(Constant.QuizTakenQuestionsFields.QUIZ_TAKEN_ID, documentReference1.getId());
-                            data1.put(Constant.QuizTakenQuestionsFields.TIME_TAKEN, timeTalken.get(questionnumber));
-                            firestore.collection(Constant.QUIZ_TAKEN_QUESTION_COLLECTION)
-                                    .add(data1)
-                                    .addOnSuccessListener(documentReference11 -> Log.d("QuestionActivity", "DocumentSnapshot written with ID: " + documentReference11.getId()))
-                                    .addOnFailureListener(e -> Log.w("QuestionActivity", "Error adding document", e));
-                        }
-                    })
-                    .addOnFailureListener(e -> Log.w("QuestionActivity", "Error adding document", e));
-
-
-            // Go to Score Activity
-            Intent intent = new Intent(QuestionDetailActivity.this, ScoreActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("SCORE", (quizScore) + "/" + (questionList.size()));
-            startActivity(intent);
-            QuestionDetailActivity.this.finish();
+            examEndProcress();
         }
+    }
+
+    /**
+     * This function is used to calculate the result and the further process of exam end.
+     */
+    private void examEndProcress() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        isExamEnd = true;
+        calculateScore();
+        mQuizEndTime = System.currentTimeMillis();
+        //adding data to the FireStore quizTaken collection
+        String FirstName = UserSharedPreferenceManager.getUserInfo(getAppContext(), UserSharedPreferenceManager.userInfoFields.USER_FIRST_NAME);
+        String LastName = UserSharedPreferenceManager.getUserInfo(getAppContext(), UserSharedPreferenceManager.userInfoFields.USER_LAST_NAME);
+        String UserName = FirstName + " " + LastName;
+        Map<String, Object> data = new HashMap<>();
+        data.put(Constant.QuizTakenCollectionFields.QUIZ_ID, quizId);
+        data.put(Constant.QuizTakenCollectionFields.SCORE, quizScore);
+        data.put(Constant.QuizTakenCollectionFields.TOTAL_SCORE, questionList.size());
+        data.put(Constant.QuizTakenCollectionFields.USER_ID, UserSharedPreferenceManager.getUserInfo(getAppContext(), UserSharedPreferenceManager.userInfoFields.USER_UUID));
+        data.put(Constant.QuizTakenCollectionFields.USER_NAME, UserName);
+        data.put(Constant.QuizTakenCollectionFields.QUIZ_START_TIME, mQuizStartTime);
+        data.put(Constant.QuizTakenCollectionFields.QUIZ_END_TIME, mQuizEndTime);
+        firestore.collection(Constant.QUIZ_TAKEN_COLLECTION)
+                .add(data)
+                .addOnSuccessListener(documentReference1 -> {
+
+                    //adding data to the quizTakenQuestions collection
+                    for (int questionnumber = 0; questionnumber < questionList.size(); questionnumber++) {
+                        Map<String, Object> data1 = new HashMap<>();
+                        data1.put(Constant.QuizTakenQuestionsFields.ATTEMPTED_ANS, attemptedAnswers.get(questionnumber));
+                        data1.put(Constant.QuizTakenQuestionsFields.QUESTION_ID, questionList.get(questionnumber).getId());
+                        data1.put(Constant.QuizTakenQuestionsFields.QUIZ_TAKEN_ID, documentReference1.getId());
+                        data1.put(Constant.QuizTakenQuestionsFields.TIME_TAKEN, timeTalken.get(questionnumber));
+                        data1.put(Constant.QuizTakenQuestionsFields.QUESTION, questionList.get(questionnumber).getQuestion());
+                        data1.put(Constant.QuizTakenQuestionsFields.OPTION_1, questionList.get(questionnumber).getOption1());
+                        data1.put(Constant.QuizTakenQuestionsFields.OPTION_2, questionList.get(questionnumber).getOption2());
+                        data1.put(Constant.QuizTakenQuestionsFields.OPTION_3, questionList.get(questionnumber).getOption3());
+                        data1.put(Constant.QuizTakenQuestionsFields.OPTION_4, questionList.get(questionnumber).getOption4());
+                        data1.put(Constant.QuizTakenQuestionsFields.CORRECT_OPTION, questionList.get(questionnumber).getCorrectOption());
+
+                        firestore.collection(Constant.QUIZ_TAKEN_QUESTION_COLLECTION)
+                                .add(data1)
+                                .addOnSuccessListener(documentReference11 -> Log.d("QuestionActivity", "DocumentSnapshot written with ID: " + documentReference11.getId()))
+                                .addOnFailureListener(e -> Log.w("QuestionActivity", "Error adding document", e));
+                    }
+                })
+                .addOnFailureListener(e -> Log.w("QuestionActivity", "Error adding document", e));
+
+        mProgressBar.setVisibility(View.GONE);
+        // Go to Score Activity
+        Intent intent = new Intent(QuestionDetailActivity.this, ScoreActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("SCORE", (quizScore) + "/" + (questionList.size()));
+        startActivity(intent);
+        QuestionDetailActivity.this.finish();
     }
 
     private void calculateScore() {

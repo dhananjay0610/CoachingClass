@@ -45,6 +45,7 @@ public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnP
     private Spinner spinner;
     Toolbar toolbar;
     private static ArrayList<PDFModel> pdfs;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,13 +61,10 @@ public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnP
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         spinner = findViewById(R.id.dropdown_menu);
         drawerLayout = findViewById(R.id.pdfDrawer);
-        NavigationView navigationView = findViewById(R.id.nav_viewOfPdfActivity);
-        navigationView.getMenu().getItem(3).setChecked(true);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
         getAllPdfs();
         getAllSubjects();
     }
@@ -145,6 +143,9 @@ public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnP
     @Override
     public void onStart() {
         super.onStart();
+        navigationView = findViewById(R.id.nav_viewOfPdfActivity);
+        navigationView.getMenu().getItem(3).setChecked(true);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -184,12 +185,15 @@ public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnP
         } else if (id == R.id.nav_userProfile) {
             loadUserData();
         } else if (id == R.id.nav_logout) {
+            new LoginActivity().logoutUser(UserSharedPreferenceManager.getUserInfo(getApplicationContext(), UserSharedPreferenceManager.userInfoFields.USER_UUID));
             fireAuth.signOut();
             UserSharedPreferenceManager.removeUserData(getApplicationContext());
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
+        } else if (id == R.id.nav_videos) {
+            startVideoActivity();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -206,8 +210,12 @@ public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnP
     }
 
     private void loadQuizData() {
-        Intent i = new Intent(PdfListActivity.this, QuizDetailActivity.class);
+        Intent i = new Intent(PdfListActivity.this, QuizListActivity.class);
         startActivity(i);
+    }
 
+    private void startVideoActivity() {
+        Intent intent = new Intent(PdfListActivity.this, VideosActivity.class);
+        startActivity(intent);
     }
 }
