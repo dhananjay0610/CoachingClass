@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -62,6 +63,7 @@ public class QuizListActivity extends AppCompatActivity implements NavigationVie
         quizList = new ArrayList<>();
         quizTakenList = new ArrayList<>();
         drawerLayout = findViewById(R.id.quizDrawer);
+        fireAuth = FirebaseAuth.getInstance();
 //        navigationView = findViewById(R.id.nav_viewOfQuizActivity);
 //        navigationView.getMenu().getItem(2).setChecked(true);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
@@ -80,6 +82,7 @@ public class QuizListActivity extends AppCompatActivity implements NavigationVie
         adapter.setOnItemClickListener((isQuizTaken, quizModel) -> {
             if (!isQuizTaken) {
                 Intent i = new Intent(QuizListActivity.this, QuizDetailActivity.class);
+                i.putExtra("quizStartTime", quizModel.getQuizDate().getSeconds() * 1000);
                 i.putExtra("docID", quizModel.getId());
                 i.putExtra("quizTime", String.valueOf(quizModel.getQuizTime()));
                 i.putExtra("quizName", quizModel.getQuizName());

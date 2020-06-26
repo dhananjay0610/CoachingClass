@@ -52,6 +52,7 @@ public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pdf_list);
         mFireBaseDB = FirebaseFirestore.getInstance();
+        fireAuth = FirebaseAuth.getInstance();
 
         //toolbar
         toolbar = findViewById(R.id.ToolbarOfPdfListActivity);

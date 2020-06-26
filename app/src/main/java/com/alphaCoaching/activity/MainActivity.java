@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ActionBarDrawerToggle toggle;
     private FirebaseFirestore mFireBaseDB;
     private ImageView mNotificationIcon;
+    private MenuItem userName;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +68,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
+//        userName = (MenuItem) findViewById(R.id.nav_name);
+//        userName.setTitle(UserSharedPreferenceManager.getUserInfo(getApplicationContext(), UserSharedPreferenceManager.userInfoFields.USER_FIRST_NAME)
+//                + UserSharedPreferenceManager.getUserInfo(getApplicationContext(), UserSharedPreferenceManager.userInfoFields.USER_LAST_NAME));
         checkRecentLectures();
         mNotificationIcon.setOnClickListener(new View.OnClickListener() {
             @Override

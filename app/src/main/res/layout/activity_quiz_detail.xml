@@ -80,6 +80,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="210dp" />
+
+        <TextView
+            android:id="@+id/quizMissMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="You missed the test."
+            android:textColor="@color/red"
+            android:textStyle="bold"
+            android:visibility="gone"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/quizDetailProgressbar"

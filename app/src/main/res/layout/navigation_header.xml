@@ -5,6 +5,7 @@
     android:background="#00000000"
     android:gravity="bottom"
     android:orientation="vertical"
+    android:id="@+id/headerMenu"
     android:padding="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
@@ -14,11 +15,12 @@
         android:src="@drawable/alpha_launcher_icon" />
 
     <TextView
+        android:id="@+id/nav_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
         android:paddingTop="8dp"
-        android:text="@string/text"
+        android:text="Alpha Coaching Academy"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="#000000" />
 </LinearLayout>
