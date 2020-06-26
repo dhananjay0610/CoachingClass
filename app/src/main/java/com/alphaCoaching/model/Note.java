@@ -1,11 +1,14 @@
 package com.alphaCoaching.Model;
 
 
+import com.google.firebase.Timestamp;
+
 public class Note {
     private String id;
     private String quizName;
     private int questionNumber;
     private int quizTime;
+    private Timestamp quizDate;
 
     public Note() {
 
@@ -15,6 +18,10 @@ public class Note {
         this.quizName = quizName;
         this.questionNumber = questionNumber;
         this.quizTime = quizTime;
+    }
+
+    public Timestamp getQuizDate() {
+        return quizDate;
     }
 
     public void setId(String id) {
