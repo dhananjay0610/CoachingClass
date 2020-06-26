@@ -63,6 +63,7 @@ public class QuizListActivity extends AppCompatActivity implements NavigationVie
         quizList = new ArrayList<>();
         quizTakenList = new ArrayList<>();
         drawerLayout = findViewById(R.id.quizDrawer);
+        fireAuth = FirebaseAuth.getInstance();
 //        navigationView = findViewById(R.id.nav_viewOfQuizActivity);
 //        navigationView.getMenu().getItem(2).setChecked(true);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
