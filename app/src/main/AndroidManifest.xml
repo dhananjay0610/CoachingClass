@@ -15,6 +15,9 @@
         android:roundIcon="@drawable/alpha_launcher_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.VideoCategoryListActivity"></activity>
+        <activity android:name=".activity.TutosActivity" />
+        <activity android:name=".activity.RequestCredentialsActivity" />
         <activity android:name=".activity.NotificationListsActivity" />
         <activity
             android:name=".activity.DisplayVideos"

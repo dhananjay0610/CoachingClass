@@ -6,6 +6,7 @@ public class Question {
     private String option1, option2, option3, option4;
     private long correctOption;
     private String QuestionId;
+    private String image;
 
     public Question(String id, String question, String optionA, String optionB, String optionC, String optionD, long correctOption, String questionId) {
         this.id = id;

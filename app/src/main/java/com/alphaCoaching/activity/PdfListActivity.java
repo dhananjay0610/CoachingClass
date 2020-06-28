@@ -1,5 +1,6 @@
 package com.alphaCoaching.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,6 +47,7 @@ public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnP
     Toolbar toolbar;
     private static ArrayList<PDFModel> pdfs;
     private NavigationView navigationView;
+    private static Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,7 @@ public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnP
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
+        mContext = getApplicationContext();
         toggle.syncState();
         getAllPdfs();
         getAllSubjects();
@@ -118,7 +121,7 @@ public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnP
             object.setId(s.getId());
             list.add(object);
         }
-        SpinnerAdapter myAdapter = new SpinnerAdapter(PdfListActivity.this, 0, list);
+        SpinnerAdapter myAdapter = new SpinnerAdapter(mContext, 0, list, SpinnerAdapter.PDF_TYPE);
         spinner.setAdapter(myAdapter);
     }
 
@@ -131,7 +134,7 @@ public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnP
 //    }
 
 
-    public void updateAdapter(ArrayList<PDFModel> options) {
+    public void updateAdapter(Context context, ArrayList<PDFModel> options) {
         adapter = new PDFAdapter(options, this);
         recyclerView.setAdapter(adapter);
     }
@@ -156,20 +159,10 @@ public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnP
 
     @Override
     public void onItemClick(PDFModel snapshot, int position) {
-        DocumentReference documentReference = mFireBaseDB.collection(Constant.PDF_COLLECTION).document(snapshot.getId());
-        documentReference.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot document = task.getResult();
-                assert document != null;
-                if (document.exists()) {
-                    String url = (String) document.get("url");
-                    Log.d("PdfListActivity", document.getId() + "url is : " + url);
-                    Intent intent1 = new Intent(PdfListActivity.this, PdfViewActivity.class);
-                    intent1.putExtra("url", url);
-                    startActivity(intent1);
-                }
-            }
-        });
+        String url = snapshot.getUrl();
+        Intent intent1 = new Intent(mContext, PdfViewActivity.class);
+        intent1.putExtra("url", url);
+        mContext.startActivity(intent1);
     }
 
 
@@ -195,6 +188,8 @@ public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnP
             finish();
         } else if (id == R.id.nav_videos) {
             startVideoActivity();
+        } else if (id == R.id.nav_tutos) {
+            openTutosActivity();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -216,7 +211,12 @@ public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnP
     }
 
     private void startVideoActivity() {
-        Intent intent = new Intent(PdfListActivity.this, VideosActivity.class);
+        Intent intent = new Intent(PdfListActivity.this, VideoCategoryListActivity.class);
+        startActivity(intent);
+    }
+
+    private void openTutosActivity() {
+        Intent intent = new Intent(this, TutosActivity.class);
         startActivity(intent);
     }
 }

@@ -151,6 +151,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             finish();
         } else if (id == R.id.nav_videos) {
             startVideoActivity();
+        } else if (id == R.id.nav_tutos) {
+            openTutosActivity();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -172,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void startVideoActivity() {
-        Intent intent = new Intent(MainActivity.this, VideosActivity.class);
+        Intent intent = new Intent(MainActivity.this, VideoCategoryListActivity.class);
         startActivity(intent);
     }
 
@@ -183,6 +185,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
+    }
+
+    private void openTutosActivity() {
+        Intent intent = new Intent(this, TutosActivity.class);
+        startActivity(intent);
     }
 
     @Override

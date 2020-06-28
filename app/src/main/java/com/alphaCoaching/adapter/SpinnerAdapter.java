@@ -1,6 +1,7 @@
 package com.alphaCoaching.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,10 @@ import android.widget.TextView;
 
 import com.alphaCoaching.Model.PDFModel;
 import com.alphaCoaching.Model.SpinnerModel;
+import com.alphaCoaching.Model.VideoCategoryModel;
 import com.alphaCoaching.R;
 import com.alphaCoaching.activity.PdfListActivity;
+import com.alphaCoaching.activity.VideoCategoryListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +24,16 @@ public class SpinnerAdapter extends ArrayAdapter<SpinnerModel> {
     private ArrayList<SpinnerModel> listState;
     private SpinnerAdapter myAdapter;
     private boolean isFromView = false;
+    public static final int PDF_TYPE = 0;
+    public static final int VIDEO_TYPE = 1;
+    private int currentFilterType;
 
-    public SpinnerAdapter(Context context, int resource, List<SpinnerModel> objects) {
+    public SpinnerAdapter(Context context, int resource, List<SpinnerModel> objects, int filterType) {
         super(context, resource, objects);
         this.mContext = context;
         this.listState = (ArrayList<SpinnerModel>) objects;
         this.myAdapter = this;
+        this.currentFilterType = filterType;
     }
 
     @Override
@@ -58,37 +65,62 @@ public class SpinnerAdapter extends ArrayAdapter<SpinnerModel> {
         isFromView = true;
         holder.mCheckBox.setChecked(listState.get(position).isSelected());
         isFromView = false;
-//        if ((position == 0)) {
-//            holder.mCheckBox.setVisibility(View.INVISIBLE);
-//        } else {
-//            holder.mCheckBox.setVisibility(View.VISIBLE);
-//        }
         holder.mCheckBox.setVisibility(View.VISIBLE);
         holder.mCheckBox.setTag(position);
         holder.mCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            //   int getPosition = (Integer) buttonView.getTag();
             if (!isFromView) {
                 listState.get(position).setSelected(isChecked);
-            }
-            PdfListActivity pdfListActivity = new PdfListActivity();
-            ArrayList<PDFModel> options = pdfListActivity.getOptions();
-            ArrayList<PDFModel> optionsTemp = new ArrayList<>();
-            boolean isAnyOneSelected = false;
-            for (int i = 0; i < listState.size(); i++) {
-                for (int j = 0; j < options.size(); j++) {
-                    if (listState.get(i).isSelected() && listState.get(i).getId().equals(options.get(j).getSubject())) {
-                        optionsTemp.add(options.get(j));
-                        isAnyOneSelected = true;
-                    }
+
+                if (currentFilterType == PDF_TYPE) {
+                    filterPdfList();
+                } else if (currentFilterType == VIDEO_TYPE) {
+                    filterVideoList();
                 }
             }
-            if (!isAnyOneSelected) {
-                pdfListActivity.updateAdapter(options);
-            } else
-                pdfListActivity.updateAdapter(optionsTemp);
-                return;
         });
         return convertView;
+    }
+
+    private void filterPdfList() {
+        PdfListActivity pdfListActivity = new PdfListActivity();
+        ArrayList<PDFModel> options = pdfListActivity.getOptions();
+        ArrayList<PDFModel> optionsTemp = new ArrayList<>();
+        boolean isAnyOneSelected = false;
+        for (int i = 0; i < listState.size(); i++) {
+            for (int j = 0; j < options.size(); j++) {
+                if (listState.get(i).isSelected() && listState.get(i).getId().equals(options.get(j).getSubject())) {
+                    optionsTemp.add(options.get(j));
+                    isAnyOneSelected = true;
+                }
+            }
+        }
+        if (!isAnyOneSelected) {
+            pdfListActivity.updateAdapter(mContext, options);
+        } else {
+            pdfListActivity.updateAdapter(mContext, optionsTemp);
+        }
+    }
+
+    private void filterVideoList() {
+        VideoCategoryListActivity categoryList = new VideoCategoryListActivity();
+        ArrayList<VideoCategoryModel> options = categoryList.getmVideosCategoryList();
+        ArrayList<VideoCategoryModel> optionsTemp = new ArrayList<>();
+        boolean isAnyOneSelected = false;
+        for (int i = 0; i < listState.size(); i++) {
+            for (int j = 0; j < options.size(); j++) {
+                if (listState.get(i).isSelected() && listState.get(i).getId().equals(options.get(j).getSubject())) {
+                    optionsTemp.add(options.get(j));
+                    isAnyOneSelected = true;
+                }
+            }
+        }
+        if (!isAnyOneSelected) {
+            categoryList.updateAdapter(options);
+            return;
+        } else {
+            categoryList.updateAdapter(optionsTemp);
+            return;
+        }
     }
 
     private static class ViewHolder {

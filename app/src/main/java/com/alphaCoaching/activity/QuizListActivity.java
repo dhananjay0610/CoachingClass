@@ -186,7 +186,10 @@ public class QuizListActivity extends AppCompatActivity implements NavigationVie
             finish();
         } else if (id == R.id.nav_videos) {
             startVideoActivity();
+        } else if (id == R.id.nav_tutos) {
+            openTutosActivity();
         }
+
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -194,6 +197,11 @@ public class QuizListActivity extends AppCompatActivity implements NavigationVie
     private void loadHomeActivity() {
         Intent i = new Intent(QuizListActivity.this, MainActivity.class);
         startActivity(i);
+    }
+
+    private void openTutosActivity() {
+        Intent intent = new Intent(this, TutosActivity.class);
+        startActivity(intent);
     }
 
     private void loadUserData() {
@@ -215,7 +223,7 @@ public class QuizListActivity extends AppCompatActivity implements NavigationVie
     }
 
     private void startVideoActivity() {
-        Intent intent = new Intent(QuizListActivity.this, VideosActivity.class);
+        Intent intent = new Intent(QuizListActivity.this, VideoCategoryListActivity.class);
         startActivity(intent);
     }
 }

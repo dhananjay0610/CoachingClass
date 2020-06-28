@@ -12,7 +12,9 @@ public class Constant {
     public static final String PDF_COLLECTION = "PDF";
     public static final String STANDARD_COLLECTION = "standard";
     public static final String VIDEO_COLLECTION = "video";
+    public static final String VIDEO_CATEGORY_COLLECTION = "categoryVideo";
     public static final String NOTIFICATION_COLLECTION = "user_notifications";
+    public static final String REQUESTED_USER_LIST = "requested_user_list";
 
     public static interface QuizCollectionFields {
         public static final String QUESTION_NUMBER = "questionNumber";
@@ -82,5 +84,22 @@ public class Constant {
         public static final String TIME = "notification_time";
         public static final String SUBJECT_URL = "subject_url";
         public static final String USER_ID = "user_id";
+    }
+
+    public static interface RequestedUserFields {
+        public static final String NAME = "student_name";
+        public static final String CLASS = "student_class";
+        public static final String CONTACT = "student_contact_number";
+        public static final String ADDRESS = "student_address";
+        public static final String PERCNTAGE = "previous_class_percentage";
+        public static final String REFERENCE = "reference_name";
+    }
+
+    public static interface VideoCollectionFields {
+        public static final String CATEGORY = "category";
+        public static final String NAME = "name";
+        public static final String STANDARD = "standard";
+        public static final String SUBJECT = "subject";
+        public static final String URL = "url";
     }
 }
