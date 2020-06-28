@@ -8,6 +8,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,10 +33,10 @@ import static com.alphaCoaching.AlphaApplication.getAppContext;
 
 public class LoginActivity extends AppCompatActivity {
     private RelativeLayout mLoginLayout;
-    private RelativeLayout mForgotPass;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private EditText email;
     private EditText password;
+    private TextView getLoginCredentials;
     private static FirebaseAuth fireAuth;
     private Handler handler = new Handler();
     private static FirebaseFirestore mFireBaseDB;
@@ -46,19 +47,26 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mLoginLayout = findViewById(R.id.loginScreen);
-        mForgotPass = findViewById(R.id.forgotPass);
         email = findViewById(R.id.username);
         password = findViewById(R.id.pass);
         mLoginBtn = findViewById(R.id.loginButton);
+        getLoginCredentials = findViewById(R.id.loginRequest);
 
         handler.postDelayed(() -> {
             mLoginLayout.setVisibility(View.VISIBLE);
-            mForgotPass.setVisibility(View.VISIBLE);
+            getLoginCredentials.setVisibility(View.VISIBLE);
         }, 3000);
 
         fireAuth = FirebaseAuth.getInstance();
         mLoginBtn.setOnClickListener(v -> userLogin());
+        getLoginCredentials.setOnClickListener(v -> openRequestCredentilsActivity());
 
+    }
+
+    private void openRequestCredentilsActivity() {
+        Intent intent = new Intent(this, RequestCredentialsActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     /**

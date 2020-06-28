@@ -58,8 +58,8 @@ public class QuizDetailActivity extends AppCompatActivity {
         } else {
             initUi();
             setButtonClick();
+            checkQuizIsActiveOrNot();
         }
-        checkQuizIsActiveOrNot();
     }
 
     private void initUi() {
@@ -158,6 +158,7 @@ public class QuizDetailActivity extends AppCompatActivity {
 
                         initUi();
                         setButtonClick();
+                        checkQuizIsActiveOrNot();
                         mProgressbar.setVisibility(View.GONE);
                     }
                 });

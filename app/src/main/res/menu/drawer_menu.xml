@@ -31,6 +31,10 @@
             android:id="@+id/nav_videos"
             android:icon="@drawable/video_nav_icon"
             android:title="Videos" />
+        <item
+            android:id="@+id/nav_tutos"
+            android:icon="@drawable/ic_tutor"
+            android:title="Tutor" />
 
     </group>
 

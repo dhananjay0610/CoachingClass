@@ -4,6 +4,7 @@ public class PDFModel {
     private String PDFName;
     private String subject;
     private String id;
+    private String url;
 
     public PDFModel() {
 
@@ -13,6 +14,14 @@ public class PDFModel {
         this.id = id;
         this.PDFName = PDFName;
         this.subject = subject;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getId() {
