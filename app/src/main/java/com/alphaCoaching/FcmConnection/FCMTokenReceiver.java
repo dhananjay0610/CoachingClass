@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.alphaCoaching.Constant.Constant;
-import com.alphaCoaching.R;
 import com.alphaCoaching.Utils.UserSharedPreferenceManager;
-import com.alphaCoaching.activity.LoginActivity;
 import com.alphaCoaching.activity.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -17,8 +17,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
-
-import androidx.annotation.NonNull;
 
 public class FCMTokenReceiver extends IntentService {
     public static String token = "";
@@ -36,19 +34,17 @@ public class FCMTokenReceiver extends IntentService {
                     @Override
                     public void onComplete(@NonNull Task<InstanceIdResult> task) {
                         if (!task.isSuccessful()) {
-                            Log.d("Firebase" ,task.getException().toString());
+                            Log.d("Firebase", task.getException().toString());
                             return;
                         }
                         // Get new Instance ID token
                         token = task.getResult().getToken();
-                        Log.d("Firebase registrat" , token.toString());
+                        Log.d("Firebase registrat", token.toString());
                         sendTokenToServer();
 
                     }
                 });
     }
-
-
 
     private void sendTokenToServer() {
         String userId = UserSharedPreferenceManager.getUserInfo(getApplicationContext(), UserSharedPreferenceManager.userInfoFields.USER_UUID);

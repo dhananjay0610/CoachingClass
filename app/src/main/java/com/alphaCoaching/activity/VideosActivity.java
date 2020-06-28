@@ -62,8 +62,6 @@ public class VideosActivity extends AppCompatActivity implements NavigationView.
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
-
         getAllVideos();
     }
 
