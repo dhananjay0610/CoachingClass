@@ -114,7 +114,6 @@ public class SpinnerAdapter extends ArrayAdapter<SpinnerModel> {
                 }
             }
         }
-        Log.d("Shubham", "filterVideoList: isAnyOneSelected: " + isAnyOneSelected + " listSize: " + optionsTemp.size());
         if (!isAnyOneSelected) {
             categoryList.updateAdapter(options);
             return;

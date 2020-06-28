@@ -68,7 +68,6 @@ public class PdfListActivity extends AppCompatActivity implements PDFAdapter.OnP
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         mContext = getApplicationContext();
-        Log.d("Shubham", "onCreate: mContext: " + mContext);
         toggle.syncState();
         getAllPdfs();
         getAllSubjects();
