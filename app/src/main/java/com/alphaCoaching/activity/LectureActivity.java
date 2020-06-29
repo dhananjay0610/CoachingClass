@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,8 @@ import androidx.appcompat.widget.Toolbar;
 import com.alphaCoaching.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
 import java.util.Objects;
@@ -22,6 +25,7 @@ public class LectureActivity extends AppCompatActivity {
     TextView textViewDescription;
     TextView textViewChapter;
     TextView textViewPdfUrl;
+    String videoUrl;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +42,7 @@ public class LectureActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String chapterName = intent.getStringExtra("chapterName");
         String subject = intent.getStringExtra("subject");
+        videoUrl = intent.getStringExtra("videoUrl");
         textViewChapter.setText(chapterName);
         getSupportActionBar().setTitle("");
 
@@ -45,9 +50,26 @@ public class LectureActivity extends AppCompatActivity {
         String urlName = "pdf 1";
 
         //Youtube viewer
-        YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_view);
+
+        if (videoUrl!=null) {
+            //getting only ID from URL
+            String[] parts = videoUrl.split("/");
+            videoUrl = parts[3];
+        }
+
+        YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_view_Lectures);
         getLifecycle().addObserver(youTubePlayerView);
 
+        if(videoUrl!=null) {
+            youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+                @Override
+                public void onReady(YouTubePlayer youTubePlayer) {
+                    youTubePlayer.loadVideo(videoUrl, 0);
+                }
+            });
+        }else {
+            youTubePlayerView.setVisibility(View.GONE);
+        }
         //  fetching data from FireStore
         mFireBaseDB.collection("recentLectures")
                 .whereEqualTo("chapterName", chapterName)

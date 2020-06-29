@@ -6,13 +6,15 @@ public class RecentLecturesModel {
     private String description;
     private Date lectureDate;
     private String subject;
+    private String videoUrl;
 
-    private RecentLecturesModel(String chapterName, String subject, String description, Date lectureDate) {
+    private RecentLecturesModel(String chapterName, String subject, String description, Date lectureDate , String videoUrl) {
 
         this.chapterName = chapterName;
         this.description = description;
         this.lectureDate = lectureDate;
         this.subject = subject;
+        this.videoUrl = videoUrl;
     }
 
     private RecentLecturesModel() {
@@ -48,5 +50,13 @@ public class RecentLecturesModel {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
     }
 }

@@ -16,18 +16,17 @@
         app:titleTextColor="#000000" />
 
     <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-        android:id="@+id/youtube_player_view"
+        android:id="@+id/youtube_player_view_Lectures"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        app:autoPlay="false"
+        android:layout_height="wrap_content"
         app:showFullScreenButton="true"
-        app:videoId="wh-sRmTWGTw" />
+         />
 
     <TextView
         android:id="@+id/textviewAuthor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/youtube_player_view"
+        android:layout_below="@id/youtube_player_view_Lectures"
         android:layout_marginTop="9dp"
         android:text="Author"
         android:textAlignment="center"
