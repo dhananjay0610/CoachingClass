@@ -36,15 +36,14 @@
 
         </LinearLayout>
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/imageViewOfUser"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="60dp"
-            android:src="@drawable/alpha_launcher_icon"
-            app:civ_border_color="#FF000000"
-            app:civ_border_width="2dp" />
+            android:backgroundTint="@color/black"
+            android:src="@drawable/alpha_launcher_icon" />
 
         <TextView
             android:id="@+id/UserName"
