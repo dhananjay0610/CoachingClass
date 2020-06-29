@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void getRecentLecture(String standard) {
         Query query = mFireBaseDB.collection(Constant.RECENT_LECTURE_COLLECTION)
                 .whereEqualTo(Constant.UserCollectionFields.STANDARD, standard)
-                .orderBy(Constant.RecentLectureFields.LECTURE_DATE, Query.Direction.ASCENDING);
+                .orderBy(Constant.RecentLectureFields.LECTURE_DATE, Query.Direction.DESCENDING);
 
         //recycler options
         FirestoreRecyclerOptions<RecentLecturesModel> options = new FirestoreRecyclerOptions.Builder<RecentLecturesModel>()
