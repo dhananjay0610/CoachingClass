@@ -127,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         intent.putExtra("date", snapshot.getLectureDate());
         intent.putExtra("chapterName", snapshot.getChapterName());
         intent.putExtra("subject", snapshot.getSubject());
+        intent.putExtra("videoUrl",snapshot.getVideoUrl());
         startActivity(intent);
     }
 

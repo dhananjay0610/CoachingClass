@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,8 @@ import androidx.appcompat.widget.Toolbar;
 import com.alphaCoaching.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
 import java.util.Objects;
@@ -22,6 +25,7 @@ public class LectureActivity extends AppCompatActivity {
     TextView textViewDescription;
     TextView textViewChapter;
     TextView textViewPdfUrl;
+    String videoUrl;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,16 +42,34 @@ public class LectureActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String chapterName = intent.getStringExtra("chapterName");
         String subject = intent.getStringExtra("subject");
+        videoUrl = intent.getStringExtra("videoUrl");
         textViewChapter.setText(chapterName);
         getSupportActionBar().setTitle("");
 
         //for url
-        String urlName = "pdf 1";
+        String urlName = "PDF";
 
         //Youtube viewer
-        YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_view);
+
+        if (videoUrl!=null && !videoUrl.isEmpty()) {
+            //getting only ID from URL
+            String[] parts = videoUrl.split("/");
+            videoUrl = parts[3];
+        }
+
+        YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_view_Lectures);
         getLifecycle().addObserver(youTubePlayerView);
 
+        if(videoUrl!=null && !videoUrl.isEmpty()) {
+            youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+                @Override
+                public void onReady(YouTubePlayer youTubePlayer) {
+                    youTubePlayer.loadVideo(videoUrl, 0);
+                }
+            });
+        }else {
+            youTubePlayerView.setVisibility(View.GONE);
+        }
         //  fetching data from FireStore
         mFireBaseDB.collection("recentLectures")
                 .whereEqualTo("chapterName", chapterName)
@@ -58,10 +80,10 @@ public class LectureActivity extends AppCompatActivity {
                         for (QueryDocumentSnapshot snapshot : Objects.requireNonNull(task.getResult())) {
                             Log.d("LectureActivity", snapshot.getId() + " :" + snapshot.getData());
                             textViewDescription.setText(snapshot.getString("description"));
-                            if (snapshot.getString("UrlName") == null) {
+                            if (snapshot.getString("PdfName") == null) {
                                 textViewPdfUrl.setText(urlName);
                             } else {
-                                textViewPdfUrl.setText(snapshot.getString("UrlName"));
+                                textViewPdfUrl.setText(snapshot.getString("PdfName"));
                             }
                         }
                     } else {
@@ -81,10 +103,10 @@ public class LectureActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot snapshot : Objects.requireNonNull(task.getResult())) {
                                 Log.d("LectureActivity", snapshot.getId() + " :" + snapshot.getData());
                                 textViewDescription.setText(snapshot.getString("description"));
-                                if (snapshot.getString("UrlName") == null) {
+                                if (snapshot.getString("PdfName") == null) {
                                     textViewPdfUrl.setText(urlName);
                                 } else {
-                                    textViewPdfUrl.setText(snapshot.getString("UrlName"));
+                                    textViewPdfUrl.setText(snapshot.getString("PdfName"));
                                 }
                                 Intent intent1 = new Intent(LectureActivity.this, PdfViewActivity.class);
                                 intent1.putExtra("url", (snapshot.getString("url")));
