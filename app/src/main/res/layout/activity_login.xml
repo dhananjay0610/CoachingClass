@@ -40,7 +40,7 @@
             android:adjustViewBounds="true"
             android:contentDescription="@string/logo"
             android:scaleType="fitCenter"
-            android:src="@drawable/alpha" />
+            android:src="@drawable/aycc_logo_transparent" />
 
         <RelativeLayout
             android:id="@+id/loginScreen"
