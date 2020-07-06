@@ -54,7 +54,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/notificationTitle"
-            android:layout_toEndOf="@+id/imagePdf"
             android:gravity="end"
             android:text="Date"
             android:textColor="#000"

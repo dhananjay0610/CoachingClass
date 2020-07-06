@@ -131,6 +131,7 @@
                 android:backgroundTint="@color/black"
                 android:gravity="center_horizontal"
                 android:padding="16dp"
+                android:visibility="gone"
                 android:text="Get all question detail"
                 android:textAllCaps="false"
                 android:textColor="#fff" />

@@ -43,7 +43,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="60dp"
             android:backgroundTint="@color/black"
-            android:src="@drawable/alpha_launcher_icon" />
+            android:src="@drawable/default_user_image" />
 
         <TextView
             android:id="@+id/UserName"

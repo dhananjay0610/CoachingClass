@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.alphaCoaching">
+    package="com.AycScienceCoaching">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGEe" /> <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
@@ -8,45 +8,44 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".AlphaApplication"
+        android:name="com.AycScienceCoaching.AlphaApplication"
         android:allowBackup="true"
-        android:icon="@drawable/alpha_launcher_icon"
+        android:icon="@drawable/square_logo"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/alpha_launcher_icon"
+        android:roundIcon="@drawable/square_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.VideoCategoryListActivity"></activity>
-        <activity android:name=".activity.TutosActivity" />
-        <activity android:name=".activity.RequestCredentialsActivity" />
-        <activity android:name=".activity.NotificationListsActivity" />
+        <activity android:name="com.AycScienceCoaching.activity.VideoCategoryListActivity"></activity>
+        <activity android:name="com.AycScienceCoaching.activity.TutosActivity" />
+        <activity android:name="com.AycScienceCoaching.activity.RequestCredentialsActivity" />
+        <activity android:name="com.AycScienceCoaching.activity.NotificationListsActivity" />
         <activity
-            android:name=".activity.DisplayVideos"
+            android:name="com.AycScienceCoaching.activity.DisplayVideos"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout" />
         <activity
-            android:name=".activity.SingleQuestionDetailActivity"
-            android:parentActivityName=".activity.QuizReviewActivity" />
+            android:name="com.AycScienceCoaching.activity.SingleQuestionDetailActivity"
+            android:parentActivityName="com.AycScienceCoaching.activity.QuizReviewActivity" />
         <activity
-            android:name=".activity.QuizReviewActivity"
-            android:parentActivityName=".activity.QuizListActivity" />
+            android:name="com.AycScienceCoaching.activity.QuizReviewActivity"
+            android:parentActivityName="com.AycScienceCoaching.activity.QuizListActivity" />
         <activity
-            android:name=".activity.PdfListActivity"
-            android:parentActivityName=".activity.MainActivity" />
+            android:name="com.AycScienceCoaching.activity.PdfListActivity"
+            android:parentActivityName="com.AycScienceCoaching.activity.MainActivity" />
         <activity
-            android:name=".activity.UserProfileActivity"
-            android:parentActivityName=".activity.MainActivity" />
+            android:name="com.AycScienceCoaching.activity.UserProfileActivity"
+            android:parentActivityName="com.AycScienceCoaching.activity.MainActivity" />
         <activity
-            android:name=".activity.QuestionReview"
-            android:parentActivityName=".activity.QuizReviewActivity" />
-        <activity android:name=".activity.ScoreActivity" />
+            android:name="com.AycScienceCoaching.activity.QuestionReview"
+            android:parentActivityName="com.AycScienceCoaching.activity.QuizReviewActivity" />
+        <activity android:name="com.AycScienceCoaching.activity.ScoreActivity" />
         <activity
-            android:name=".activity.QuestionDetailActivity"
-            android:parentActivityName=".activity.QuizListActivity" />
+            android:name="com.AycScienceCoaching.activity.QuestionDetailActivity"
+            android:parentActivityName="com.AycScienceCoaching.activity.QuizListActivity" />
         <activity
-            android:name=".activity.PdfViewActivity"
-            android:parentActivityName=".activity.MainActivity" />
+            android:name="com.AycScienceCoaching.activity.PdfViewActivity"
+            android:parentActivityName="com.AycScienceCoaching.activity.MainActivity" />
         <activity
-            android:name=".activity.SplashScreenActivity"
-            android:theme="@style/SplashScreen">
+            android:name="com.AycScienceCoaching.activity.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -54,33 +53,33 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.MainActivity"
+            android:name="com.AycScienceCoaching.activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.LoginActivity" />
+        <activity android:name="com.AycScienceCoaching.activity.LoginActivity" />
         <activity
-            android:name=".activity.QuizListActivity"
-            android:parentActivityName=".activity.MainActivity" />
+            android:name="com.AycScienceCoaching.activity.QuizListActivity"
+            android:parentActivityName="com.AycScienceCoaching.activity.MainActivity" />
         <activity
-            android:name=".activity.LectureActivity"
-            android:parentActivityName=".activity.MainActivity" />
+            android:name="com.AycScienceCoaching.activity.LectureActivity"
+            android:parentActivityName="com.AycScienceCoaching.activity.MainActivity" />
         <activity
-            android:name=".activity.WholeClassResultList"
-            android:parentActivityName=".activity.QuizReviewActivity" />
+            android:name="com.AycScienceCoaching.activity.WholeClassResultList"
+            android:parentActivityName="com.AycScienceCoaching.activity.QuizReviewActivity" />
         <activity
-            android:name=".activity.QuizDetailActivity"
-            android:parentActivityName=".activity.QuizListActivity" />
+            android:name="com.AycScienceCoaching.activity.QuizDetailActivity"
+            android:parentActivityName="com.AycScienceCoaching.activity.QuizListActivity" />
         <activity
-            android:name=".activity.VideosActivity"
-            android:parentActivityName=".activity.MainActivity" />
+            android:name="com.AycScienceCoaching.activity.VideosActivity"
+            android:parentActivityName="com.AycScienceCoaching.activity.MainActivity" />
 
         <service
-            android:name=".FcmConnection.FCMMessageReceiver"
+            android:name="com.AycScienceCoaching.FcmConnection.FCMMessageReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".FcmConnection.FCMTokenReceiver" />
+        <service android:name="com.AycScienceCoaching.FcmConnection.FCMTokenReceiver" />
 
         <meta-data
             android:name="preloaded_fonts"

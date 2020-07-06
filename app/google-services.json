@@ -8,9 +8,38 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:57048046197:android:facd4fddf1de36e6d0763c",
+        "mobilesdk_app_id": "1:57048046197:android:b8de45c1a5309082d0763c",
         "android_client_info": {
-          "package_name": "com.alphaCoaching"
+          "package_name": "com.AycScienceCoaching"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "57048046197-abvh9oboj9ot81tuijgp35gmtkb9tjt2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwi7ek2ZmauLicHQZ-ZKBxHoT93JEXvxc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "57048046197-abvh9oboj9ot81tuijgp35gmtkb9tjt2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:57048046197:android:8c0a627c093c72c6d0763c",
+        "android_client_info": {
+          "package_name": "com.alphaCoachingAdmin"
         }
       },
       "oauth_client": [

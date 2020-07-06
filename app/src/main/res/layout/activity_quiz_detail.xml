@@ -68,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="1. Popup will appeared on back press. \n2 Quiz will be submitted when user press home button \n3. do not copy \n4. second instruction. \n5. third instruction \n6. founrth instruction"/>
+            android:text="1. Popup will appeared on back press. \n2 Quiz will be submitted when user press home button \n3. do not copy \n4. Please avoid to receive call in between the quiz, you will running out of time."/>
 
         <Button
             android:id="@+id/quizDetailStartButton"

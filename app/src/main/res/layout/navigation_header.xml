@@ -10,9 +10,9 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:layout_width="76dp"
+        android:layout_width="100dp"
         android:layout_height="76dp"
-        android:src="@drawable/alpha_launcher_icon" />
+        android:src="@drawable/aycc_logo_transparent" />
 
     <TextView
         android:id="@+id/nav_email"
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
         android:paddingTop="8dp"
-        android:text="Alpha Coaching Academy"
+        android:text="AYC Science Classes"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="#000000" />
 </LinearLayout>
