@@ -10,14 +10,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#fff">
+        android:background="@drawable/home_page_background">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/ToolbarOfPdfListActivity"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
-            android:background="@color/white"
+            android:layout_margin="10dp"
+            android:background="@drawable/toolbar_rounded_border"
+            app:titleTextColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -57,6 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:alpha="0.95"
         app:headerLayout="@layout/navigation_header"
         app:menu="@menu/drawer_menu" />
 

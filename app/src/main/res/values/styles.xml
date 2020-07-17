@@ -9,6 +9,7 @@
         <item name="windowNoTitle">true</item>
         <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
 
     <style name="SplashScreen" parent="Theme.AppCompat.Light.NoActionBar">
@@ -21,6 +22,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
 
     <style name="ResultProgressBar" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
@@ -38,6 +40,11 @@
         <item name="colorControlHighlight">#ff6d00</item>
         <item name="android:progressDrawable">@drawable/myprogressbar</item>
         <item name="android:minWidth">200dp</item>
+    </style>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@android:color/white</item>
     </style>
 
 </resources>

@@ -58,8 +58,8 @@ public class FCMTokenReceiver extends IntentService {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(FCMTokenReceiver.this, "Updated Successfully",
-                                Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(FCMTokenReceiver.this, "Updated Successfully",
+//                                Toast.LENGTH_SHORT).show();
                     }
                 });
 

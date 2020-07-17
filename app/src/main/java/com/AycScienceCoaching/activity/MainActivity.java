@@ -30,6 +30,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.io.Serializable;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FireStoreAdapter.OnListItemclick {
     private DrawerLayout drawerLayout;
     private FirebaseAuth fireAuth;
@@ -120,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         intent.putExtra("chapterName", snapshot.getChapterName());
         intent.putExtra("subject", snapshot.getSubject());
         intent.putExtra("videoUrl",snapshot.getVideoUrl());
+        intent.putExtra("lectureObject", snapshot);
         startActivity(intent);
     }
 

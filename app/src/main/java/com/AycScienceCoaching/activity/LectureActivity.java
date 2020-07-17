@@ -7,30 +7,41 @@ import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.AycScienceCoaching.Constant.Constant;
+import com.AycScienceCoaching.Model.RecentLecturesModel;
 import com.AycScienceCoaching.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
+import java.io.Serializable;
 import java.util.Objects;
 
+import static com.AycScienceCoaching.AlphaApplication.getAppContext;
+
 public class LectureActivity extends AppCompatActivity {
-    FirebaseFirestore mFireBaseDB;
-    TextView textViewDescription;
-    TextView textViewChapter;
-    TextView textViewPdfUrl;
-    String videoUrl;
+    private FirebaseFirestore mFireBaseDB;
+    private TextView textViewDescription;
+    private TextView textViewChapter;
+    private TextView textViewPdfUrl;
+    private String docId;
+    private RecentLecturesModel mLecturesModel;
+    private String videoUrl;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lecture);
-        //toolbar
         Toolbar toolbar = findViewById(R.id.toolbarOfLectureActivity);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -38,86 +49,72 @@ public class LectureActivity extends AppCompatActivity {
         textViewDescription = findViewById(R.id.textviewdescription);
         textViewChapter = findViewById(R.id.textviewchapter);
         textViewPdfUrl = findViewById(R.id.textViewpdfurl);
-        //getting data from mainActivity
         Intent intent = getIntent();
-        String chapterName = intent.getStringExtra("chapterName");
-        String subject = intent.getStringExtra("subject");
-        videoUrl = intent.getStringExtra("videoUrl");
-        textViewChapter.setText(chapterName);
+        docId = intent.getStringExtra("docId");
+        mLecturesModel = (RecentLecturesModel) intent.getSerializableExtra("lectureObject");
         getSupportActionBar().setTitle("");
 
-        //for url
-        String urlName = "PDF";
+        if (mLecturesModel != null) {
+            setupVideoPlayer();
+            prepareActivity();
+        } else {
+            getRecentLectureData();
+        }
+    }
 
+    private void getRecentLectureData() {
+        mFireBaseDB.collection(Constant.RECENT_LECTURE_COLLECTION)
+                .document(docId)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        mLecturesModel = documentSnapshot.toObject(RecentLecturesModel.class);
+                        setupVideoPlayer();
+                        prepareActivity();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getAppContext(), "try again later", Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    private void prepareActivity() {
+        textViewChapter.setText(mLecturesModel.getChapterName());
+        textViewPdfUrl.setText(mLecturesModel.getPdfName());
+        textViewDescription.setText(mLecturesModel.getDescription());
+        textViewPdfUrl.setOnClickListener(view -> {
+            Intent intent1 = new Intent(LectureActivity.this, PdfViewActivity.class);
+            intent1.putExtra("url", mLecturesModel.getPdfUrl());
+            startActivity(intent1);
+        });
+        setupWindowAnimation();
+    }
+
+    private void setupVideoPlayer() {
         //Youtube viewer
-
-        if (videoUrl!=null && !videoUrl.isEmpty()) {
+        if (mLecturesModel.getVideoUrl() != null && !mLecturesModel.getVideoUrl().isEmpty()) {
             //getting only ID from URL
-            String[] parts = videoUrl.split("/");
+            String[] parts = mLecturesModel.getVideoUrl().split("/");
             videoUrl = parts[3];
         }
 
         YouTubePlayerView youTubePlayerView = findViewById(R.id.youtube_player_view_Lectures);
         getLifecycle().addObserver(youTubePlayerView);
 
-        if(videoUrl!=null && !videoUrl.isEmpty()) {
+        if (videoUrl != null && !videoUrl.isEmpty()) {
             youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
                 @Override
                 public void onReady(YouTubePlayer youTubePlayer) {
                     youTubePlayer.loadVideo(videoUrl, 0);
                 }
             });
-        }else {
+        } else {
             youTubePlayerView.setVisibility(View.GONE);
         }
-        //  fetching data from FireStore
-        mFireBaseDB.collection("recentLectures")
-                .whereEqualTo("chapterName", chapterName)
-                .whereEqualTo("subject", subject)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot snapshot : Objects.requireNonNull(task.getResult())) {
-                            Log.d("LectureActivity", snapshot.getId() + " :" + snapshot.getData());
-                            textViewDescription.setText(snapshot.getString("description"));
-                            if (snapshot.getString("PdfName") == null) {
-                                textViewPdfUrl.setText(urlName);
-                            } else {
-                                textViewPdfUrl.setText(snapshot.getString("PdfName"));
-                            }
-                        }
-                    } else {
-                        Log.d("LectureActivity", "error was:", task.getException());
-                    }
-                });
-
-        textViewPdfUrl.setOnClickListener(view -> {
-
-            //fetching data from FireStore
-            mFireBaseDB.collection("recentLectures")
-                    .whereEqualTo("chapterName", chapterName)
-                    .whereEqualTo("subject", subject)
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot snapshot : Objects.requireNonNull(task.getResult())) {
-                                Log.d("LectureActivity", snapshot.getId() + " :" + snapshot.getData());
-                                textViewDescription.setText(snapshot.getString("description"));
-                                if (snapshot.getString("PdfName") == null) {
-                                    textViewPdfUrl.setText(urlName);
-                                } else {
-                                    textViewPdfUrl.setText(snapshot.getString("PdfName"));
-                                }
-                                Intent intent1 = new Intent(LectureActivity.this, PdfViewActivity.class);
-                                intent1.putExtra("url", (snapshot.getString("url")));
-                                startActivity(intent1);
-                            }
-                        } else {
-                            Log.d("LectureActivity", "error was:", task.getException());
-                        }
-                    });
-        });
-        setupWindowAnimation();
     }
 
     private void setupWindowAnimation() {

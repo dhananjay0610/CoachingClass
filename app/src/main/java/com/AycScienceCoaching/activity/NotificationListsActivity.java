@@ -79,16 +79,19 @@ public class NotificationListsActivity extends AppCompatActivity implements Noti
         String subject = snapshot.getNotification_subject();
         String url = snapshot.getSubject_url();
         Intent intent = null;
-        if (subject.equals("video")) {
+        if (subject.equals(Constant.VIDEO_TYPE)) {
             intent = new Intent(getApplicationContext(), DisplayVideos.class);
             intent.putExtra("force_fullscreen", true);
             intent.putExtra("url", url);
-        } else if (subject.equals("pdf")) {
+        } else if (subject.equals(Constant.PDF_TYPE)) {
             intent = new Intent(getApplicationContext(), PdfViewActivity.class);
             intent.putExtra("url", url);
-        } else if (subject.equals("quiz")) {
+        } else if (subject.equals(Constant.QUIZ_TYPE)) {
             intent = new Intent(getApplicationContext(), QuizDetailActivity.class);
             intent.putExtra("docID", url);
+        } else if (subject.equals(Constant.RECENT_LEECTURE_TYPE)) {
+            intent = new Intent(getAppContext(), LectureActivity.class);
+            intent.putExtra("docId", url);
         }
         startActivity(intent);
     }

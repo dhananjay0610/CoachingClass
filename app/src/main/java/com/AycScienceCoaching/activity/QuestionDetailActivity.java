@@ -68,7 +68,7 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
 
         toolbar = findViewById(R.id.ToolbarOfQuestionDetailActivity);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
         Bundle bundle = getIntent().getExtras();
         assert bundle != null;
         quizId = bundle.getString("docID");
@@ -280,30 +280,72 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
             selectedOption = 0;
             nextQuestion();
         } else if (v.getId() == R.id.option1) {
+            option1.setTextColor(Color.BLACK);
+            option2.setTextColor(Color.BLACK);
+            option3.setTextColor(Color.BLACK);
+            option4.setTextColor(Color.BLACK);
+
             selectedOption = 1;
-            option1.setBackgroundColor(Color.GREEN);
+            option1.setBackgroundColor(Color.parseColor("#3b5998"));
+            option1.setTextColor(Color.WHITE);
             option2.setBackgroundResource(R.drawable.rectangularviiew);
             option3.setBackgroundResource(R.drawable.rectangularviiew);
             option4.setBackgroundResource(R.drawable.rectangularviiew);
         } else if (v.getId() == R.id.option2) {
+            option1.setTextColor(Color.BLACK);
+            option2.setTextColor(Color.BLACK);
+            option3.setTextColor(Color.BLACK);
+            option4.setTextColor(Color.BLACK);
+
             selectedOption = 2;
-            option2.setBackgroundColor(Color.GREEN);
+            option2.setBackgroundColor(Color.parseColor("#3b5998"));
+            option2.setTextColor(Color.WHITE);
             option1.setBackgroundResource(R.drawable.rectangularviiew);
             option3.setBackgroundResource(R.drawable.rectangularviiew);
             option4.setBackgroundResource(R.drawable.rectangularviiew);
         } else if (v.getId() == R.id.option3) {
+            option1.setTextColor(Color.BLACK);
+            option2.setTextColor(Color.BLACK);
+            option3.setTextColor(Color.BLACK);
+            option4.setTextColor(Color.BLACK);
+
             selectedOption = 3;
-            option3.setBackgroundColor(Color.GREEN);
+            option3.setBackgroundColor(Color.parseColor("#3b5998"));
+            option3.setTextColor(Color.WHITE);
             option1.setBackgroundResource(R.drawable.rectangularviiew);
             option2.setBackgroundResource(R.drawable.rectangularviiew);
             option4.setBackgroundResource(R.drawable.rectangularviiew);
         } else if (v.getId() == R.id.option4) {
+            option1.setTextColor(Color.BLACK);
+            option2.setTextColor(Color.BLACK);
+            option3.setTextColor(Color.BLACK);
+            option4.setTextColor(Color.BLACK);
+
             selectedOption = 4;
-            option4.setBackgroundColor(Color.GREEN);
+            option4.setBackgroundColor(Color.parseColor("#3b5998"));
+            option4.setTextColor(Color.WHITE);
             option1.setBackgroundResource(R.drawable.rectangularviiew);
             option3.setBackgroundResource(R.drawable.rectangularviiew);
             option2.setBackgroundResource(R.drawable.rectangularviiew);
         } else if (v.getId() == R.id.previous) {
+            if (selectedOption == 1)
+                attemptedAnswers.put(questionNumber, questionList.get(questionNumber).getOptionA());
+            else if (selectedOption == 2)
+                attemptedAnswers.put(questionNumber, questionList.get(questionNumber).getOptionB());
+            else if (selectedOption == 3)
+                attemptedAnswers.put(questionNumber, questionList.get(questionNumber).getOptionC());
+            else if (selectedOption == 4)
+                attemptedAnswers.put(questionNumber, questionList.get(questionNumber).getOptionD());
+
+            selectedOption = 0;
+
+            long questionEndTime = getCurrentTime();
+            if (timeTalken.containsKey(questionNumber))
+                timeTalken.put(questionNumber, timeTalken.get(questionNumber) + questionEndTime - questionStartTime);
+            else
+                timeTalken.put(questionNumber, questionEndTime
+                        - questionStartTime);
+
             questionStartTime = getCurrentTime();
             previousQuestion();
         }
@@ -327,18 +369,6 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
             option3.setEnabled(true);
             option4.setEnabled(true);
 
-            if (attemptedAnswers.get(questionNumber).equals(questionList.get(questionNumber).getOption1())) {
-                option1.setBackgroundColor(Color.GREEN);
-            }
-            if (attemptedAnswers.get(questionNumber).equals(questionList.get(questionNumber).getOption2())) {
-                option2.setBackgroundColor(Color.GREEN);
-            }
-            if (attemptedAnswers.get(questionNumber).equals(questionList.get(questionNumber).getOption3())) {
-                option3.setBackgroundColor(Color.GREEN);
-            }
-            if (attemptedAnswers.get(questionNumber).equals(questionList.get(questionNumber).getOption4())) {
-                option4.setBackgroundColor(Color.GREEN);
-            }
         }
     }
 
@@ -474,6 +504,29 @@ public class QuestionDetailActivity extends AppCompatActivity implements View.On
                             if (viewNum != 0)
                                 view.setBackgroundResource(R.drawable.rectangularviiew);
                             playAnim(view, 1, viewNum);
+
+                            if (attemptedAnswers.get(questionNumber) != null) {
+                                option1.setTextColor(Color.BLACK);
+                                option2.setTextColor(Color.BLACK);
+                                option3.setTextColor(Color.BLACK);
+                                option4.setTextColor(Color.BLACK);
+                                if (Objects.equals(attemptedAnswers.get(questionNumber), questionList.get(questionNumber).getOption1())) {
+                                    option1.setBackgroundColor(Color.parseColor("#3b5998"));
+                                    option1.setTextColor(Color.WHITE);
+                                }
+                                if (Objects.equals(attemptedAnswers.get(questionNumber), questionList.get(questionNumber).getOption2())) {
+                                    option2.setBackgroundColor(Color.parseColor("#3b5998"));
+                                    option2.setTextColor(Color.WHITE);
+                                }
+                                if (Objects.equals(attemptedAnswers.get(questionNumber), questionList.get(questionNumber).getOption3())) {
+                                    option3.setBackgroundColor(Color.parseColor("#3b5998"));
+                                    option3.setTextColor(Color.WHITE);
+                                }
+                                if (Objects.equals(attemptedAnswers.get(questionNumber), questionList.get(questionNumber).getOption4())) {
+                                    option4.setBackgroundColor(Color.parseColor("#3b5998"));
+                                    option4.setTextColor(Color.WHITE);
+                                }
+                            }
                         }
                     }
 

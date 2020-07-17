@@ -1,12 +1,15 @@
 package com.AycScienceCoaching.Model;
+import java.io.Serializable;
 import java.util.Date;
 
-public class RecentLecturesModel {
+public class RecentLecturesModel implements Serializable {
     private String chapterName;
     private String description;
     private Date lectureDate;
     private String subject;
     private String videoUrl;
+    private String PdfName;
+    private String url;
 
     private RecentLecturesModel(String chapterName, String subject, String description, Date lectureDate , String videoUrl) {
 
@@ -58,5 +61,13 @@ public class RecentLecturesModel {
 
     public void setVideoUrl(String videoUrl) {
         this.videoUrl = videoUrl;
+    }
+
+    public String getPdfName() {
+        return PdfName;
+    }
+
+    public String getPdfUrl() {
+        return url;
     }
 }

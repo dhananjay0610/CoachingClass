@@ -40,6 +40,7 @@ public class SingleQuestionDetailActivity extends AppCompatActivity {
     ImageView imageView;
     Toolbar toolbar;
     private LinearLayout mProgressBar;
+    private TextView mQuestionNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class SingleQuestionDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_single_question_detail);
         toolbar= findViewById(R.id.ToolbarOfSingleQuestionActivity);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
         question = findViewById(R.id.questionSingleQuestion);
         questionImage = findViewById(R.id.questionImage);
         option1 = findViewById(R.id.option1SingleQuestion);
@@ -55,6 +56,7 @@ public class SingleQuestionDetailActivity extends AppCompatActivity {
         option3 = findViewById(R.id.option3SingleQuestion);
         option4 = findViewById(R.id.option4SingleQuestion);
         mProgressBar = findViewById(R.id.singleQuestionProgressbar);
+        mQuestionNumber = findViewById(R.id.questionNumber);
 
         TimeTaken = findViewById(R.id.TimeTakenSingleQuestion);
         AverageTime = findViewById(R.id.AverageTimeSingleQuestion);
@@ -65,6 +67,7 @@ public class SingleQuestionDetailActivity extends AppCompatActivity {
         String quizId = intent.getStringExtra("QuizId");
         String quizTakenId = intent.getStringExtra("quickened");
         int questionNumber = intent.getIntExtra("questionNumber", 0);
+        mQuestionNumber.setText("Question Number: " + questionNumber);
         Log.d("SingleQuestionActivity", "-=-" + quizId + "-=-" + quizTakenId + "-=-" + questionNumber);
         getQuestionsList();
     }
@@ -159,7 +162,7 @@ public class SingleQuestionDetailActivity extends AppCompatActivity {
                 DocumentSnapshot documentSnapshot = task.getResult();
                 assert documentSnapshot != null;
                 if (documentSnapshot.exists()) {
-                    AverageTime.setText("Average : " + documentSnapshot.get(Constant.QuestionCollectionFields.QUE_TIME));
+                    AverageTime.setText("Average : " + documentSnapshot.get(Constant.QuestionCollectionFields.QUE_TIME) + " sec");
                 }
             }
         });
@@ -179,7 +182,7 @@ public class SingleQuestionDetailActivity extends AppCompatActivity {
                     timeTaken[0] = documentSnapshot.get(Constant.QuizTakenQuestionsFields.TIME_TAKEN);
                 }
 
-                String text="Time : " + timeTaken[0];
+                String text="Time : " + timeTaken[0] + " sec";
                 TimeTaken.setText(text);
                 if (AttemptedAnswer[0] == null) {
                     Toast.makeText(SingleQuestionDetailActivity.this, "Not attempted any answer", Toast.LENGTH_SHORT).show();

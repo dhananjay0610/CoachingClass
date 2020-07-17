@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.AycScienceCoaching.Constant.Constant;
 import com.AycScienceCoaching.Model.NotificationModel;
 import com.AycScienceCoaching.R;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -28,6 +29,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     private static final String pdfNotificationTitle = "PDF is added for you.";
     private static final String pdfNotificationDescription = "Particular subjects PDF is added, please check it";
     private static final String videoNotificationTitle = "Video is added for you.";
+    private static final String lectureNotificationTitle = "Lecture is added for you.";
     private static final String videoNotificationDescription = "particular subjects video is added, please check it.";
 
     public NotificationAdapter(@NonNull ArrayList<NotificationModel> options, OnNotificationClick onItemClick) {
@@ -49,15 +51,18 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     private void setNotificationItemData(NotificationViewHolder holder, NotificationModel model) {
-        if (model.getNotification_subject().equals("quiz")) {
-            holder.notificationTitle.setText(quizNotificationTitle);
-            holder.notificationDescription.setText(quizNotificationDescription);
-        } else if (model.getNotification_subject().equals("pdf")) {
-            holder.notificationTitle.setText(pdfNotificationTitle);
-            holder.notificationDescription.setText(pdfNotificationDescription);
-        } else if (model.getNotification_subject().equals("video")) {
-            holder.notificationTitle.setText(videoNotificationTitle);
-            holder.notificationDescription.setText(videoNotificationDescription);
+        if (model.getNotification_subject().equals(Constant.QUIZ_TYPE)) {
+            holder.notificationTitle.setText(model.getEntity_title());
+            holder.notificationDescription.setText(quizNotificationTitle);
+        } else if (model.getNotification_subject().equals(Constant.PDF_TYPE)) {
+            holder.notificationTitle.setText(model.getEntity_title());
+            holder.notificationDescription.setText(pdfNotificationTitle);
+        } else if (model.getNotification_subject().equals(Constant.VIDEO_TYPE)) {
+            holder.notificationTitle.setText(model.getEntity_title());
+            holder.notificationDescription.setText(videoNotificationTitle);
+        } else if (model.getNotification_subject().equals(Constant.RECENT_LEECTURE_TYPE)) {
+            holder.notificationTitle.setText(model.getEntity_title());
+            holder.notificationDescription.setText(lectureNotificationTitle);
         }
         holder.notificationDate.setText(getDate(model.getNotification_time()));
     }

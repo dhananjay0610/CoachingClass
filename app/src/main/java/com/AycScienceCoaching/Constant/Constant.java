@@ -16,6 +16,12 @@ public class Constant {
     public static final String NOTIFICATION_COLLECTION = "user_notifications";
     public static final String REQUESTED_USER_LIST = "requested_user_list";
 
+//    Notification types
+    public static final String PDF_TYPE = "pdf";
+    public static final String VIDEO_TYPE = "video";
+    public static final String QUIZ_TYPE = "quiz";
+    public static final String RECENT_LEECTURE_TYPE = "recentLecture";
+
     public static interface QuizCollectionFields {
         public static final String QUESTION_NUMBER = "questionNumber";
         public static final String QUIZ_DATE = "quizDate";
@@ -68,6 +74,9 @@ public class Constant {
         public static final String FIRST_TIME_LOGIN = "firstTimeLogin";
         public static final String LOGIN_STATUS = "loginStatus";
         public static final String TOKEN = "token";
+        public static final String MOBILE_NUMBER = "mobile_number";
+        public static final String ROLL_NUMBER = "roll_number";
+        public static final String ADMISSION_DATE = "admit_date";
     }
 
     public static interface RecentLectureFields {
@@ -84,6 +93,7 @@ public class Constant {
         public static final String TIME = "notification_time";
         public static final String SUBJECT_URL = "subject_url";
         public static final String USER_ID = "user_id";
+        public static final String ENTITY_TITLE = "entity_title";
     }
 
     public static interface RequestedUserFields {
