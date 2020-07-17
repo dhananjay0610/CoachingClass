@@ -17,7 +17,7 @@
             android:title="Home" />
         <item
             android:id="@+id/nav_quiz"
-            android:icon="@drawable/ic_quiz"
+            android:icon="@drawable/quiz_icon"
             android:title="Quiz" />
         <item
             android:id="@+id/nav_Pdf"
@@ -26,11 +26,15 @@
         <item
             android:id="@+id/nav_userProfile"
             android:icon="@drawable/ic_user"
-            android:title="User Profile" />
+            android:title="My Profile" />
         <item
             android:id="@+id/nav_videos"
             android:icon="@drawable/video_nav_icon"
-            android:title="Videos" />
+            android:title="Class Room Lectures" />
+        <item
+            android:id="@+id/nav_tutos"
+            android:icon="@drawable/tutor_icon"
+            android:title="Know Your Tutors" />
 
     </group>
 

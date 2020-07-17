@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="end"
-            android:background="#EAB4ECF2"
+            android:background="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -29,7 +29,7 @@
                 android:background="@color/fui_transparent"
                 android:gravity="start"
                 android:text="Time Taken : "
-                android:textColor="@color/colorBlack"
+                android:textColor="@color/white"
                 android:textSize="21dp"
                 android:textStyle="bold" />
 
@@ -43,7 +43,7 @@
                 android:background="@color/fui_transparent"
                 android:gravity="end"
                 android:text="Average Time : "
-                android:textColor="@color/colorBlack"
+                android:textColor="@color/white"
                 android:textSize="21dp"
                 android:textStyle="bold" />
 
@@ -97,6 +97,12 @@
                     app:layout_constraintTop_toBottomOf="@+id/toolbars">
 
                     <TextView
+                        android:id="@+id/questionNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Question No: 1"/>
+
+                    <TextView
                         android:id="@+id/questionSingleQuestion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -114,7 +120,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
-                        android:src="@drawable/alpha_logo"
+                        android:src="@drawable/aycc_logo_transparent"
                         android:visibility="gone">
 
                     </ImageView>

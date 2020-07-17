@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AlphaCoaching</string>
+    <string name="app_name">AYC Classes</string>
     <string name="logo">alphalogo</string>
     <string name="login">LOGIN</string>
     <string name="uname">USERNAME</string>
@@ -10,7 +10,6 @@
     <string name="signup">SIGN UP</string>
     <string name="alphahub">Alpha Education Hub</string>
     <string name="forgtpass">FORGOT PASSWORD</string>
-    <string name="text">createyourownway@gmail.com</string>
     <string name="navigation_drawer_open">Open Navigation Drawer</string>
     <string name="navigation_drawer_close">Close Navigation Drawer</string>
     <string name="menu_home">Home</string>
@@ -18,5 +17,11 @@
     <string name="marks">Marks :</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="request_login_text"><u>Request login credentials</u></string>
+    <string name="ahmed_quote">\"It\'s not whether you get knocked down, it\'s whether you get up.\"</string>
+    <string name="yamin_quote">\"Concept is everywhere, You just need a vision to notice it.\"</string>
+    <string name="awaise_quote">\"Success is something that you Create.\"</string>
+    <string name="tag_line">\"Rural Class Teaching Global Concepts.\"</string>
+
 
 </resources>

@@ -4,6 +4,6 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/alpha1" />
+            android:src="@drawable/aycc_logo_transparent" />
     </item>
 </layer-list>

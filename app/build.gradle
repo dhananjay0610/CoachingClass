@@ -6,11 +6,11 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.alphaCoaching"
+        applicationId "com.AycScienceCoaching"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.2"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -20,7 +20,9 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
         }
     }
     compileOptions {
@@ -31,6 +33,15 @@ android {
     dataBinding {
         enabled = true
     }
+
+//    android {
+//        lintOptions {
+//            checkReleaseBuilds false
+//            // Or, if you prefer, you can continue to check for errors in release builds,
+//            // but continue the build even when errors are found:
+//            abortOnError false
+//        }
+//    }
 }
 
 repositories {
@@ -79,11 +90,8 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'com.android.support:design:29.1.1'
-    implementation 'com.google.android.material:material:1.0.0'
 
     //for tab layout
     implementation 'com.google.android.material:material:1.2.0-alpha03'
 
-    //for cirlce image view
-    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }

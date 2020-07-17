@@ -13,38 +13,15 @@
         android:layout_height="match_parent"
         android:background="#fff">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:elevation="5dp"
-            android:orientation="vertical">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/ToolbarOfUserProfileActivity"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="#fff"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.ActionBar" />
-
-            <FrameLayout
-                android:id="@+id/fragment_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/imageViewOfUser"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="60dp"
-            android:src="@drawable/alpha_launcher_icon"
-            app:civ_border_color="#FF000000"
-            app:civ_border_width="2dp" />
+            android:backgroundTint="@color/black"
+            android:src="@drawable/default_user_image" />
 
         <TextView
             android:id="@+id/UserName"
@@ -66,22 +43,32 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="9dp"
             android:elevation="2dp"
-            android:text="Student"
+            android:text="Learner"
             android:textSize="19dp" />
 
         <ImageView
             android:id="@+id/ui"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_below="@id/isStudent"
             android:layout_marginTop="5dp"
+            android:visibility="gone"
             android:src="@drawable/profile_ui" />
+
+        <LinearLayout
+            android:id="@+id/seperation_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ui"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/selecteditem"
+            android:orientation="horizontal" />
 
         <LinearLayout
             android:id="@+id/linearLayout_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ui"
+            android:layout_below="@+id/seperation_line"
             android:layout_marginTop="35dp"
             android:orientation="horizontal">
 
@@ -181,6 +168,85 @@
                 android:textColor="@color/black"
                 android:textSize="18sp" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout_4"
+            android:layout_marginTop="13dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="35dp"
+                android:src="@drawable/user_mobile" />
+
+            <TextView
+                android:id="@+id/user_mobileNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="6dp"
+                android:paddingRight="5dp"
+                android:text="My Mobile Number"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout_5"
+            android:layout_marginTop="13dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="35dp"
+                android:src="@drawable/roll_number" />
+
+            <TextView
+                android:id="@+id/user_rollNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="6dp"
+                android:paddingRight="5dp"
+                android:text="My Roll Number"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout_6"
+            android:layout_marginTop="13dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="35dp"
+                android:src="@drawable/admission_date_icon" />
+
+            <TextView
+                android:id="@+id/user_admission_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="6dp"
+                android:paddingRight="5dp"
+                android:text="Admission date"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
