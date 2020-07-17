@@ -5,105 +5,118 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeToRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:paddingTop="50dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
 
-        <TextView
-            android:id="@+id/quizDetailName"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/selecteditem"
-            tools:layout_editor_absoluteY="43dp" />
-
-        <TextView
-            android:id="@+id/quizDetailQuestionsNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/roundedborders"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="20dp"
-            tools:layout_editor_absoluteY="91dp" />
-
-        <TextView
-            android:id="@+id/quizDetailTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/corner_item_lay"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="20dp"
-            tools:layout_editor_absoluteY="144dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Instructions:"
-            android:gravity="center"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center_horizontal"
-            android:text="1. Popup will appeared on back press. \n2 Quiz will be submitted when user press home button \n3. do not copy \n4. Please avoid to receive call in between the quiz, you will running out of time."/>
+            android:orientation="vertical"
+            android:paddingTop="50dp">
 
-        <Button
-            android:id="@+id/quizDetailStartButton"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_height="wrap_content"
-            android:text="Start"
-            android:background="@drawable/corner_item_lay"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="210dp" />
+            <TextView
+                android:id="@+id/quizDetailName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/corner_item_lay"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="TextView"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="43dp" />
 
-        <TextView
-            android:id="@+id/quizMissMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="You missed the test."
-            android:textColor="@color/red"
-            android:textStyle="bold"
-            android:visibility="gone"/>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/quizDetailQuestionsNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/corner_item_lay"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="TextView"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="91dp" />
+
+            <TextView
+                android:id="@+id/quizDetailTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/corner_item_lay"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="TextView"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="144dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Instructions:"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="1. Popup will appeared on back press. \n2 Quiz will be submitted when you press home button \n3. don't try to copy \n4. Avoid receiving the call while solving the quiz." />
+
+            <Button
+                android:id="@+id/quizDetailStartButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingStart="30dp"
+                android:paddingEnd="30dp"
+                android:background="@drawable/corner_item_lay"
+                android:text="Go For Test"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/quizMissMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="You missed the test."
+                android:textColor="@color/red"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </LinearLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
     <LinearLayout
         android:id="@+id/quizDetailProgressbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/gradientstart"
-        android:visibility="gone"
-        android:gravity="center">
+        android:gravity="center"
+        android:visibility="gone">
 
         <ProgressBar
             android:id="@+id/quizListProgressbar"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

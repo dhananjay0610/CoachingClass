@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.AycScienceCoaching.Constant.Constant;
 import com.AycScienceCoaching.Model.Note;
@@ -41,6 +42,7 @@ public class QuizDetailActivity extends AppCompatActivity {
     private Handler mCheckQuizActiveHandler;
     private long FIFTEEN_MINUTES = 15 * 60 * 1000;
     private long ONE_DAY_IN_MILLIS = 1 * 24 * 60 * 60 * 1000;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,8 +61,10 @@ public class QuizDetailActivity extends AppCompatActivity {
         quizQuestionNumber = findViewById(R.id.quizDetailQuestionsNumber);
         quizTime = findViewById(R.id.quizDetailTime);
         quizStartButton = findViewById(R.id.quizDetailStartButton);
+        mSwipeRefreshLayout = findViewById(R.id.swipeToRefresh);
         mCheckQuizActiveHandler = new Handler();
         firestoreDb = FirebaseFirestore.getInstance();
+        swipeRefreshOperation();
         if ((mQuizTime == null || mQuizTime.isEmpty()) || (mQuizName == null || mQuizName.isEmpty()) || (mQuizQuestions == null || mQuizQuestions.isEmpty())) {
             fetchQuizData(mQuizDocId);
         } else {
@@ -69,6 +73,16 @@ public class QuizDetailActivity extends AppCompatActivity {
             checkQuizIsAlreadyAttempted();
 //            checkQuizIsActiveOrNot();
         }
+    }
+
+    private void swipeRefreshOperation() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fetchQuizData(mQuizDocId);
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     private void initUi() {
@@ -154,7 +168,7 @@ public class QuizDetailActivity extends AppCompatActivity {
         return str;
     }
 
-//    this function get the quiz information when activity open from the notification.
+    //    this function get the quiz information when activity open from the notification.
     private void fetchQuizData(String docId) {
         mProgressbar.setVisibility(View.VISIBLE);
         firestoreDb.collection(Constant.QUIZ_COLLECTION)

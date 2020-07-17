@@ -6,6 +6,7 @@
     android:layout_marginTop="10dp"
     android:layout_marginEnd="10dp"
     android:background="@drawable/card_bg"
+    android:alpha="0.7"
     android:elevation="9dp"
     android:gravity="left"
     android:orientation="vertical"
@@ -36,7 +37,7 @@
             android:paddingTop="10dp"
             android:text="CAT 1"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:textStyle="bold"
             android:visibility="gone" />
 
@@ -73,7 +74,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAllCaps="false"
-            android:text="Attain Quiz" />
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:text="Appear For Test" />
 
         <Button
             android:id="@+id/detail"
@@ -81,6 +84,8 @@
             android:layout_height="wrap_content"
             android:textAllCaps="false"
             android:visibility="gone"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/colorPrimary"
             android:text="See Report" />
     </LinearLayout>
 

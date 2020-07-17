@@ -3,6 +3,7 @@ package com.AycScienceCoaching.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.TestLooperManager;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.view.MenuItem;
@@ -18,6 +19,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.AycScienceCoaching.Constant.Constant;
 import com.AycScienceCoaching.R;
 import com.AycScienceCoaching.Utils.UserSharedPreferenceManager;
+import com.firebase.ui.auth.User;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -38,8 +40,14 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
     private String mUserEmail;
     private String mUserDateOfBirth;
     private String mUserStandard;
+    private String mMobileNumberVal;
+    private String mRollNumberVal;
+    private String mUserAdmissionDateVal;
     private TextView userName, user_email, user_name, user_dob, user_standard;
     private NavigationView navigationView;
+    private TextView mRollNumber;
+    private TextView mMobileNumber;
+    private TextView mUserAdmissionDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +55,9 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         mContext = getApplicationContext();
         setContentView(R.layout.activity_user_profile);
         setupWindowAnimation();
-        toolbar = findViewById(R.id.ToolbarOfUserProfileActivity);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("");
+//        toolbar = findViewById(R.id.ToolbarOfUserProfileActivity);
+//        setSupportActionBar(toolbar);
+//        Objects.requireNonNull(getSupportActionBar()).setTitle("");
         fireAuth = FirebaseAuth.getInstance();
         setupUI();
 
@@ -61,7 +69,7 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
                 if (documentSnapshot.exists()) {
                     long standard = (long) documentSnapshot.get("standard");
                     String Standard = standard + "";
-                    user_standard.setText(Standard);
+                    user_standard.setText(Standard + "th");
                 }
             }
         });
@@ -70,6 +78,9 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         user_name.setText(UserFullName);
         user_email.setText(mUserEmail);
         user_dob.setText(mUserDateOfBirth);
+        mMobileNumber.setText(mMobileNumberVal);
+        mRollNumber.setText(mRollNumberVal);
+        mUserAdmissionDate.setText("Since " + mUserAdmissionDateVal);
     }
 
     private void setupUI() {
@@ -85,11 +96,17 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
         user_name = findViewById(R.id.user_name);
         user_dob = findViewById(R.id.user_dob);
         user_standard = findViewById(R.id.user_standard);
+        mRollNumber = findViewById(R.id.user_rollNumber);
+        mMobileNumber = findViewById(R.id.user_mobileNumber);
+        mUserAdmissionDate = findViewById(R.id.user_admission_date);
         mUserFirstName = UserSharedPreferenceManager.getUserInfo(mContext, UserSharedPreferenceManager.userInfoFields.USER_FIRST_NAME);
         mUserLastName = UserSharedPreferenceManager.getUserInfo(mContext, UserSharedPreferenceManager.userInfoFields.USER_LAST_NAME);
         mUserEmail = UserSharedPreferenceManager.getUserInfo(mContext, UserSharedPreferenceManager.userInfoFields.USER_EMAIL);
         mUserDateOfBirth = UserSharedPreferenceManager.getUserInfo(mContext, UserSharedPreferenceManager.userInfoFields.USER_DOB);
         mUserStandard = UserSharedPreferenceManager.getUserInfo(mContext, UserSharedPreferenceManager.userInfoFields.USER_STANDARD);
+        mRollNumberVal = UserSharedPreferenceManager.getUserInfo(mContext, UserSharedPreferenceManager.userInfoFields.ROLL_NUMBER);
+        mMobileNumberVal = UserSharedPreferenceManager.getUserInfo(mContext, UserSharedPreferenceManager.userInfoFields.MOBILE_NUMBER);
+        mUserAdmissionDateVal = UserSharedPreferenceManager.getUserInfo(mContext, UserSharedPreferenceManager.userInfoFields.ADMISSION_DATE);
     }
 
     @Override

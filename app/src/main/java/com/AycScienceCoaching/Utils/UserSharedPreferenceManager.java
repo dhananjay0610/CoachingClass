@@ -18,6 +18,9 @@ public class UserSharedPreferenceManager {
         public static final String USER_STANDARD =  "UserStandard";
         public static final String USER_DOB =  "dateOfBirth";
         public static final String USER_EMAIL =  "UserEmail";
+        public static final String MOBILE_NUMBER = "mobile_number";
+        public static final String ROLL_NUMBER = "roll_number";
+        public static final String ADMISSION_DATE = "admission_date";
     }
 
     public static void storeQuizTakenStatus(Context context, boolean status, String quizId) {
@@ -42,7 +45,8 @@ public class UserSharedPreferenceManager {
         return context.getSharedPreferences(sharedPreferenceName, MODE_PRIVATE);
     }
 
-    public static void storeUserDetail(Context context,String id, String userFirstName, String userLastName, String standard, String dateOfBirth, String email) {
+    public static void storeUserDetail(Context context,String id, String userFirstName, String userLastName,
+                                       String standard, String dateOfBirth, String email, String mobileNum, String rollNum, String admissionDate) {
         if (context != null) {
             SharedPreferences sharedPreferences = getSharedPreferences(context, USER_DETAIL);
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -52,6 +56,9 @@ public class UserSharedPreferenceManager {
             editor.putString(userInfoFields.USER_STANDARD, standard);
             editor.putString(userInfoFields.USER_DOB, dateOfBirth);
             editor.putString(userInfoFields.USER_EMAIL, email);
+            editor.putString(userInfoFields.MOBILE_NUMBER, mobileNum);
+            editor.putString(userInfoFields.ROLL_NUMBER, rollNum);
+            editor.putString(userInfoFields.ADMISSION_DATE, admissionDate);
             editor.apply();
         }
     }

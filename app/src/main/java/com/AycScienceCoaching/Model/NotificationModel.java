@@ -8,6 +8,7 @@ public class NotificationModel {
     private Long notification_time;
     private String subject_url;
     private String user_id;
+    private String entity_title;
 
     public String getId() {
         return id;
@@ -35,5 +36,9 @@ public class NotificationModel {
 
     public String getUser_id() {
         return user_id;
+    }
+
+    public String getEntity_title() {
+        return entity_title;
     }
 }

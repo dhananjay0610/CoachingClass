@@ -40,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     private Handler handler = new Handler();
     private static FirebaseFirestore mFireBaseDB;
     private CircularProgressButton mLoginBtn;
+    private TextView mTagline;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +51,12 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.pass);
         mLoginBtn = findViewById(R.id.loginButton);
         getLoginCredentials = findViewById(R.id.loginRequest);
+        mTagline = findViewById(R.id.tagLine);
 
         handler.postDelayed(() -> {
             mLoginLayout.setVisibility(View.VISIBLE);
             getLoginCredentials.setVisibility(View.VISIBLE);
+            mTagline.setVisibility(View.VISIBLE);
         }, 3000);
 
         fireAuth = FirebaseAuth.getInstance();
@@ -137,7 +140,11 @@ public class LoginActivity extends AppCompatActivity {
                                 String userStandard = (String) documentSnapshot.get(Constant.UserCollectionFields.STANDARD);
                                 String dateOfBirth = (String) documentSnapshot.get(Constant.UserCollectionFields.DOB);
                                 String userEmail = (String) documentSnapshot.get(Constant.UserCollectionFields.EMAIL);
-                                UserSharedPreferenceManager.storeUserDetail(getAppContext(), user_Uuid, userFirstName, userLastName, userStandard, dateOfBirth, userEmail);
+                                String userMobileNumber = (String) documentSnapshot.get(Constant.UserCollectionFields.MOBILE_NUMBER);
+                                String userRollNumber = (String) documentSnapshot.get(Constant.UserCollectionFields.ROLL_NUMBER);
+                                String userAdmissionDate = (String) documentSnapshot.get(Constant.UserCollectionFields.ADMISSION_DATE);
+                                UserSharedPreferenceManager.storeUserDetail(getAppContext(), user_Uuid, userFirstName, userLastName, userStandard,
+                                        dateOfBirth, userEmail, userMobileNumber, userRollNumber, userAdmissionDate);
                                 storeSubjects();
                                 openMainActivity();
                             }

@@ -40,12 +40,12 @@ public class FCMMessageReceiver extends FirebaseMessagingService {
         Map<String, String> data = remoteMessage.getData();
         String notificationSubject = data.get("subject");
         String subjectUrl = data.get("subjectUrl");
-        String projectName = data.get("H3");
-        storeNotification(notificationSubject, subjectUrl);
-        showNotification(notificationSubject, subjectUrl, projectName);
+        String entityTitle = data.get("entityName");
+        storeNotification(notificationSubject, subjectUrl, entityTitle);
+        showNotification(notificationSubject, subjectUrl, entityTitle);
     }
 
-    public void showNotification(String subject, String url, String applicatioName) {
+    public void showNotification(String subject, String url, String entityName) {
         String title = "";
         String description = "";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -57,21 +57,24 @@ public class FCMMessageReceiver extends FirebaseMessagingService {
 
         Intent intent = null;
         if (subject.equals("video")) {
-            title = "Video is added";
-            description = "Video is added for you. Click to watch the video now.";
+            title = "Video for " + entityName + " is added";
+            description = "Click to watch the video now.";
 //            intent = new Intent(getApplicationContext(), DisplayVideos.class);
 //            intent.putExtra("force_fullscreen", true);
 //            intent.putExtra("url", url);
         } else if (subject.equals("pdf")) {
-            title = "PDF is added";
-            description = "PDF is added for you. Click to read the PDF now.";
+            title = "PDF for " + entityName +" is added";
+            description = "Click to read the PDF now.";
 //            intent = new Intent(getApplicationContext(), PdfViewActivity.class);
 //            intent.putExtra("url", url);
         } else if (subject.equals("quiz")) {
-            title = "Quiz is added";
-            description = "Quiz is setup for you. Click to see the details of the quiz";
+            title = entityName + " Quiz is added";
+            description = "Click to see the details of the quiz";
 //            intent = new Intent(getApplicationContext(), QuizDetailActivity.class);
 //            intent.putExtra("docID", url);
+        } else if (subject.equals("recentLecture")) {
+            title = entityName + " Lecture is added for you.";
+            description = "Click to see the lecture";
         }
         intent = new Intent(getApplicationContext(), NotificationListsActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
@@ -97,12 +100,13 @@ public class FCMMessageReceiver extends FirebaseMessagingService {
     }
 
 //    this function stores the notification on the server when user gets the notification.
-    private void storeNotification(String subject, String url) {
+    private void storeNotification(String subject, String url, String title) {
         mAuth = FirebaseAuth.getInstance();
         mFireStoreDb = FirebaseFirestore.getInstance();
 
         Map<String, Object> dataToSave = new HashMap<>();
         dataToSave.put(Constant.NotificationFields.SUBJECT, subject);
+        dataToSave.put(Constant.NotificationFields.ENTITY_TITLE, title);
         dataToSave.put(Constant.NotificationFields.SUBJECT_URL, url);
         dataToSave.put(Constant.NotificationFields.STATUS, false);
         dataToSave.put(Constant.NotificationFields.TIME, System.currentTimeMillis());
